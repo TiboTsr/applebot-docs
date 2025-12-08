@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Update Sentinel - Guide des Commandes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; margin: 0; background-color: #f4f4f4; color: #333; }
+        .header { background-color: #007aff; color: white; padding: 20px 40px; text-align: center; }
+        .header h1 { margin: 0; }
+        .header a { color: #f4f4f4; text-decoration: underline; font-weight: 400; }
+        .container { background-color: #fff; padding: 30px 40px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 900px; margin: 30px auto; }
+        h2 { color: #007aff; border-bottom: 2px solid #eee; padding-bottom: 5px; margin-top: 25px; }
+        code { background-color: #eee; padding: 2px 4px; border-radius: 4px; font-weight: 600; color: #d63384; }
+        .command-section { margin-bottom: 20px; padding-left: 15px; border-left: 3px solid #007aff; }
+        .command-section h3 { margin-top: 0; color: #333; }
+        .command-example { background-color: #f8f8f8; padding: 10px; border-left: 5px solid #007aff; margin-top: 10px; font-size: 0.9em; }
+        .command-example strong { color: #007aff; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>❓ Guide des Commandes</h1>
+        <p>Toutes les commandes du bot sont des <strong>Commandes Slash</strong> (<code>/</code>).</p>
+        <p><a href="index.html">← Retour à l'accueil</a></p>
+    </div>
+    <div class="container">
+        <h2>Fonctionnalités Principales (Publiques)</h2>
+
+        <div class="command-section">
+            <h3><code>/latest [os]</code></h3>
+            <p>Affiche la dernière version de firmware enregistrée dans la base de données pour un système d'exploitation Apple spécifique.</p>
+            <p><strong>Paramètre :</strong> <code>os</code> (Choix parmi iOS, macOS, iPadOS, watchOS, tvOS, audioOS, visionOS)</p>
+            <div class="command-example">
+                <strong>Exemple :</strong> <code>/latest os: iOS</code><br>
+                <strong>Résultat :</strong> Affiche l'Embed de la dernière version d'iOS (ex: iOS 17.5.1).
+            </div>
+        </div>
+
+        <div class="command-section">
+            <h3><code>/compat [version]</code></h3>
+            <p>Recherche une version ou un Build ID spécifique dans la base de données pour lister les appareils compatibles.</p>
+            <p><strong>Paramètre :</strong> <code>version</code> (ex: <code>17.5.1</code> ou <code>21F90</code>)</p>
+            <div class="command-example">
+                <strong>Exemple :</strong> <code>/compat version: 21F90</code><br>
+                <strong>Résultat :</strong> Affiche un Embed détaillé listant tous les appareils qui reçoivent ce Build ID.
+            </div>
+        </div>
+
+        <div class="command-section">
+            <h3><code>/maj [recherche]</code></h3>
+            <p>La commande de recherche la plus complète. Elle cherche par version, Build ID ou nom d'appareil (ex: 'iPhone 15 Pro Max') dans toute la base de données (limitée aux 10 meilleurs résultats).</p>
+            <p><strong>Paramètre :</strong> <code>recherche</code> (texte libre)</p>
+            <div class="command-example">
+                <strong>Exemple 1 :</strong> <code>/maj recherche: iPhone 15 Pro</code><br>
+                <strong>Exemple 2 :</strong> <code>/maj recherche: 17.4</code><br>
+                <strong>Résultat :</strong> Affiche un ou plusieurs Embeds correspondants à votre requête.
+            </div>
+        </div>
+        
+        <div class="command-section">
+            <h3><code>/ping</code></h3>
+            <p>Vérifie la latence du bot (vitesse de réponse) entre Discord et le serveur.</p>
+            <div class="command-example">
+                <strong>Exemple :</strong> <code>/ping</code><br>
+                <strong>Résultat :</strong> Affiche la latence en millisecondes (ex: "Ma latence est de 45.21 ms.").
+            </div>
+        </div>
+        
+        <div class="command-section">
+            <h3><code>/help</code></h3>
+            <p>Affiche un résumé des commandes directement dans Discord.</p>
+        </div>
+
+        <h2>Commandes Administrateur (Propriétaire du bot)</h2>
+
+        <div class="command-section">
+            <h3><code>/forcecheck</code></h3>
+            <p>Force le bot à lancer immédiatement une vérification des mises à jour auprès d'AppleDB, sans attendre le prochain intervalle programmé.</p>
+        </div>
+
+        <div class="command-section">
+            <h3><code>/testembed</code></h3>
+            <p>Envoie un embed de notification simulé dans le canal de notifications configuré (pour vérifier le formatage et les permissions).</p>
+        </div>
+
+    </div>
+</body>
+</html>

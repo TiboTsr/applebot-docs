@@ -3,30 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AppleBot - Privacy Policy</title>
+  <title>Apple Update Sentinel - Politique de Confidentialité</title>
   <style>
     body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; background-color: #f4f4f4; color: #333; }
     h1 { color: #007aff; }
     a { color: #007aff; }
     .container { background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 800px; margin: auto; }
+    .back-link { margin-bottom: 20px; display: block; }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <h1>Privacy Policy - AppleBot</h1>
-    <p>AppleBot respecte votre vie privée et ne collecte que les informations nécessaires pour fonctionner.</p>
 
-    <h2>1. Données collectées</h2>
-    <p>Le bot peut collecter : votre identifiant Discord et les messages que vous envoyez au bot (ex: commandes /maj).</p>
+    <h1>🔒 Politique de Confidentialité - Apple Update Sentinel</h1>
+    <p>Apple Update Sentinel s'engage à protéger votre vie privée et ne collecte que le minimum d'informations nécessaires à son fonctionnement.</p>
 
-    <h2>2. Utilisation des données</h2>
-    <p>Ces données sont utilisées uniquement pour fournir les fonctionnalités du bot et ne sont pas partagées avec des tiers.</p>
+    <h2>1. Données Collectées</h2>
+    <ul>
+      <li><strong>Identifiants Discord :</strong> Votre ID utilisateur Discord (un numéro unique) et l'ID du serveur sont temporairement traités lors de l'exécution d'une commande (ex: <code>/maj</code>).</li>
+      <li><strong>Contenu des Commandes :</strong> Les arguments que vous fournissez lors de l'exécution des commandes (ex: le terme de recherche dans <code>/maj</code>) sont traités par le bot pour fournir la réponse. Ces données ne sont pas stockées.</li>
+      <li><strong>Données des Firmwares :</strong> Le bot stocke dans sa base de données locale (<code>data.db</code>) l'historique des firmwares d'Apple (nom de l'OS, version, Build ID, date de sortie, liste des appareils compatibles et URL). Ces données sont publiques et ne sont pas considérées comme des données personnelles.</li>
+    </ul>
 
-    <h2>3. Conservation</h2>
-    <p>Les informations stockées (ex: historiques de firmware dans la base de données) sont conservées tant que nécessaire pour le fonctionnement du bot.</p>
+    <h2>2. Utilisation des Données</h2>
+    <p>Les données sont utilisées <strong>exclusivement</strong> pour le fonctionnement du bot, notamment :</p>
+    <ul>
+      <li>Répondre aux commandes (<code>/latest</code>, <code>/compat</code>, <code>/maj</code>).</li>
+      <li>Identifier le propriétaire du bot pour les commandes d'administration (<code>/forcecheck</code>, <code>/testembed</code>).</li>
+      <li>Envoyer des notifications de mises à jour dans le canal configuré.</li>
+    </ul>
 
-    <h2>4. Contact</h2>
-    <p>Pour toute question concernant la confidentialité ou vos données, contactez-nous via <a href="mailto:tibo.tsr@icloudc.com">tibo.tsr@icloud.com</a>.</p>
+    <h2>3. Conservation des Données</h2>
+    <ul>
+      <li>Les données des firmwares sont conservées indéfiniment pour maintenir l'historique de recherche du bot.</li>
+      <li>Les identifiants et le contenu des commandes ne sont pas conservés après la fin de l'interaction, sauf dans les logs d'erreurs standards pour le débogage.</li>
+    </ul>
+
+    <h2>4. Partage avec des Tiers</h2>
+    <p>Aucune donnée personnelle n'est partagée, vendue ou transmise à des tiers. Le bot interagit uniquement avec l'API publique <strong>AppleDB</strong> pour obtenir les informations de firmware.</p>
+
+    <h2>5. Contact</h2>
+    <p>Pour toute question ou demande concernant la confidentialité ou la suppression de données (bien que le bot ne stocke pas de données personnelles), veuillez contacter le développeur via <a href="mailto:tibo.tsr@icloud.com">tibo.tsr@icloud.com</a>.</p>
+
   </div>
 </body>
 </html>
