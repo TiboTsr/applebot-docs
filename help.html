@@ -26,15 +26,34 @@
         <p><a href="index.html">← Retour à l'accueil</a></p>
     </div>
     <div class="container">
-        <h2>Fonctionnalités Principales (Publiques)</h2>
+        <h2>📱 Commandes Publiques</h2>
+
+        <div class="command-section">
+            <h3><code>/ping</code></h3>
+            <p>Vérifie la latence du bot (vitesse de réponse) entre Discord et le serveur.</p>
+            <div class="command-example">
+                <strong>Exemple :</strong> <code>/ping</code><br>
+                <strong>Résultat :</strong> Affiche la latence en millisecondes (ex: "Ma latence est de 45.21 ms.").
+            </div>
+        </div>
 
         <div class="command-section">
             <h3><code>/latest [os]</code></h3>
             <p>Affiche la dernière version de firmware enregistrée dans la base de données pour un système d'exploitation Apple spécifique.</p>
-            <p><strong>Paramètre :</strong> <code>os</code> (Choix parmi iOS, macOS, iPadOS, watchOS, tvOS, audioOS, visionOS)</p>
+            <p><strong>Paramètre :</strong> <code>os</code> (iOS, macOS, iPadOS, watchOS, tvOS, audioOS, visionOS)</p>
             <div class="command-example">
                 <strong>Exemple :</strong> <code>/latest os: iOS</code><br>
-                <strong>Résultat :</strong> Affiche l'Embed de la dernière version d'iOS (ex: iOS 17.5.1).
+                <strong>Résultat :</strong> Affiche la dernière version d'iOS avec les appareils concernés.
+            </div>
+        </div>
+
+        <div class="command-section">
+            <h3><code>/build [build_id]</code></h3>
+            <p>Recherche les informations d'un firmware à partir de son Build ID complet.</p>
+            <p><strong>Paramètre :</strong> <code>build_id</code> (ex: <code>21F90</code>)</p>
+            <div class="command-example">
+                <strong>Exemple :</strong> <code>/build build_id: 21F90</code><br>
+                <strong>Résultat :</strong> Affiche tous les systèmes d'exploitation avec ce Build ID et les appareils compatibles.
             </div>
         </div>
 
@@ -44,45 +63,104 @@
             <p><strong>Paramètre :</strong> <code>version</code> (ex: <code>17.5.1</code> ou <code>21F90</code>)</p>
             <div class="command-example">
                 <strong>Exemple :</strong> <code>/compat version: 21F90</code><br>
-                <strong>Résultat :</strong> Affiche un Embed détaillé listant tous les appareils qui reçoivent ce Build ID.
+                <strong>Résultat :</strong> Affiche un Embed détaillé listant tous les appareils compatibles avec ce Build ID.
             </div>
         </div>
 
         <div class="command-section">
             <h3><code>/maj [recherche]</code></h3>
-            <p>La commande de recherche la plus complète. Elle cherche par version, Build ID ou nom d'appareil (ex: 'iPhone 15 Pro Max') dans toute la base de données (limitée aux 10 meilleurs résultats).</p>
+            <p>La commande de recherche la plus complète. Cherche par version, Build ID ou nom d'appareil dans toute la base de données (limité à 10 meilleurs résultats).</p>
             <p><strong>Paramètre :</strong> <code>recherche</code> (texte libre)</p>
             <div class="command-example">
                 <strong>Exemple 1 :</strong> <code>/maj recherche: iPhone 15 Pro</code><br>
                 <strong>Exemple 2 :</strong> <code>/maj recherche: 17.4</code><br>
-                <strong>Résultat :</strong> Affiche un ou plusieurs Embeds correspondants à votre requête.
+                <strong>Résultat :</strong> Affiche les résultats correspondants à votre requête.
             </div>
-        </div>
-        
-        <div class="command-section">
-            <h3><code>/ping</code></h3>
-            <p>Vérifie la latence du bot (vitesse de réponse) entre Discord et le serveur.</p>
-            <div class="command-example">
-                <strong>Exemple :</strong> <code>/ping</code><br>
-                <strong>Résultat :</strong> Affiche la latence en millisecondes (ex: "Ma latence est de 45.21 ms.").
-            </div>
-        </div>
-        
-        <div class="command-section">
-            <h3><code>/help</code></h3>
-            <p>Affiche un résumé des commandes directement dans Discord.</p>
         </div>
 
-        <h2>Commandes Administrateur (Propriétaire du bot)</h2>
+        <div class="command-section">
+            <h3><code>/subscribe [os]</code></h3>
+            <p>S'abonner ou se désabonner aux notifications de mises à jour pour un OS spécifique. Vous recevrez un rôle qui vous permettra de recevoir les notifications.</p>
+            <p><strong>Paramètre :</strong> <code>os</code> (iOS, macOS, iPadOS, watchOS, tvOS, audioOS, visionOS)</p>
+            <div class="command-example">
+                <strong>Exemple :</strong> <code>/subscribe os: iOS</code><br>
+                <strong>Résultat :</strong> Vous serez pingé(e) à chaque nouvelle mise à jour d'iOS (ou suppression du rôle si déjà abonné).
+            </div>
+        </div>
+
+        <div class="command-section">
+            <h3><code>/help</code></h3>
+            <p>Affiche un résumé de toutes les commandes disponibles directement dans Discord.</p>
+        </div>
+
+        <h2>⚙️ Commandes Administration</h2>
+        <p><strong>Nécessite la permission :</strong> <em>Gérer le serveur</em></p>
+
+        <div class="command-section">
+            <h3><code>/setup</code></h3>
+            <p>Lance un guide de configuration interactif pour paramétrer rapidement le bot sur votre serveur.</p>
+            <div class="command-example">
+                <strong>Utilité :</strong> Affiche les 3 étapes essentielles pour configurer les notifications et les abonnements.
+            </div>
+        </div>
+
+        <div class="command-section">
+            <h3><code>/config channel [canal]</code></h3>
+            <p>Définit le canal de texte où les notifications de mises à jour seront envoyées.</p>
+            <p><strong>Paramètre :</strong> <code>canal</code> (un canal Discord)</p>
+            <div class="command-example">
+                <strong>Exemple :</strong> <code>/config channel #annonces</code><br>
+                <strong>Résultat :</strong> Toutes les futures alertes seront envoyées dans #annonces.
+            </div>
+        </div>
+
+        <div class="command-section">
+            <h3><code>/config os [os] [rôle]</code></h3>
+            <p>Associe un rôle Discord à un OS. Quand une mise à jour est détectée, ce rôle sera mentionné. Sans rôle, la mise à jour est envoyée sans ping.</p>
+            <p><strong>Paramètres :</strong> <code>os</code> (iOS, macOS, etc.) et <code>rôle</code> (un rôle Discord, optionnel)</p>
+            <div class="command-example">
+                <strong>Exemple 1 :</strong> <code>/config os os: iOS role: @Notif-iOS</code><br>
+                <strong>Exemple 2 :</strong> <code>/config os os: macOS</code> (désactive le ping pour macOS)<br>
+                <strong>Résultat :</strong> Les utilisateurs peuvent ensuite s'abonner avec <code>/subscribe os: iOS</code>.
+            </div>
+        </div>
+
+        <div class="command-section">
+            <h3><code>/config show</code></h3>
+            <p>Affiche la configuration actuelle de votre serveur (canal configuré et rôles associés à chaque OS).</p>
+            <div class="command-example">
+                <strong>Exemple :</strong> <code>/config show</code><br>
+                <strong>Résultat :</strong> Liste du canal des notifications et des rôles pour chaque système d'exploitation.
+            </div>
+        </div>
+
+        <h2>👨‍💻 Commandes Développeur</h2>
+        <p><strong>Accessible à :</strong> <em>Propriétaire du bot uniquement (pour le moment)</em></p> 
 
         <div class="command-section">
             <h3><code>/forcecheck</code></h3>
             <p>Force le bot à lancer immédiatement une vérification des mises à jour auprès d'AppleDB, sans attendre le prochain intervalle programmé.</p>
+            <div class="command-example">
+                <strong>Utilité :</strong> Utile pour tester ou vérifier manuellement les dernières versions.
+            </div>
         </div>
 
         <div class="command-section">
             <h3><code>/testembed</code></h3>
-            <p>Envoie un embed de notification simulé dans le canal de notifications configuré (pour vérifier le formatage et les permissions).</p>
+            <p>Envoie un embed de notification simulé dans le canal de notifications configuré. Permet de vérifier le formatage et les permissions sans attendre une vraie mise à jour.</p>
+            <div class="command-example">
+                <strong>Utilité :</strong> Tester que le bot peut bien envoyer les notifications dans le canal choisi.
+            </div>
+        </div>
+
+        <div class="command-section">
+            <h3><code>/broadcast [message]</code></h3>
+            <p>Envoie un message d'annonce à tous les serveurs configurés (via le canal de notifications de chacun).</p>
+            <p><strong>Paramètre :</strong> <code>message</code> (texte libre)</p>
+            <div class="command-example">
+                <strong>Exemple :</strong> <code>/broadcast message: Maintenance prévue demain à 14h00</code><br>
+                <strong>Résultat :</strong> Le message est envoyé à tous les serveurs qui ont configuré un canal de notifications.
+            </div>
         </div>
 
     </div>
