@@ -1,0 +1,13 @@
+# Robots. txt pour AppleBot Documentation
+# Site mis à jour fréquemment
+
+User-agent: *
+Allow: /
+
+# Fichiers à ne pas indexer
+Disallow:  /CNAME
+
+# Sitemap
+Sitemap: https://docs.applebot.fr/sitemap.xml
+
+Crawl-delay: 1
