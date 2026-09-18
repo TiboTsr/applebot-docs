@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const DOMAIN = 'https://docs.applebot.fr';
+const DOMAIN = 'https://docs.applecore.fr';
 const OUTPUT_FILE = 'sitemap.xml';
 
 // Pages à inclure avec leurs priorités et fréquences de mise à jour

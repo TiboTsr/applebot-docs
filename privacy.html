@@ -1,51 +1,148 @@
-<!DOCTYPE html>
-<html lang="fr">
+﻿<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apple Update Sentinel - Politique de Confidentialité</title>
-  <style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 40px; background-color: #f4f4f4; color: #333; }
-    h1 { color: #007aff; }
-    a { color: #007aff; }
-    .container { background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 800px; margin: auto; }
-    .back-link { margin-bottom: 20px; display: block; }
-  </style>
+  <title>AppleCore — Politique de Confidentialité</title>
+  <meta name="description" content="Politique de confidentialité et protection des données d'AppleCore pour Discord.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="container">
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="grid-pattern"></div>
 
-    <h1>🔒 Politique de Confidentialité - Apple Update Sentinel</h1>
-    <p>Apple Update Sentinel s'engage à protéger votre vie privée et ne collecte que le minimum d'informations nécessaires à son fonctionnement.</p>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Navigation principale">
+      <a class="brand" href="index.html" aria-label="Accueil AppleCore">
+        <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="36" height="36">
+        <span class="brand-name">AppleCore</span>
+      </a>
 
-    <h2>1. Données Collectées</h2>
-    <ul>
-      <li><strong>Identifiants Discord :</strong> Votre ID utilisateur Discord (un numéro unique) et l'ID du serveur sont temporairement traités lors de l'exécution d'une commande (ex: <code>/maj</code>).</li>
-      <li><strong>Contenu des Commandes :</strong> Les arguments que vous fournissez lors de l'exécution des commandes (ex: le terme de recherche dans <code>/maj</code>) sont traités par le bot pour fournir la réponse. Ces données ne sont pas stockées.</li>
-      <li><strong>Données des Firmwares :</strong> Le bot stocke dans sa base de données locale (<code>data.db</code>) l'historique des firmwares d'Apple (nom de l'OS, version, Build ID, date de sortie, liste des appareils compatibles et URL). Ces données sont publiques et ne sont pas considérées comme des données personnelles.</li>
-    </ul>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link"><span class="lang inline" data-lang="fr">Accueil</span><span class="lang inline" data-lang="en">Home</span></a>
+        <a href="help.html" class="nav-link"><span class="lang inline" data-lang="fr">Documentation</span><span class="lang inline" data-lang="en">Docs</span></a>
+        <a href="terms.html" class="nav-link"><span class="lang inline" data-lang="fr">Conditions</span><span class="lang inline" data-lang="en">Terms</span></a>
+      </div>
 
-    <h2>2. Utilisation des Données</h2>
-    <p>Les données sont utilisées <strong>exclusivement</strong> pour le fonctionnement du bot, notamment :</p>
-    <ul>
-      <li>Répondre aux commandes (<code>/latest</code>, <code>/compat</code>, <code>/maj</code>).</li>
-      <li>Identifier le propriétaire du bot pour les commandes d'administration (<code>/forcecheck</code>, <code>/testembed</code>).</li>
-      <li>Envoyer des notifications de mises à jour dans le canal configuré.</li>
-    </ul>
+      <div class="nav-actions">
+        <div class="lang-toggle" role="group" aria-label="Language toggle">
+          <button type="button" data-lang-toggle="fr" aria-pressed="true">FR</button>
+          <button type="button" data-lang-toggle="en" aria-pressed="false">EN</button>
+        </div>
+        <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" class="btn btn-primary btn-nav">
+          <span class="lang inline" data-lang="fr">Ajouter</span><span class="lang inline" data-lang="en">Add</span>
+        </a>
+      </div>
+    </nav>
+  </header>
 
-    <h2>3. Conservation des Données</h2>
-    <ul>
-      <li>Les données des firmwares sont conservées indéfiniment pour maintenir l'historique de recherche du bot.</li>
-      <li>Les identifiants et le contenu des commandes ne sont pas conservés après la fin de l'interaction, sauf dans les logs d'erreurs standards pour le débogage.</li>
-    </ul>
+  <section class="docs-hero">
+    <span class="eyebrow">Confidentialité & Données</span>
+    <h1 class="lang" data-lang="fr">Politique de Confidentialité</h1>
+    <h1 class="lang" data-lang="en">Privacy Policy</h1>
+    <p class="lang" data-lang="fr">AppleCore est conçu selon le principe de minimisation des données : nous ne collectons que le strict nécessaire au fonctionnement du bot.</p>
+    <p class="lang" data-lang="en">AppleCore is built with data minimization in mind: we only store the minimum necessary to provide the service.</p>
+  </section>
 
-    <h2>4. Partage avec des Tiers</h2>
-    <p>Aucune donnée personnelle n'est partagée, vendue ou transmise à des tiers. Le bot interagit uniquement avec l'API publique <strong>AppleDB</strong> pour obtenir les informations de firmware.</p>
+  <main class="docs-layout container">
+    <aside class="toc" aria-label="Table des matières">
+      <h3>Sommaire</h3>
+      <a href="#data">Données collectées</a>
+      <a href="#usage">Utilisation des données</a>
+      <a href="#retention">Conservation</a>
+      <a href="#security">Sécurité</a>
+      <a href="#rights">Vos droits</a>
+      <a href="#contact">Contact</a>
+    </aside>
 
-    <h2>5. Contact</h2>
-    <p>Pour toute question ou demande concernant la confidentialité ou la suppression de données (bien que le bot ne stocke pas de données personnelles), veuillez contacter le développeur via <a href="mailto:tibo.tsr@icloud.com">tibo.tsr@icloud.com</a>.</p>
+    <div>
+      <section id="data" class="doc-section">
+        <h2 class="lang" data-lang="fr">1. Données collectées</h2>
+        <h2 class="lang" data-lang="en">1. Data Collected</h2>
+        <p class="lang" data-lang="fr">Pour assurer son bon fonctionnement sur Discord, AppleCore peut être amené à enregistrer :</p>
+        <p class="lang" data-lang="en">To deliver notifications and slash commands on Discord, AppleCore may store:</p>
+        <ul>
+          <li><strong>Identifiants Discord :</strong> Identifiant du serveur (Guild ID), identifiant du salon d'annonce (Channel ID) et identifiant des rôles de notification configurés.</li>
+          <li><strong>Préférences de configuration :</strong> Salons sélectionnés, couleur d'embed, fuseau horaire ou options de ping.</li>
+          <li><strong>Télémétrie anonymisée :</strong> Décompte global du nombre de commandes exécutées et latence moyenne pour le monitoring de santé.</li>
+        </ul>
+        <p class="lang" data-lang="fr"><strong>Nous ne lisons, n'enregistrons et ne transmettons aucun message textuel ni contenu privé de vos membres.</strong></p>
+        <p class="lang" data-lang="en"><strong>We do not read, log, or transmit any private chat messages or user conversations.</strong></p>
+      </section>
 
-  </div>
+      <section id="usage" class="doc-section">
+        <h2 class="lang" data-lang="fr">2. Utilisation des données</h2>
+        <h2 class="lang" data-lang="en">2. Usage of Data</h2>
+        <p class="lang" data-lang="fr">Les données collectées sont utilisées exclusivement pour :</p>
+        <p class="lang" data-lang="en">Stored data is exclusively used to:</p>
+        <ul>
+          <li>Envoyer les alertes de nouveaux firmwares dans les salons Discord désignés.</li>
+          <li>Mentionner les rôles adéquats selon les préférences définies par les administrateurs.</li>
+          <li>Générer les pages d'état et le diagnostic d'intégrité du service.</li>
+        </ul>
+        <p class="lang" data-lang="fr">Aucune donnée n'est vendue, partagée ou cédée à des tiers ou des annonceurs publicitaires.</p>
+        <p class="lang" data-lang="en">No data is sold, monetized, or shared with third-party advertisers.</p>
+      </section>
+
+      <section id="retention" class="doc-section">
+        <h2 class="lang" data-lang="fr">3. Conservation des données</h2>
+        <h2 class="lang" data-lang="en">3. Data Retention</h2>
+        <p class="lang" data-lang="fr">Les configurations de serveur sont conservées tant qu'AppleCore est présent sur le serveur. Lorsqu'AppleCore est expulsé ou retiré d'un serveur Discord, ses configurations associées peuvent être supprimées sur simple demande ou lors de nos routines de nettoyage périodique.</p>
+        <p class="lang" data-lang="en">Guild configurations remain active as long as the bot resides in your Discord server. Once kicked or removed, settings can be expunged upon request or regular maintenance cleanups.</p>
+      </section>
+
+      <section id="security" class="doc-section">
+        <h2 class="lang" data-lang="fr">4. Sécurité</h2>
+        <h2 class="lang" data-lang="en">4. Security</h2>
+        <p class="lang" data-lang="fr">Toutes les interactions avec les API de Discord et les services Apple transitent via des protocoles chiffrés (HTTPS/TLS). Les bases de données sont sécurisées avec accès restreint et isolées.</p>
+        <p class="lang" data-lang="en">All network requests to Discord and Apple services use encrypted connections (TLS/HTTPS). Databases reside on isolated, protected infrastructure.</p>
+      </section>
+
+      <section id="rights" class="doc-section">
+        <h2 class="lang" data-lang="fr">5. Vos droits (RGPD)</h2>
+        <h2 class="lang" data-lang="en">5. Your Rights (GDPR)</h2>
+        <p class="lang" data-lang="fr">Conformément aux réglementations sur la protection de la vie privée, vous disposez d'un droit d'accès, de rectification et de suppression des informations associées à votre serveur Discord.</p>
+        <p class="lang" data-lang="en">Under GDPR and international privacy standards, server owners may request inspection, correction, or immediate deletion of their server settings.</p>
+      </section>
+
+      <section id="contact" class="doc-section">
+        <h2 class="lang" data-lang="fr">6. Contact</h2>
+        <h2 class="lang" data-lang="en">6. Contact</h2>
+        <p class="lang" data-lang="fr">Pour toute question ou demande de suppression de données, contactez-nous :</p>
+        <p class="lang" data-lang="en">For any inquiries or data deletion requests, reach out to:</p>
+        <p>📧 Email : <a href="mailto:tibo.tsr@icloud.com" style="color:var(--apple-blue-light);">tibo.tsr@icloud.com</a></p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand">
+            <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="32" height="32">
+            <span class="brand-name" style="font-size:18px;">AppleCore</span>
+          </div>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Sentinelle en temps réel des micrologiciels et mises à jour Apple pour Discord.</p>
+        </div>
+        <div class="footer-nav">
+          <a href="index.html">Accueil</a>
+          <a href="help.html">Docs & Commandes</a>
+          <a href="terms.html">Conditions</a>
+          <a href="https://github.com/TiboTsr/AppleBot" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 AppleCore • Développé par TiboTsr. Non affilié à Apple Inc.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
