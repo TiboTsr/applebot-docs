@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr" data-lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -39,6 +39,7 @@
       </a>
 
       <div class="nav-links">
+        <a href="#setup" class="nav-link"><span class="lang inline" data-lang="fr">Installation</span><span class="lang inline" data-lang="en">Setup</span></a>
         <a href="#demo" class="nav-link"><span class="lang inline" data-lang="fr">Démo</span><span class="lang inline" data-lang="en">Demo</span></a>
         <a href="#releases" class="nav-link"><span class="lang inline" data-lang="fr">Direct</span><span class="lang inline" data-lang="en">Live</span></a>
         <a href="#features" class="nav-link"><span class="lang inline" data-lang="fr">Fonctionnalités</span><span class="lang inline" data-lang="en">Features</span></a>
@@ -68,6 +69,7 @@
 
     <!-- Mobile Menu dropdown -->
     <div id="nav-menu" class="mobile-menu">
+      <a href="#setup">Installation (/setup)</a>
       <a href="#demo">Démo</a>
       <a href="#releases">Direct</a>
       <a href="#features">Fonctionnalités</a>
@@ -107,9 +109,13 @@
           <span class="lang inline" data-lang="fr">Installer sur Discord</span>
           <span class="lang inline" data-lang="en">Install on Discord</span>
         </a>
-        <a href="#demo" class="btn btn-secondary btn-hero">
-          <span class="lang inline" data-lang="fr">Découvrir la démo ↓</span>
-          <span class="lang inline" data-lang="en">Explore demo ↓</span>
+        <a href="#setup" class="btn btn-secondary btn-hero">
+          <span class="lang inline" data-lang="fr">⚡ Assistant /setup</span>
+          <span class="lang inline" data-lang="en">⚡ /setup Wizard</span>
+        </a>
+        <a href="#demo" class="btn btn-ghost">
+          <span class="lang inline" data-lang="fr">Démo en direct ↓</span>
+          <span class="lang inline" data-lang="en">Live Demo ↓</span>
         </a>
         <a href="help.html" class="btn btn-ghost">
           <span class="lang inline" data-lang="fr">Documentation</span>
@@ -157,6 +163,69 @@
           </div>
           <div class="metric-number" id="apple-services-stat" style="color:var(--apple-green);">71 / 71</div>
           <div class="metric-desc" id="apple-services-desc">Opérationnels en direct</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETUP WIZARD SHOWCASE SECTION -->
+    <section id="setup" class="section container">
+      <div class="section-badge" style="background:rgba(255,159,10,0.15); color:var(--apple-orange); border-color:rgba(255,159,10,0.3);">
+        <span class="pulse-dot" style="background:var(--apple-orange); box-shadow:0 0 10px var(--apple-orange);"></span>
+        <span class="lang inline" data-lang="fr">Assistant Guidé • Configuration en 60 secondes</span>
+        <span class="lang inline" data-lang="en">Guided Wizard • 60-Second Setup</span>
+      </div>
+
+      <h2 class="section-title">
+        <span class="lang" data-lang="fr">Tout configurer en un éclair avec <span class="gradient-text">/setup</span></span>
+        <span class="lang" data-lang="en">Configure everything in seconds with <span class="gradient-text">/setup</span></span>
+      </h2>
+
+      <p class="section-subtitle">
+        <span class="lang" data-lang="fr">Fini les guides complexes et les commandes dispersées. Tapez simplement <code>/setup</code> dans votre serveur Discord pour lancer un assistant interactif exclusif qui calibre vos annonces, vos rôles et vos filtres en 3 étapes visuelles.</span>
+        <span class="lang" data-lang="en">No complicated manuals or scattered commands. Simply type <code>/setup</code> in your Discord server to launch an exclusive interactive wizard configuring channels, roles, and release filters in 3 visual steps.</span>
+      </p>
+
+      <div class="setup-grid">
+        <div class="setup-card">
+          <div class="setup-step-num">01</div>
+          <div class="setup-step-icon">📢</div>
+          <h3 class="setup-step-title">
+            <span class="lang" data-lang="fr">1. Salon d'annonces</span>
+            <span class="lang" data-lang="en">1. Alert Channel</span>
+          </h3>
+          <p class="setup-step-desc">
+            <span class="lang" data-lang="fr">Sélectionnez le salon Discord où diffuser les alertes dans un menu déroulant natif. AppleCore vérifie immédiatement les permissions d'envoi et d'embeds.</span>
+            <span class="lang" data-lang="en">Pick your announcement channel from a native Discord menu. AppleCore immediately validates posting and embed permissions.</span>
+          </p>
+          <div class="setup-step-pill">✨ ChannelSelect Automatique</div>
+        </div>
+
+        <div class="setup-card">
+          <div class="setup-step-num">02</div>
+          <div class="setup-step-icon">🏷️</div>
+          <h3 class="setup-step-title">
+            <span class="lang" data-lang="fr">2. Rôles par Système</span>
+            <span class="lang" data-lang="en">2. Per-OS Roles</span>
+          </h3>
+          <p class="setup-step-desc">
+            <span class="lang" data-lang="fr">Associez un rôle précis pour chaque plateforme (iOS, macOS, watchOS, visionOS, AirPods). Vos membres sont avertis uniquement pour les appareils qui les intéressent.</span>
+            <span class="lang" data-lang="en">Map dedicated roles for each platform (iOS, macOS, watchOS, visionOS, AirPods). Members are pinged only for the devices they care about.</span>
+          </p>
+          <div class="setup-step-pill">✨ RoleSelect Multi-OS</div>
+        </div>
+
+        <div class="setup-card">
+          <div class="setup-step-num">03</div>
+          <div class="setup-step-icon">🎛️</div>
+          <h3 class="setup-step-title">
+            <span class="lang" data-lang="fr">3. Filtres & Test Réel</span>
+            <span class="lang" data-lang="en">3. Filters & Test</span>
+          </h3>
+          <p class="setup-step-desc">
+            <span class="lang" data-lang="fr">Choisissez si vous souhaitez diffuser uniquement les versions stables ou inclure les bêtas développeur/publiques, puis envoyez une alerte de test immédiate.</span>
+            <span class="lang" data-lang="en">Choose whether to publish stable releases only or include developer/public betas, then trigger an instant live test alert.</span>
+          </p>
+          <div class="setup-step-pill">✨ Test en Direct Intégré</div>
         </div>
       </div>
     </section>
@@ -234,16 +303,20 @@
                 <div class="embed-field">
                   <div class="field-label">📱 Compatibilité</div>
                   <div class="field-value" id="sim-devices">
-                    iPhone 16 Pro Max, iPhone 16 Pro, iPhone 16, iPhone 15 Pro, iPhone 15 (+14 modèles)
+                    <strong>48 modèles compatibles</strong> • <span style="color:var(--text-muted);">Cliquez ci-dessous pour le détail</span>
                   </div>
+                </div>
+
+                <div class="embed-footer" style="display:flex; align-items:center; gap:8px; margin-top:14px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08); font-size:12px; color:var(--text-muted);">
+                  <img src="logo.png" alt="AppleCore" style="width:16px; height:16px; border-radius:4px;">
+                  <span>AppleCore • Données officielles Apple</span>
                 </div>
 
                 <!-- BOUTONS DISCORD -->
                 <div class="embed-actions">
-                  <button class="discord-btn" onclick="alertModal('notes')">📋 Notes complètes</button>
-                  <button class="discord-btn" onclick="alertModal('devices')">📱 Tous les appareils</button>
+                  <button class="discord-btn" onclick="alertModal('devices')">📱 Appareils compatibles (48)</button>
                   <button class="discord-btn discord-btn-primary" id="sim-ipsw-btn">💾 Télécharger IPSW</button>
-                  <button class="discord-btn" onclick="window.open('https://appledb.dev', '_blank')">🔗 AppleDB</button>
+                  <button class="discord-btn" onclick="window.open('https://appledb.dev', '_blank')">🔗 Fiche AppleDB</button>
                 </div>
               </div>
             </div>
@@ -348,46 +421,93 @@
       </p>
 
       <div class="features-grid" style="margin-top:30px;">
+        <!-- COMMANDE STAR /SETUP -->
+        <div class="feature-card highlight-admin" style="border-top:3px solid var(--apple-orange); grid-column: 1 / -1;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+            <div style="font-family:var(--font-mono); font-size:20px; font-weight:800; color:var(--apple-orange); margin-bottom:6px;">
+              ⚡ /setup
+            </div>
+            <span class="admin-tag-badge">👑 RECOMMANDÉ • CONFIGURATION EN 1 MINUTE</span>
+          </div>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">
+              L'assistant interactif pas à pas pour configurer AppleCore sur votre serveur en moins de 60 secondes : détection automatique des salons Discord, liaison des rôles d'alertes par OS (iOS, Mac, AirPods...), filtres de versions et envoi d'une alerte de test immédiate.
+            </span>
+            <span class="lang" data-lang="en">
+              The 60-second interactive setup wizard for your Discord community: automated channel selection, targeted alert role binding per OS (iOS, Mac, AirPods...), release filtering, and live test alert verification.
+            </span>
+          </p>
+        </div>
+
         <div class="feature-card" style="border-top:3px solid var(--apple-blue);">
           <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-blue-light); margin-bottom:8px;">/info</div>
-          <p class="feat-desc">Affiche la fiche complète d'une version Apple : numéro de build précis, date de sortie, changelog officiel traduit en français et liste exhaustive des appareils compatibles.</p>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Affiche la fiche complète d'une version Apple : numéro de build précis, date de sortie, changelog officiel traduit en français et bouton interactif pour la liste des appareils compatibles.</span>
+            <span class="lang" data-lang="en">Displays full release specs: exact build number, release date, verified changelog, and interactive compatible device viewer.</span>
+          </p>
         </div>
 
         <div class="feature-card" style="border-top:3px solid var(--apple-orange);">
           <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-orange); margin-bottom:8px;">/roles & /roles_panel</div>
-          <p class="feat-desc">Déploie un menu déroulant élégant et persistant dans votre salon Discord pour que chaque membre active ou désactive ses alertes selon ses appareils (iOS, macOS, AirPods...).</p>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Déploie un menu déroulant élégant et persistant dans votre salon Discord pour que chaque membre active ou désactive ses alertes selon ses appareils (iOS, macOS, AirPods...).</span>
+            <span class="lang" data-lang="en">Deploys an interactive, persistent role select menu in Discord so members self-assign alerts for their preferred Apple devices.</span>
+          </p>
         </div>
 
         <div class="feature-card" style="border-top:3px solid var(--apple-purple);">
           <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-purple); margin-bottom:8px;">/prediction</div>
-          <p class="feat-desc">Analyse la cadence des bêtas et le calendrier historique d'Apple pour calculer la date et l'heure probabiliste de la prochaine mise à jour publique ou RC.</p>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Analyse la cadence des bêtas et le calendrier historique d'Apple pour calculer la date et l'heure probabiliste de la prochaine mise à jour publique ou RC.</span>
+            <span class="lang" data-lang="en">Analyzes historical release intervals and beta cycles to forecast the probable release date and time of the next update.</span>
+          </p>
         </div>
 
         <div class="feature-card" style="border-top:3px solid var(--apple-green);">
           <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-green); margin-bottom:8px;">/apple_status</div>
-          <p class="feat-desc">Interroge l'état opérationnel des 71 services Apple en temps réel (App Store, iCloud, Apple Music, Notarisation développeur, Find My) pour détecter les pannes en direct.</p>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Interroge l'état opérationnel des 71 services Apple en temps réel (App Store, iCloud, Apple Music, Notarisation développeur, Find My) pour détecter les pannes en direct.</span>
+            <span class="lang" data-lang="en">Monitors the operational health of all 71 Apple services in real time (App Store, iCloud, Developer Notarization, Find My) with live outage detection.</span>
+          </p>
         </div>
 
         <div class="feature-card" style="border-top:3px solid var(--apple-teal);">
           <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-teal); margin-bottom:8px;">/latest</div>
-          <p class="feat-desc">Génère un tableau comparatif instantané des dernières versions stables publiques déployées pour iOS, iPadOS, macOS, watchOS, tvOS, visionOS et AirPods.</p>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Génère un tableau comparatif instantané des dernières versions stables publiques déployées pour iOS, iPadOS, macOS, watchOS, tvOS, visionOS et AirPods.</span>
+            <span class="lang" data-lang="en">Generates an instant comparative overview of the latest public stable releases deployed across all Apple platforms.</span>
+          </p>
         </div>
 
         <div class="feature-card" style="border-top:3px solid var(--apple-red);">
           <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-red); margin-bottom:8px;">/compat</div>
-          <p class="feat-desc">Vérifie en une seconde si votre modèle d'iPhone, iPad, Mac ou AirPods supportera la prochaine mise à jour majeure d'Apple et les fonctionnalités d'Apple Intelligence.</p>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Vérifie en une seconde si votre modèle d'iPhone, iPad, Mac ou AirPods supportera la prochaine mise à jour majeure d'Apple et les fonctionnalités d'Apple Intelligence.</span>
+            <span class="lang" data-lang="en">Instantly checks whether your specific iPhone, iPad, Mac, or AirPods model will support the next major OS and Apple Intelligence features.</span>
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- LIVE APPLE SYSTEM STATUS BANNER -->
-    <section class="container" style="margin-bottom: 90px;">
+    <!-- LIVE APPLE SYSTEM STATUS SECTION -->
+    <section class="section container" style="padding-top:20px; padding-bottom:40px;">
+      <div class="section-badge" style="background:rgba(48,209,88,0.12); color:var(--apple-green); border-color:rgba(48,209,88,0.25);">
+        <span class="pulse-dot"></span>
+        <span class="lang inline" data-lang="fr">Surveillance Infrastructure en Direct</span>
+        <span class="lang inline" data-lang="en">Live Infrastructure Monitoring</span>
+      </div>
       <div class="apple-status-widget">
         <div class="widget-left">
           <div class="widget-icon">🍏</div>
           <div>
-            <div class="widget-title">Surveillance Apple System Status en direct</div>
-            <div class="widget-subtitle">Interrogation officielle toutes les 60 secondes de l'ensemble de l'infrastructure Apple.</div>
+            <div class="widget-title">
+              <span class="lang" data-lang="fr">Surveillance Apple System Status en direct</span>
+              <span class="lang" data-lang="en">Live Apple System Status Watch</span>
+            </div>
+            <div class="widget-subtitle">
+              <span class="lang" data-lang="fr">Interrogation officielle toutes les 60 secondes de l'ensemble de l'infrastructure Apple.</span>
+              <span class="lang" data-lang="en">Official 60-second health check across all 71 Apple server infrastructures.</span>
+            </div>
           </div>
         </div>
         <div class="widget-right">
@@ -395,7 +515,10 @@
             <span class="pulse-dot"></span>
             <span id="widget-status-text">71 / 71 services 100% opérationnels</span>
           </div>
-          <a href="https://www.apple.com/fr/support/systemstatus/" target="_blank" rel="noopener" class="widget-link">Page officielle Apple ↗</a>
+          <a href="https://www.apple.com/fr/support/systemstatus/" target="_blank" rel="noopener" class="widget-link">
+            <span class="lang inline" data-lang="fr">Page officielle Apple ↗</span>
+            <span class="lang inline" data-lang="en">Official Apple Page ↗</span>
+          </a>
         </div>
       </div>
     </section>
@@ -403,34 +526,69 @@
     <!-- FAQ SECTION -->
     <section class="section container" style="max-width: 860px;">
       <div class="section-badge">FAQ</div>
-      <h2 class="section-title">Questions fréquentes</h2>
+      <h2 class="section-title">
+        <span class="lang" data-lang="fr">Questions fréquentes</span>
+        <span class="lang" data-lang="en">Frequently Asked Questions</span>
+      </h2>
 
       <div class="faq-list">
         <details class="faq-item" open>
-          <summary class="faq-question">Comment configurer les alertes sur mon serveur ?</summary>
+          <summary class="faq-question">
+            <span class="lang" data-lang="fr">Comment configurer les alertes sur mon serveur Discord ?</span>
+            <span class="lang" data-lang="en">How do I set up alerts on my Discord server?</span>
+          </summary>
           <div class="faq-answer">
-            C'est extrêmement simple : tapez <code>/setup</code> pour afficher le guide pas à pas. Vous définissez le salon d'annonces avec <code>/config salon #votre-salon</code>, puis vous liez les rôles avec <code>/config os</code>. Vous pouvez ensuite déployer le panneau interactif pour vos membres avec <code>/roles_panel</code>.
+            <span class="lang" data-lang="fr">
+              C'est extrêmement simple : tapez la commande <code>/setup</code> pour lancer l'assistant guidé interactif. Vous choisissez le salon d'annonces en un clic, vous attribuez vos rôles par OS (iOS, Mac, AirPods...) et vous validez avec un message de test réel.
+            </span>
+            <span class="lang" data-lang="en">
+              It's extremely simple: type <code>/setup</code> to launch the interactive wizard. Select your announcement channel in 1 click, bind your per-OS alert roles (iOS, Mac, AirPods...), and verify everything with a live test message.
+            </span>
           </div>
         </details>
 
         <details class="faq-item">
-          <summary class="faq-question">Les AirPods sont-ils réellement pris en charge ?</summary>
+          <summary class="faq-question">
+            <span class="lang" data-lang="fr">Les AirPods sont-ils réellement pris en charge ?</span>
+            <span class="lang" data-lang="en">Are AirPods firmwares really supported?</span>
+          </summary>
           <div class="faq-answer">
-            Oui ! AppleCore est l'un des très rares bots à intégrer un catalogue complet de plus de 130 versions historiques d'AirPods (AirPods 1 à 4 ANC, Pro, Max). Vous recevez une alerte dès qu'un nouveau firmware est déployé par Apple.
+            <span class="lang" data-lang="fr">
+              Oui ! AppleCore est l'un des très rares bots à intégrer un catalogue complet de plus de 130 versions historiques d'AirPods (AirPods 1 à 4 ANC, Pro, Max). Vous recevez une alerte dès qu'un nouveau firmware est déployé par Apple.
+            </span>
+            <span class="lang" data-lang="en">
+              Yes! AppleCore is one of the rare bots featuring a full historical firmware catalog of over 130 versions for AirPods (AirPods 1 to 4 ANC, Pro, Max). You receive an instant ping whenever Apple pushes a new firmware build.
+            </span>
           </div>
         </details>
 
         <details class="faq-item">
-          <summary class="faq-question">D'où viennent les données et à quelle vitesse sortent les alertes ?</summary>
+          <summary class="faq-question">
+            <span class="lang" data-lang="fr">D'où viennent les données et à quelle vitesse sortent les alertes ?</span>
+            <span class="lang" data-lang="en">Where do the updates come from and how fast are alerts?</span>
+          </summary>
           <div class="faq-answer">
-            Le bot interroge en continu l'API officielle de mise à jour Over-The-Air d'Apple (Pallas) et la base AppleDB. Les alertes sont déclenchées en quelques secondes dès qu'un build est signé par Apple.
+            <span class="lang" data-lang="fr">
+              Le bot interroge en continu l'API officielle de mise à jour Over-The-Air d'Apple (Pallas) et la base AppleDB. Les alertes sont déclenchées en quelques secondes dès qu'un build est signé par Apple.
+            </span>
+            <span class="lang" data-lang="en">
+              The bot polls Apple's official Over-The-Air update API (Pallas) and AppleDB continuously. Alerts fire within split seconds of an official build signature.
+            </span>
           </div>
         </details>
 
         <details class="faq-item">
-          <summary class="faq-question">Le bot est-il gratuit ?</summary>
+          <summary class="faq-question">
+            <span class="lang" data-lang="fr">Le bot est-il gratuit ?</span>
+            <span class="lang" data-lang="en">Is the bot free to use?</span>
+          </summary>
           <div class="faq-answer">
-            Oui, AppleCore est 100% gratuit et libre d'accès pour toutes les communautés Discord souhaitant suivre l'actualité des systèmes Apple.
+            <span class="lang" data-lang="fr">
+              Oui, AppleCore est 100% gratuit et libre d'accès pour toutes les communautés Discord souhaitant suivre l'actualité des systèmes Apple.
+            </span>
+            <span class="lang" data-lang="en">
+              Yes, AppleCore is 100% free and open for all Discord communities following Apple software and hardware updates.
+            </span>
           </div>
         </details>
       </div>
@@ -439,14 +597,22 @@
     <!-- BOTTOM CTA BANNER -->
     <section class="container" style="margin-bottom: 90px;">
       <div class="bottom-cta-card">
-        <h2>Prêt à équiper votre serveur Discord ?</h2>
-        <p>Rejoignez les communautés qui profitent déjà des alertes Apple les plus rapides et complètes du web.</p>
+        <h2>
+          <span class="lang" data-lang="fr">Prêt à équiper votre serveur Discord ?</span>
+          <span class="lang" data-lang="en">Ready to power up your Discord server?</span>
+        </h2>
+        <p>
+          <span class="lang" data-lang="fr">Rejoignez les communautés qui profitent déjà des alertes Apple les plus rapides et complètes du web.</span>
+          <span class="lang" data-lang="en">Join communities enjoying the fastest, most reliable Apple update alerts on Discord.</span>
+        </p>
         <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-top:28px;">
           <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:16px; padding:12px 28px;">
-            Ajouter AppleCore à mon serveur
+            <span class="lang inline" data-lang="fr">Ajouter AppleCore à mon serveur</span>
+            <span class="lang inline" data-lang="en">Add AppleCore to my server</span>
           </a>
           <a href="help.html" class="btn btn-secondary" style="font-size:16px; padding:12px 24px;">
-            Consulter la documentation
+            <span class="lang inline" data-lang="fr">Consulter la documentation</span>
+            <span class="lang inline" data-lang="en">Browse documentation</span>
           </a>
         </div>
       </div>
@@ -462,12 +628,15 @@
             <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="32" height="32" style="border-radius:8px;">
             <span class="brand-name" style="font-size:18px;">AppleCore</span>
           </div>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Sentinelle en temps réel des micrologiciels et mises à jour Apple pour Discord.</p>
+          <p style="font-size:13px; color:var(--text-muted); margin-top:8px;">
+            <span class="lang" data-lang="fr">Sentinelle en temps réel des micrologiciels et mises à jour Apple pour Discord.</span>
+            <span class="lang" data-lang="en">Real-time Apple firmware and software sentinel for Discord.</span>
+          </p>
         </div>
         <div class="footer-nav">
-          <a href="help.html">Docs & Commandes</a>
-          <a href="privacy.html">Confidentialité</a>
-          <a href="terms.html">Conditions d'utilisation</a>
+          <a href="help.html"><span class="lang inline" data-lang="fr">Docs & Commandes</span><span class="lang inline" data-lang="en">Docs & Commands</span></a>
+          <a href="privacy.html"><span class="lang inline" data-lang="fr">Confidentialité</span><span class="lang inline" data-lang="en">Privacy</span></a>
+          <a href="terms.html"><span class="lang inline" data-lang="fr">Conditions</span><span class="lang inline" data-lang="en">Terms</span></a>
           <a href="https://github.com/TiboTsr/AppleBot" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>

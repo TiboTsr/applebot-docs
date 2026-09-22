@@ -1243,3 +1243,113 @@ body {
   border-radius: 2px;
   transition: all 0.3s;
 }
+
+/* ─── SETUP WIZARD SHOWCASE ─── */
+.setup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 36px;
+  position: relative;
+}
+
+.setup-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px 26px;
+  backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.setup-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 159, 10, 0.4);
+  box-shadow: 0 12px 32px rgba(255, 159, 10, 0.12);
+  background: var(--bg-card-hover);
+}
+
+.setup-step-num {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  font-size: 40px;
+  font-weight: 900;
+  font-family: var(--font-mono);
+  color: rgba(255, 255, 255, 0.06);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.setup-step-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(255, 159, 10, 0.12);
+  border: 1px solid rgba(255, 159, 10, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.setup-step-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.setup-step-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+.setup-step-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--apple-orange);
+  background: rgba(255, 159, 10, 0.1);
+  border: 1px solid rgba(255, 159, 10, 0.25);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  align-self: flex-start;
+}
+
+.feature-card.highlight-admin {
+  border: 1px solid rgba(255, 159, 10, 0.45);
+  background: linear-gradient(180deg, rgba(255, 159, 10, 0.08) 0%, rgba(18, 18, 26, 0.85) 100%);
+  box-shadow: 0 0 24px rgba(255, 159, 10, 0.15);
+}
+
+.feature-card.highlight-admin:hover {
+  border-color: rgba(255, 159, 10, 0.7);
+  box-shadow: 0 0 32px rgba(255, 159, 10, 0.25);
+}
+
+.admin-tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 159, 10, 0.18);
+  color: var(--apple-orange);
+  border: 1px solid rgba(255, 159, 10, 0.4);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}

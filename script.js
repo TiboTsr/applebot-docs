@@ -1,4 +1,4 @@
-﻿// AppleCore Marketing Site - Real-Time Interactivity & Showcase
+// AppleCore Marketing Site - Real-Time Interactivity & Showcase
 
 // --- LANGUAGE TOGGLE & PERSISTENCE ---
 const langButtons = document.querySelectorAll('[data-lang-toggle]');
@@ -65,41 +65,41 @@ function showToast(text) {
 // --- DISCORD SIMULATOR DATA & SWITCHER ---
 const SIM_PREVIEWS = {
   ios: {
-    title: '🍎 iOS 27.0',
-    notes: "iOS 27 introduit la nouvelle génération d'Apple Intelligence et de Siri AI avec contexte personnel, ainsi que des améliorations majeures du contrôle parental, de la confidentialité et de la réactivité globale du système.",
-    build: '24A427, 24A437',
+    title: '🍎 iOS 18.3.1',
+    notes: "Cette mise à jour apporte des correctifs de sécurité importants et résout un problème empêchant la synchronisation correcte des contacts dans iCloud. Recommandée à tous les utilisateurs.",
+    build: '22D72',
     audience: 'Public Stable',
-    date: '14 septembre 2026',
-    devices: 'iPhone 16 Pro Max, iPhone 16 Pro, iPhone 16, iPhone 15 Pro, iPhone 15 (+14 modèles)',
+    date: '10 février 2026',
+    devices: '48 modèles compatibles • Cliquez ci-dessous pour le détail',
     ipsw: true,
     ipswUrl: 'https://ipsw.me'
   },
   airpods: {
-    title: '🎧 AirPods Firmware 9.0',
-    notes: 'Amélioration de la réduction active du bruit (ANC) et de la détection des conversations. Ajout de la protection auditive clinique et réglages dynamiques de compensation acoustique.',
-    build: '9A348, 9A350',
+    title: '🎧 AirPods Firmware 7B21',
+    notes: 'Amélioration de la réduction active du bruit (ANC), de l’isolation vocale et de la commutation automatique d’appareil. Stabilité renforcée lors des appels longue durée.',
+    build: '7B21',
     audience: 'Automatique OTA',
-    date: '14 septembre 2026',
-    devices: 'AirPods 4 (ANC), AirPods 4, AirPods Pro 2 (USB-C & Lightning), AirPods Max (USB-C)',
+    date: '15 février 2026',
+    devices: '14 modèles d’AirPods et boîtiers compatibles',
     ipsw: false
   },
   macos: {
-    title: '💻 macOS 27.0 (26A428)',
-    notes: 'Déploiement des premiers outils Apple Intelligence : outils d’écriture système, résumé de notifications dans Mail et Messages, et nouvelle interface intelligente pour Siri.',
-    build: '26A428',
+    title: '💻 macOS Sequoia 15.3.1 (24D70)',
+    notes: 'Résout un bogue lié à l’utilisation des cartes graphiques externes et améliore la réactivité générale de Finder et de Safari. Correctifs de sécurité critiques.',
+    build: '24D70',
     audience: 'Public Stable',
-    date: '14 septembre 2026',
-    devices: 'MacBook Pro, MacBook Air, iMac, Mac Studio, Mac mini',
+    date: '10 février 2026',
+    devices: '32 modèles de Mac (Apple Silicon & Intel) compatibles',
     ipsw: true,
     ipswUrl: 'https://ipsw.me'
   },
   watchos: {
-    title: '⌚ watchOS 11.2 (22R585)',
-    notes: 'Résolution des problèmes d’enregistrement des données d’apnée du sommeil dans l’application Santé et corrections de stabilité lors des entraînements GPS intensifs.',
-    build: '22R585',
+    title: '⌚ watchOS 11.3.1 (22S560)',
+    notes: 'Résout les problèmes d’autonomie anormale sur certains modèles Series 9 et Ultra 2, et optimise la précision du suivi GPS en milieu urbain dense.',
+    build: '22S560',
     audience: 'Public Stable',
-    date: '14 septembre 2026',
-    devices: 'Apple Watch Ultra 2, Ultra, Series 10, Series 9, Series 8, Series 7, SE (2e gén.)',
+    date: '10 février 2026',
+    devices: '22 modèles d’Apple Watch compatibles',
     ipsw: false
   }
 };
@@ -139,9 +139,9 @@ window.switchSim = function(os, btn) {
 
 window.alertModal = function(type) {
   if (type === 'notes') {
-    showToast('📋 Notes de version officielles affichées dans Discord.');
+    showToast('📋 Les notes officielles complètes sont directement intégrées dans l’embed.');
   } else if (type === 'devices') {
-    showToast('📱 Liste exhaustive des appareils compatibles générée.');
+    showToast('📱 Liste exhaustive des appareils compatibles envoyée en message privé Discord !');
   }
 };
 
