@@ -21,7 +21,7 @@ function setLanguage(lang) {
   });
 }
 
-// --- MOBILE NAVIGATION ---
+// --- MOBILE NAVIGATION (present on every page) ---
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.getElementById('nav-menu');
 if (navToggle && navMenu) {
@@ -44,10 +44,10 @@ function showToast(text) {
   toast.textContent = text;
   toast.style.cssText = `
     position: fixed; right: 24px; bottom: 24px; z-index: 9999;
-    background: rgba(18, 18, 26, 0.95); color: #fff; padding: 14px 20px;
-    border-radius: 12px; border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-size: 14px; font-weight: 500;
-    backdrop-filter: blur(12px); opacity: 0; transform: translateY(12px);
+    background: rgba(10, 10, 14, 0.9); color: #fff; padding: 14px 20px;
+    border-radius: 14px; border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.55); font-size: 14px; font-weight: 500;
+    backdrop-filter: blur(20px) saturate(160%); opacity: 0; transform: translateY(12px);
     transition: opacity .25s cubic-bezier(0.16, 1, 0.3, 1), transform .25s cubic-bezier(0.16, 1, 0.3, 1);
   `;
   toastRoot.appendChild(toast);
@@ -150,6 +150,7 @@ async function fetchAppleSystemStatus() {
   const widgetText = document.getElementById('widget-status-text');
   const servicesStat = document.getElementById('apple-services-stat');
   const servicesDesc = document.getElementById('apple-services-desc');
+  if (!widgetText && !servicesStat) return; // widget not present on this page
 
   try {
     const controller = new AbortController();
@@ -194,16 +195,33 @@ async function fetchAppleSystemStatus() {
 // --- LIVE APPLEDB RELEASES FETCHER & FILTERING ---
 let cachedReleases = [];
 
+// AppleDB groups each platform under /ios/<osStr>/main.json. AirPods firmwares
+// live under the "Bluetooth Headset Firmware" group. If AppleDB ever renames
+// or drops one of these groups, Promise.allSettled below means that single
+// platform silently falls back to the curated list instead of breaking the feed.
+const APPLEDB_SOURCES = [
+  { osName: 'iOS', url: 'https://api.appledb.dev/ios/iOS/main.json' },
+  { osName: 'AirPods', url: 'https://api.appledb.dev/ios/Bluetooth%20Headset%20Firmware/main.json' },
+  { osName: 'macOS', url: 'https://api.appledb.dev/ios/macOS/main.json' },
+  { osName: 'watchOS', url: 'https://api.appledb.dev/ios/watchOS/main.json' },
+  { osName: 'iPadOS', url: 'https://api.appledb.dev/ios/iPadOS/main.json' },
+  { osName: 'visionOS', url: 'https://api.appledb.dev/ios/visionOS/main.json' }
+];
+
 async function fetchLiveReleases() {
   const container = document.getElementById('live-releases-container');
   if (!container) return;
 
   try {
-    const [iosRes, airpodsRes, macosRes] = await Promise.allSettled([
-      fetch('https://api.appledb.dev/ios/iOS/main.json'),
-      fetch('https://api.appledb.dev/ios/Bluetooth%20Headset%20Firmware/main.json'),
-      fetch('https://api.appledb.dev/ios/macOS/main.json')
-    ]);
+    // On récupère chaque flux (fetch + parsing JSON) en parallèle. allSettled garantit
+    // qu'une source en échec (endpoint renommé, panne réseau...) ne bloque pas les autres.
+    const results = await Promise.allSettled(
+      APPLEDB_SOURCES.map(async (source) => {
+        const res = await fetch(source.url);
+        if (!res.ok) throw new Error(`${source.osName}: HTTP ${res.status}`);
+        return { osName: source.osName, data: await res.json() };
+      })
+    );
 
     let rawList = [];
 
@@ -241,20 +259,15 @@ async function fetchLiveReleases() {
       });
     }
 
-    if (iosRes.status === 'fulfilled' && iosRes.value.ok) {
-      const iosData = await iosRes.value.json();
-      processItems(iosData, 'iOS');
-    }
+    results.forEach(result => {
+      if (result.status === 'fulfilled') {
+        processItems(result.value.data, result.value.osName);
+      } else {
+        console.warn('Flux AppleDB indisponible:', result.reason);
+      }
+    });
 
-    if (airpodsRes.status === 'fulfilled' && airpodsRes.value.ok) {
-      const apData = await airpodsRes.value.json();
-      processItems(apData, 'AirPods');
-    }
-
-    if (macosRes.status === 'fulfilled' && macosRes.value.ok) {
-      const macData = await macosRes.value.json();
-      processItems(macData, 'macOS');
-    }
+    if (rawList.length === 0) throw new Error('Aucun flux AppleDB disponible');
 
     // Trier rigoureusement par date décroissante
     rawList.sort((a, b) => b.date.localeCompare(a.date));
@@ -312,8 +325,10 @@ function getCuratedReleases() {
     { os: 'iOS', version: 'iOS 27.0', build: '24A437', date: '2026-09-14', beta: false, devices: 'iPhone 16, 15, 14, 13...' },
     { os: 'AirPods', version: 'AirPods Firmware 9.0', build: '9A350', date: '2026-09-14', beta: false, devices: 'AirPods 4 (ANC), Pro 2, Max' },
     { os: 'macOS', version: 'macOS 27.0', build: '26A428', date: '2026-09-14', beta: false, devices: 'Mac Apple Silicon & Intel T2' },
+    { os: 'iPadOS', version: 'iPadOS 27.0', build: '24A437', date: '2026-09-14', beta: false, devices: 'iPad Pro, Air, mini, standard' },
     { os: 'iOS', version: 'iOS 26.7', build: '23H24', date: '2026-09-14', beta: false, devices: 'iPhone 16, 15, 14, 13...' },
     { os: 'watchOS', version: 'watchOS 11.2', build: '22R585', date: '2026-09-14', beta: false, devices: 'Apple Watch Series 7+' },
+    { os: 'visionOS', version: 'visionOS 3.0', build: '23N841', date: '2026-06-16', beta: false, devices: 'Apple Vision Pro' },
     { os: 'AirPods', version: 'AirPods Firmware 8.1', build: '8B41', date: '2026-06-16', beta: false, devices: 'AirPods 4, Pro 2, Max' }
   ];
 }
@@ -328,7 +343,7 @@ function renderReleases(items) {
   }
 
   container.innerHTML = items.slice(0, 9).map(rel => `
-    <div class="release-card">
+    <div class="release-card glass">
       <div class="rc-header">
         <span class="rc-os-badge os-${rel.os.toLowerCase()}">${rel.os}</span>
         <span class="rc-date">${formatDate(rel.date)}</span>

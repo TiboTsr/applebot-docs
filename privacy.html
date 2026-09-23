@@ -1,13 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr" data-lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AppleCore — Politique de Confidentialité</title>
+  <title>AppleCore — Politique de confidentialité</title>
   <meta name="description" content="Politique de confidentialité et protection des données d'AppleCore pour Discord.">
+  <link rel="canonical" href="https://applebot.tibotsr.dev/privacy.html">
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -18,19 +20,20 @@
 
   <header class="site-header">
     <nav class="nav container" aria-label="Navigation principale">
-      <a class="brand" href="index.html" aria-label="Accueil AppleCore">
-        <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="36" height="36">
+      <a class="brand" href="index.html" aria-label="AppleCore — Accueil">
+        <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="34" height="34">
         <span class="brand-name">AppleCore</span>
       </a>
 
       <div class="nav-links">
         <a href="index.html" class="nav-link"><span class="lang inline" data-lang="fr">Accueil</span><span class="lang inline" data-lang="en">Home</span></a>
         <a href="help.html" class="nav-link"><span class="lang inline" data-lang="fr">Documentation</span><span class="lang inline" data-lang="en">Docs</span></a>
+        <a href="privacy.html" class="nav-link"><span class="lang inline" data-lang="fr">Confidentialité</span><span class="lang inline" data-lang="en">Privacy</span></a>
         <a href="terms.html" class="nav-link"><span class="lang inline" data-lang="fr">Conditions</span><span class="lang inline" data-lang="en">Terms</span></a>
       </div>
 
       <div class="nav-actions">
-        <div class="lang-toggle" role="group" aria-label="Language toggle">
+        <div class="lang-toggle" role="group" aria-label="Langue">
           <button type="button" data-lang-toggle="fr" aria-pressed="true">FR</button>
           <button type="button" data-lang-toggle="en" aria-pressed="false">EN</button>
         </div>
@@ -38,19 +41,30 @@
           <span class="lang inline" data-lang="fr">Ajouter</span><span class="lang inline" data-lang="en">Add</span>
         </a>
       </div>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
     </nav>
+
+    <div id="nav-menu" class="mobile-menu">
+      <a href="index.html">Accueil</a>
+      <a href="help.html">Documentation</a>
+      <a href="privacy.html">Confidentialité</a>
+      <a href="terms.html">Conditions</a>
+    </div>
   </header>
 
   <section class="docs-hero">
-    <span class="eyebrow">Confidentialité & Données</span>
-    <h1 class="lang" data-lang="fr">Politique de Confidentialité</h1>
-    <h1 class="lang" data-lang="en">Privacy Policy</h1>
+    <span class="eyebrow">Confidentialité & données</span>
+    <h1 class="lang" data-lang="fr">Politique de confidentialité</h1>
+    <h1 class="lang" data-lang="en">Privacy policy</h1>
     <p class="lang" data-lang="fr">AppleCore est conçu selon le principe de minimisation des données : nous ne collectons que le strict nécessaire au fonctionnement du bot.</p>
     <p class="lang" data-lang="en">AppleCore is built with data minimization in mind: we only store the minimum necessary to provide the service.</p>
   </section>
 
   <main class="docs-layout container">
-    <aside class="toc" aria-label="Table des matières">
+    <aside class="toc glass" aria-label="Table des matières">
       <h3>Sommaire</h3>
       <a href="#data">Données collectées</a>
       <a href="#usage">Utilisation des données</a>
@@ -61,23 +75,23 @@
     </aside>
 
     <div>
-      <section id="data" class="doc-section">
+      <section id="data" class="doc-section glass">
         <h2 class="lang" data-lang="fr">1. Données collectées</h2>
-        <h2 class="lang" data-lang="en">1. Data Collected</h2>
+        <h2 class="lang" data-lang="en">1. Data collected</h2>
         <p class="lang" data-lang="fr">Pour assurer son bon fonctionnement sur Discord, AppleCore peut être amené à enregistrer :</p>
         <p class="lang" data-lang="en">To deliver notifications and slash commands on Discord, AppleCore may store:</p>
         <ul>
-          <li><strong>Identifiants Discord :</strong> Identifiant du serveur (Guild ID), identifiant du salon d'annonce (Channel ID) et identifiant des rôles de notification configurés.</li>
-          <li><strong>Préférences de configuration :</strong> Salons sélectionnés, couleur d'embed, fuseau horaire ou options de ping.</li>
-          <li><strong>Télémétrie anonymisée :</strong> Décompte global du nombre de commandes exécutées et latence moyenne pour le monitoring de santé.</li>
+          <li><strong>Identifiants Discord :</strong> identifiant du serveur (Guild ID), identifiant du salon d'annonce (Channel ID) et identifiant des rôles de notification configurés.</li>
+          <li><strong>Préférences de configuration :</strong> salons sélectionnés, couleur d'embed, fuseau horaire ou options de ping.</li>
+          <li><strong>Télémétrie anonymisée :</strong> décompte global du nombre de commandes exécutées et latence moyenne pour le monitoring de santé.</li>
         </ul>
         <p class="lang" data-lang="fr"><strong>Nous ne lisons, n'enregistrons et ne transmettons aucun message textuel ni contenu privé de vos membres.</strong></p>
         <p class="lang" data-lang="en"><strong>We do not read, log, or transmit any private chat messages or user conversations.</strong></p>
       </section>
 
-      <section id="usage" class="doc-section">
+      <section id="usage" class="doc-section glass">
         <h2 class="lang" data-lang="fr">2. Utilisation des données</h2>
-        <h2 class="lang" data-lang="en">2. Usage of Data</h2>
+        <h2 class="lang" data-lang="en">2. Usage of data</h2>
         <p class="lang" data-lang="fr">Les données collectées sont utilisées exclusivement pour :</p>
         <p class="lang" data-lang="en">Stored data is exclusively used to:</p>
         <ul>
@@ -89,33 +103,33 @@
         <p class="lang" data-lang="en">No data is sold, monetized, or shared with third-party advertisers.</p>
       </section>
 
-      <section id="retention" class="doc-section">
+      <section id="retention" class="doc-section glass">
         <h2 class="lang" data-lang="fr">3. Conservation des données</h2>
-        <h2 class="lang" data-lang="en">3. Data Retention</h2>
+        <h2 class="lang" data-lang="en">3. Data retention</h2>
         <p class="lang" data-lang="fr">Les configurations de serveur sont conservées tant qu'AppleCore est présent sur le serveur. Lorsqu'AppleCore est expulsé ou retiré d'un serveur Discord, ses configurations associées peuvent être supprimées sur simple demande ou lors de nos routines de nettoyage périodique.</p>
         <p class="lang" data-lang="en">Guild configurations remain active as long as the bot resides in your Discord server. Once kicked or removed, settings can be expunged upon request or regular maintenance cleanups.</p>
       </section>
 
-      <section id="security" class="doc-section">
+      <section id="security" class="doc-section glass">
         <h2 class="lang" data-lang="fr">4. Sécurité</h2>
         <h2 class="lang" data-lang="en">4. Security</h2>
         <p class="lang" data-lang="fr">Toutes les interactions avec les API de Discord et les services Apple transitent via des protocoles chiffrés (HTTPS/TLS). Les bases de données sont sécurisées avec accès restreint et isolées.</p>
         <p class="lang" data-lang="en">All network requests to Discord and Apple services use encrypted connections (TLS/HTTPS). Databases reside on isolated, protected infrastructure.</p>
       </section>
 
-      <section id="rights" class="doc-section">
+      <section id="rights" class="doc-section glass">
         <h2 class="lang" data-lang="fr">5. Vos droits (RGPD)</h2>
-        <h2 class="lang" data-lang="en">5. Your Rights (GDPR)</h2>
+        <h2 class="lang" data-lang="en">5. Your rights (GDPR)</h2>
         <p class="lang" data-lang="fr">Conformément aux réglementations sur la protection de la vie privée, vous disposez d'un droit d'accès, de rectification et de suppression des informations associées à votre serveur Discord.</p>
         <p class="lang" data-lang="en">Under GDPR and international privacy standards, server owners may request inspection, correction, or immediate deletion of their server settings.</p>
       </section>
 
-      <section id="contact" class="doc-section">
+      <section id="contact" class="doc-section glass">
         <h2 class="lang" data-lang="fr">6. Contact</h2>
         <h2 class="lang" data-lang="en">6. Contact</h2>
         <p class="lang" data-lang="fr">Pour toute question ou demande de suppression de données, contactez-nous :</p>
         <p class="lang" data-lang="en">For any inquiries or data deletion requests, reach out to:</p>
-        <p>📧 Email : <a href="mailto:tibo.tsr@icloud.com" style="color:var(--apple-blue-light);">tibo.tsr@icloud.com</a></p>
+        <p>📧 Email : <a href="mailto:tibo.tsr@icloud.com" style="color:var(--blue-light);">tibo.tsr@icloud.com</a></p>
       </section>
     </div>
   </main>

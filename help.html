@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AppleCore Docs — Commandes, configuration & guide</title>
   <meta name="description" content="Documentation complète d'AppleCore : commandes slash, configuration des salons et rôles, et fonctionnement technique.">
+  <link rel="canonical" href="https://applebot.tibotsr.dev/help.html">
+  <link rel="icon" type="image/png" href="logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -18,21 +20,20 @@
 
   <header class="site-header">
     <nav class="nav container" aria-label="Navigation principale">
-      <a class="brand" href="index.html" aria-label="Accueil AppleCore">
-        <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="36" height="36">
+      <a class="brand" href="index.html" aria-label="AppleCore — Accueil">
+        <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="34" height="34">
         <span class="brand-name">AppleCore</span>
       </a>
 
       <div class="nav-links">
         <a href="index.html" class="nav-link"><span class="lang inline" data-lang="fr">Accueil</span><span class="lang inline" data-lang="en">Home</span></a>
-        <a href="#commands" class="nav-link"><span class="lang inline" data-lang="fr">Commandes</span><span class="lang inline" data-lang="en">Commands</span></a>
-        <a href="#config" class="nav-link"><span class="lang inline" data-lang="fr">Configuration</span><span class="lang inline" data-lang="en">Setup</span></a>
-        <a href="#whatsnew" class="nav-link"><span class="lang inline" data-lang="fr">Nouveautés</span><span class="lang inline" data-lang="en">What's new</span></a>
-        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="help.html" class="nav-link"><span class="lang inline" data-lang="fr">Documentation</span><span class="lang inline" data-lang="en">Docs</span></a>
+        <a href="privacy.html" class="nav-link"><span class="lang inline" data-lang="fr">Confidentialité</span><span class="lang inline" data-lang="en">Privacy</span></a>
+        <a href="terms.html" class="nav-link"><span class="lang inline" data-lang="fr">Conditions</span><span class="lang inline" data-lang="en">Terms</span></a>
       </div>
 
       <div class="nav-actions">
-        <div class="lang-toggle" role="group" aria-label="Language toggle">
+        <div class="lang-toggle" role="group" aria-label="Langue">
           <button type="button" data-lang-toggle="fr" aria-pressed="true">FR</button>
           <button type="button" data-lang-toggle="en" aria-pressed="false">EN</button>
         </div>
@@ -40,154 +41,148 @@
           <span class="lang inline" data-lang="fr">Ajouter</span><span class="lang inline" data-lang="en">Add</span>
         </a>
       </div>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
     </nav>
+
+    <div id="nav-menu" class="mobile-menu">
+      <a href="index.html">Accueil</a>
+      <a href="help.html#commands-public">Commandes</a>
+      <a href="help.html#config">Configuration</a>
+      <a href="help.html#faq">FAQ</a>
+      <a href="privacy.html">Confidentialité</a>
+      <a href="terms.html">Conditions</a>
+    </div>
   </header>
 
   <section class="docs-hero">
-    <span class="eyebrow">Documentation Officielle</span>
-    <h1 class="lang" data-lang="fr">Guide & Commandes AppleCore</h1>
-    <h1 class="lang" data-lang="en">AppleCore Guide & Commands</h1>
+    <span class="eyebrow">Documentation officielle</span>
+    <h1 class="lang" data-lang="fr">Guide & commandes AppleCore</h1>
+    <h1 class="lang" data-lang="en">AppleCore guide & commands</h1>
     <p class="lang" data-lang="fr">Découvrez l'ensemble des commandes slash publiques, administratives et les étapes de configuration pour équiper votre serveur Discord.</p>
     <p class="lang" data-lang="en">Explore public commands, admin tools, and configuration guidelines to power up your Discord community.</p>
   </section>
 
   <main class="docs-layout container">
-    <aside class="toc" aria-label="Table des matières">
+    <aside class="toc glass" aria-label="Table des matières">
       <h3>Sommaire</h3>
       <a href="#quickstart">Démarrage rapide</a>
       <a href="#commands-public">Commandes publiques</a>
       <a href="#commands-admin">Commandes d'administration</a>
-      <a href="#config">Configuration des alertes</a>
+      <a href="#config">Architecture & sources</a>
       <a href="#whatsnew">Nouveautés récentes</a>
       <a href="#faq">FAQ</a>
     </aside>
 
     <div>
       <!-- QUICK START -->
-      <section id="quickstart" class="doc-section">
-        <h2 class="lang" data-lang="fr">⚡ Démarrage rapide (Moins de 60 secondes)</h2>
-        <h2 class="lang" data-lang="en">⚡ Quick Start (Under 60 Seconds)</h2>
-        <p class="lang" data-lang="fr">Configurer AppleCore sur votre serveur Discord se fait en 2 étapes ultra simples :</p>
-        <p class="lang" data-lang="en">Setting up AppleCore in your Discord server takes 2 simple steps:</p>
+      <section id="quickstart" class="doc-section glass">
+        <h2 class="lang" data-lang="fr">⚡ Démarrage rapide (moins de 60 secondes)</h2>
+        <h2 class="lang" data-lang="en">⚡ Quick start (under 60 seconds)</h2>
+        <p class="lang" data-lang="fr">Configurer AppleCore sur votre serveur Discord se fait en 3 étapes simples :</p>
+        <p class="lang" data-lang="en">Setting up AppleCore in your Discord server takes 3 simple steps:</p>
         <ol style="display:flex; flex-direction:column; gap:12px; margin-top:12px;">
-          <li>
-            <strong>1. Inviter le bot :</strong> Cliquez sur <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" style="color:var(--apple-blue-light);">ce lien d'autorisation</a> et sélectionnez votre serveur Discord.
-          </li>
-          <li>
-            <strong>2. Lancer l'assistant tout-en-un <code>/setup</code> :</strong> Tapez simplement <code>/setup</code> dans votre serveur. L'assistant interactif vous guide pas à pas pour choisir le salon d'annonces, associer les rôles de notifications par OS (iOS, macOS, AirPods...) et envoyer une alerte de test réelle !
-          </li>
-          <li>
-            <strong>3. (Optionnel) Déployer le panneau libre-service :</strong> Tapez <code>/roles_panel</code> pour générer un menu déroulant permettant à vos membres de choisir eux-mêmes leurs alertes.
-          </li>
+          <li><strong>1. Inviter le bot :</strong> cliquez sur <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" style="color:var(--blue-light);">ce lien d'autorisation</a> et sélectionnez votre serveur Discord.</li>
+          <li><strong>2. Lancer l'assistant <code>/setup</code> :</strong> tapez simplement <code>/setup</code> dans votre serveur. L'assistant interactif vous guide pas à pas pour choisir le salon d'annonces, associer les rôles de notifications par OS (iOS, macOS, AirPods...) et envoyer une alerte de test réelle.</li>
+          <li><strong>3. (Optionnel) Déployer le panneau libre-service :</strong> tapez <code>/roles_panel</code> pour générer un menu déroulant permettant à vos membres de choisir eux-mêmes leurs alertes.</li>
         </ol>
       </section>
 
       <!-- COMMANDS -->
-      <section id="commands-public" class="doc-section">
-        <h2 class="lang" data-lang="fr">📱 Commandes Publiques</h2>
-        <h2 class="lang" data-lang="en">📱 Public Commands</h2>
-        
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-top:16px;">
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-blue-light); font-family:var(--font-mono); margin-bottom:6px;">/info [os:] [version:]</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">Recherche complète d'une version Apple : builds, audience, notes officielles et appareils compatibles.</p>
-          </div>
+      <section id="commands-public" class="doc-section glass">
+        <h2 class="lang" data-lang="fr">📱 Commandes publiques</h2>
+        <h2 class="lang" data-lang="en">📱 Public commands</h2>
 
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-blue-light); font-family:var(--font-mono); margin-bottom:6px;">/latest</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">Affiche un récapitulatif complet des dernières versions publiques stables pour chaque système.</p>
+        <div class="grid-2">
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--blue-light);">/info [os:] [version:]</div>
+            <p class="command-desc">Recherche complète d'une version Apple : builds, audience, notes officielles et appareils compatibles.</p>
           </div>
-
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-blue-light); font-family:var(--font-mono); margin-bottom:6px;">/compat [appareil:]</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">Vérifie l'éligibilité d'un iPhone, Mac, iPad ou modèle d'AirPods aux dernières versions.</p>
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--blue-light);">/latest</div>
+            <p class="command-desc">Affiche un récapitulatif complet des dernières versions publiques stables pour chaque système.</p>
           </div>
-
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-blue-light); font-family:var(--font-mono); margin-bottom:6px;">/prediction [os:]</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">Analyse probabiliste de la date et heure probable de la prochaine mise à jour.</p>
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--blue-light);">/compat [appareil:]</div>
+            <p class="command-desc">Vérifie l'éligibilité d'un iPhone, Mac, iPad ou modèle d'AirPods aux dernières versions.</p>
           </div>
-
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-blue-light); font-family:var(--font-mono); margin-bottom:6px;">/apple_status</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">État en temps réel des 71 services Apple (App Store, iCloud, Apple Music, Notarisation...).</p>
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--blue-light);">/prediction [os:]</div>
+            <p class="command-desc">Analyse probabiliste de la date et de l'heure probable de la prochaine mise à jour.</p>
           </div>
-
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-blue-light); font-family:var(--font-mono); margin-bottom:6px;">/roles</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">Permet à l'utilisateur de s'abonner individuellement aux rôles d'alertes de son choix.</p>
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--blue-light);">/apple_status</div>
+            <p class="command-desc">État en temps réel des 71 services Apple (App Store, iCloud, Apple Music, Notarisation...).</p>
+          </div>
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--blue-light);">/roles</div>
+            <p class="command-desc">Permet à l'utilisateur de s'abonner individuellement aux rôles d'alertes de son choix.</p>
           </div>
         </div>
       </section>
 
       <!-- ADMIN COMMANDS -->
-      <section id="commands-admin" class="doc-section">
-        <h2 class="lang" data-lang="fr">⚙️ Commandes d'Administration</h2>
-        <h2 class="lang" data-lang="en">⚙️ Administrator Commands</h2>
-        
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin-top:16px;">
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-orange); font-family:var(--font-mono); margin-bottom:6px;">/setup</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">Assistant de configuration interactif pas à pas pour votre serveur Discord.</p>
-          </div>
+      <section id="commands-admin" class="doc-section glass">
+        <h2 class="lang" data-lang="fr">⚙️ Commandes d'administration</h2>
+        <h2 class="lang" data-lang="en">⚙️ Administrator commands</h2>
 
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-orange); font-family:var(--font-mono); margin-bottom:6px;">/config salon [#salon]</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">Définit le salon où seront publiées automatiquement les annonces d'Apple.</p>
+        <div class="grid-2">
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--orange);">/setup</div>
+            <p class="command-desc">Assistant de configuration interactif pas à pas pour votre serveur Discord.</p>
           </div>
-
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-orange); font-family:var(--font-mono); margin-bottom:6px;">/config os [os:] [role:]</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">Associe un rôle précis à mentionner pour un système (iOS, macOS, AirPods...).</p>
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--orange);">/config salon [#salon]</div>
+            <p class="command-desc">Définit le salon où seront publiées automatiquement les annonces d'Apple.</p>
           </div>
-
-          <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px;">
-            <div style="font-weight:700; color:var(--apple-orange); font-family:var(--font-mono); margin-bottom:6px;">/roles_panel</div>
-            <p style="font-size:13px; color:var(--text-muted); margin:0;">Publie dans le salon un menu déroulant persistant d'auto-attribution des rôles.</p>
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--orange);">/config os [os:] [role:]</div>
+            <p class="command-desc">Associe un rôle précis à mentionner pour un système (iOS, macOS, AirPods...).</p>
+          </div>
+          <div class="command-card glass">
+            <div class="command-name" style="color:var(--orange);">/roles_panel</div>
+            <p class="command-desc">Publie dans le salon un menu déroulant persistant d'auto-attribution des rôles.</p>
           </div>
         </div>
       </section>
 
-      <!-- CONFIGURATION -->
-      <section id="config" class="doc-section">
-        <h2 class="lang" data-lang="fr">🛠️ Architecture & Sources de Données</h2>
-        <h2 class="lang" data-lang="en">🛠️ Architecture & Data Sources</h2>
+      <!-- ARCHITECTURE -->
+      <section id="config" class="doc-section glass">
+        <h2 class="lang" data-lang="fr">🛠️ Architecture & sources de données</h2>
+        <h2 class="lang" data-lang="en">🛠️ Architecture & data sources</h2>
         <p class="lang" data-lang="fr">AppleCore repose sur un pipeline de détection multi-sources :</p>
         <p class="lang" data-lang="en">AppleCore relies on a multi-source detection pipeline:</p>
         <ul>
-          <li><strong>Pallas OTA Service :</strong> Polling direct des serveurs de mise à jour Over-The-Air d'Apple pour une alerte en quasi-instantané dès la publication d'un profil.</li>
-          <li><strong>Base AppleDB :</strong> Corrélation des hashes et compatibilités de modèles d'appareils et numéros de build.</li>
-          <li><strong>Moteur de traduction :</strong> Traduction automatique fidèle en français des notes officielles d'Apple avec conservation du formattage technique.</li>
+          <li><strong>Pallas OTA Service :</strong> polling direct des serveurs de mise à jour Over-The-Air d'Apple pour une alerte en quasi-instantané dès la publication d'un profil.</li>
+          <li><strong>Base AppleDB :</strong> corrélation des hashes et compatibilités de modèles d'appareils et numéros de build.</li>
+          <li><strong>Moteur de traduction :</strong> traduction automatique fidèle en français des notes officielles d'Apple avec conservation du formatage technique.</li>
         </ul>
       </section>
 
       <!-- WHATS NEW -->
-      <section id="whatsnew" class="doc-section">
-        <h2 class="lang" data-lang="fr">✨ Nouveautés de la Version 2.0</h2>
-        <h2 class="lang" data-lang="en">✨ Version 2.0 What's New</h2>
+      <section id="whatsnew" class="doc-section glass">
+        <h2 class="lang" data-lang="fr">✨ Nouveautés de la version 2.0</h2>
+        <h2 class="lang" data-lang="en">✨ Version 2.0 highlights</h2>
         <ul>
-          <li><strong>Nouveau design Discord :</strong> Embeds modernes avec boutons directs (téléchargements IPSW, vue détaillée AppleDB, changelog complet).</li>
-          <li><strong>Support AirPods étendu :</strong> Prise en charge des AirPods 4 (ANC et standard), AirPods Pro 2 USB-C et AirPods Max.</li>
-          <li><strong>Surveillance Apple System Status :</strong> Suivi en continu des 71 services Apple avec alertes d'incidents.</li>
-          <li><strong>Moteur prédictif amélioré :</strong> Modèle de calcul des dates probables de sortie selon les cycles bêta d'Apple.</li>
+          <li><strong>Nouveau design Discord :</strong> embeds modernes avec boutons directs (téléchargements IPSW, vue détaillée AppleDB, changelog complet).</li>
+          <li><strong>Support AirPods étendu :</strong> prise en charge des AirPods 4 (ANC et standard), AirPods Pro 2 USB-C et AirPods Max.</li>
+          <li><strong>Surveillance Apple System Status :</strong> suivi en continu des 71 services Apple avec alertes d'incidents.</li>
+          <li><strong>Moteur prédictif amélioré :</strong> modèle de calcul des dates probables de sortie selon les cycles bêta d'Apple.</li>
         </ul>
       </section>
 
       <!-- FAQ -->
-      <section id="faq" class="doc-section">
+      <section id="faq" class="doc-section glass">
         <h2>FAQ</h2>
-        <details class="faq-item" open style="margin-bottom:12px;">
+        <details class="faq-item-doc glass" open>
           <summary class="faq-question">Le bot nécessite-t-il des permissions administrateur ?</summary>
-          <div class="faq-answer">
-            Non. AppleCore requiert uniquement la permission d'envoyer des messages, d'intégrer des liens (Embeds) et d'ajouter des réactions dans le salon configuré.
-          </div>
+          <div class="faq-answer">Non. AppleCore requiert uniquement la permission d'envoyer des messages, d'intégrer des liens (embeds) et d'ajouter des réactions dans le salon configuré.</div>
         </details>
-
-        <details class="faq-item">
+        <details class="faq-item-doc glass">
           <summary class="faq-question">Comment tester si une alerte fonctionne ?</summary>
-          <div class="faq-answer">
-            Les administrateurs peuvent utiliser la commande <code>/test_alert</code> pour envoyer un embed de test directement dans votre salon d'annonces.
-          </div>
+          <div class="faq-answer">Les administrateurs peuvent utiliser la commande <code>/test_alert</code> pour envoyer un embed de test directement dans votre salon d'annonces.</div>
         </details>
       </section>
     </div>

@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AppleCore — La sentinelle des mises à jour Apple pour Discord</title>
   <meta name="description" content="Le bot Discord ultime pour suivre toutes les mises à jour Apple en temps réel. Détection instantanée Pallas & AppleDB, changelogs en français, support complet des AirPods et alertes par rôles.">
-  <meta name="keywords" content="AppleCore, Discord bot, Apple updates, iOS 27, AirPods firmware, AppleDB, Pallas, changelog français, alertes Discord">
+  <meta name="keywords" content="AppleCore, Discord bot, Apple updates, iOS, AirPods firmware, AppleDB, Pallas, changelog français, alertes Discord">
 
   <!-- OpenGraph / Social -->
   <meta property="og:title" content="AppleCore — Mises à jour Apple sur Discord">
   <meta property="og:description" content="Détection instantanée des firmwares Apple, changelogs en français, support AirPods et alertes en direct.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://applebot.tibotsr.dev/">
+  <meta property="og:image" content="https://applebot.tibotsr.dev/logo.png">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://applebot.tibotsr.dev/">
   <link rel="icon" type="image/png" href="logo.png">
@@ -19,11 +20,10 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Fond décoratif avec grille et mesh gradient -->
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
   <div class="bg-glow bg-glow-3"></div>
@@ -32,8 +32,8 @@
   <!-- NAVIGATION -->
   <header class="site-header">
     <nav class="nav container" aria-label="Navigation principale">
-      <a class="brand" href="#" aria-label="AppleCore Accueil">
-        <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="40" height="40" style="border-radius:10px; box-shadow: 0 0 20px rgba(0,113,227,0.4);">
+      <a class="brand" href="index.html" aria-label="AppleCore — Accueil">
+        <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="34" height="34">
         <span class="brand-name">AppleCore</span>
         <span class="brand-tag">v2.0</span>
       </a>
@@ -53,21 +53,17 @@
           <button type="button" data-lang-toggle="en" aria-pressed="false">EN</button>
         </div>
         <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" class="btn btn-primary btn-nav">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
           <span class="lang inline" data-lang="fr">Ajouter à Discord</span>
           <span class="lang inline" data-lang="en">Add to Discord</span>
         </a>
       </div>
 
-      <!-- Burger mobile -->
       <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
       </button>
     </nav>
 
-    <!-- Mobile Menu dropdown -->
     <div id="nav-menu" class="mobile-menu">
       <a href="#setup">Installation (/setup)</a>
       <a href="#demo">Démo</a>
@@ -81,12 +77,12 @@
   </header>
 
   <main>
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section class="hero container">
       <div class="hero-badge">
         <span class="pulse-dot"></span>
-        <span class="lang inline" data-lang="fr">Version 2.0 • Moteur Temps Réel Actif</span>
-        <span class="lang inline" data-lang="en">Version 2.0 • Real-Time Engine Online</span>
+        <span class="lang inline" data-lang="fr">Version 2.0 • Moteur temps réel actif</span>
+        <span class="lang inline" data-lang="en">Version 2.0 • Real-time engine online</span>
       </div>
 
       <h1 class="hero-title">
@@ -95,17 +91,13 @@
       </h1>
 
       <p class="hero-desc">
-        <span class="lang" data-lang="fr">
-          Le bot Discord de référence pour être alerté instantanément des nouvelles versions iOS, macOS, watchOS, visionOS et des firmwares AirPods avec changelogs complets traduits en français.
-        </span>
-        <span class="lang" data-lang="en">
-          The ultimate Discord sentinel tracking live iOS, macOS, watchOS, visionOS releases and AirPods firmwares with translated changelogs and verified builds.
-        </span>
+        <span class="lang" data-lang="fr">Le bot Discord de référence pour être alerté instantanément des nouvelles versions iOS, macOS, watchOS, visionOS et des firmwares AirPods, avec changelogs complets traduits en français.</span>
+        <span class="lang" data-lang="en">The ultimate Discord sentinel tracking live iOS, macOS, watchOS and visionOS releases plus AirPods firmwares, with translated changelogs and verified builds.</span>
       </p>
 
       <div class="hero-cta">
         <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" class="btn btn-primary btn-hero">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
           <span class="lang inline" data-lang="fr">Installer sur Discord</span>
           <span class="lang inline" data-lang="en">Install on Discord</span>
         </a>
@@ -113,66 +105,72 @@
           <span class="lang inline" data-lang="fr">⚡ Assistant /setup</span>
           <span class="lang inline" data-lang="en">⚡ /setup Wizard</span>
         </a>
-        <a href="#demo" class="btn btn-ghost">
-          <span class="lang inline" data-lang="fr">Démo en direct ↓</span>
-          <span class="lang inline" data-lang="en">Live Demo ↓</span>
-        </a>
         <a href="help.html" class="btn btn-ghost">
           <span class="lang inline" data-lang="fr">Documentation</span>
           <span class="lang inline" data-lang="en">Documentation</span>
         </a>
       </div>
 
-      <!-- REAL-TIME METRICS STRIP -->
       <div class="metrics-strip">
-        <div class="metric-item">
+        <div class="metric-item glass">
           <div class="metric-top">
-            <span class="lang inline" data-lang="fr">Serveurs Discord</span>
-            <span class="lang inline" data-lang="en">Discord Servers</span>
-            <span class="metric-icon">🌐</span>
+            <span class="lang inline" data-lang="fr">Statut du bot</span>
+            <span class="lang inline" data-lang="en">Bot status</span>
+            <span class="metric-icon">🟢</span>
           </div>
-          <div class="metric-number" id="metric-guilds-val" style="color:var(--apple-blue-light);">Actif</div>
-          <div class="metric-desc">Communautés connectées</div>
+          <div class="metric-number" style="color:var(--green);">
+            <span class="lang inline" data-lang="fr">En ligne</span>
+            <span class="lang inline" data-lang="en">Online</span>
+          </div>
+          <div class="metric-desc">
+            <span class="lang inline" data-lang="fr">Disponible 24/7 sur Discord</span>
+            <span class="lang inline" data-lang="en">Available 24/7 on Discord</span>
+          </div>
         </div>
 
-        <div class="metric-item">
+        <div class="metric-item glass">
           <div class="metric-top">
-            <span class="lang inline" data-lang="fr">Dernière Mise à Jour</span>
-            <span class="lang inline" data-lang="en">Latest Release</span>
+            <span class="lang inline" data-lang="fr">Dernière mise à jour</span>
+            <span class="lang inline" data-lang="en">Latest release</span>
             <span class="metric-icon">⚡</span>
           </div>
-          <div class="metric-number" id="metric-latest-date-val" style="color:var(--apple-green);">En direct</div>
+          <div class="metric-number" id="metric-latest-date-val" style="color:var(--blue-light);">
+            <span class="lang inline" data-lang="fr">En direct</span>
+            <span class="lang inline" data-lang="en">Live</span>
+          </div>
           <div class="metric-desc" id="metric-latest-os-val">Détectée par Pallas & AppleDB</div>
         </div>
 
-        <div class="metric-item">
+        <div class="metric-item glass">
           <div class="metric-top">
-            <span class="lang inline" data-lang="fr">Firmwares en BDD</span>
+            <span class="lang inline" data-lang="fr">Firmwares en base</span>
             <span class="lang inline" data-lang="en">Firmwares in DB</span>
             <span class="metric-icon">🗄️</span>
           </div>
-          <div class="metric-number" id="metric-firmwares-val" style="color:var(--apple-purple);">3 800+</div>
-          <div class="metric-desc">iOS, Mac, AirPods & Bêtas</div>
+          <div class="metric-number" style="color:var(--purple);">3 800+</div>
+          <div class="metric-desc">iOS, Mac, AirPods & bêtas</div>
         </div>
 
-        <div class="metric-item">
+        <div class="metric-item glass">
           <div class="metric-top">
             <span class="lang inline" data-lang="fr">Services Apple</span>
-            <span class="lang inline" data-lang="en">Apple Services</span>
+            <span class="lang inline" data-lang="en">Apple services</span>
             <span class="metric-icon">🍏</span>
           </div>
-          <div class="metric-number" id="apple-services-stat" style="color:var(--apple-green);">71 / 71</div>
+          <div class="metric-number" id="apple-services-stat" style="color:var(--green);">71 / 71</div>
           <div class="metric-desc" id="apple-services-desc">Opérationnels en direct</div>
         </div>
       </div>
     </section>
 
-    <!-- SETUP WIZARD SHOWCASE SECTION -->
+    <!-- SETUP WIZARD -->
     <section id="setup" class="section container">
-      <div class="section-badge" style="background:rgba(255,159,10,0.15); color:var(--apple-orange); border-color:rgba(255,159,10,0.3);">
-        <span class="pulse-dot" style="background:var(--apple-orange); box-shadow:0 0 10px var(--apple-orange);"></span>
-        <span class="lang inline" data-lang="fr">Assistant Guidé • Configuration en 60 secondes</span>
-        <span class="lang inline" data-lang="en">Guided Wizard • 60-Second Setup</span>
+      <div class="section-badge-wrap">
+        <div class="section-badge" style="color:var(--orange); background:rgba(255,159,10,0.1); border-color:rgba(255,159,10,0.25);">
+          <span class="pulse-dot" style="background:var(--orange); box-shadow:0 0 10px var(--orange);"></span>
+          <span class="lang inline" data-lang="fr">Assistant guidé • Configuration en 60 secondes</span>
+          <span class="lang inline" data-lang="en">Guided wizard • 60-second setup</span>
+        </div>
       </div>
 
       <h2 class="section-title">
@@ -181,64 +179,66 @@
       </h2>
 
       <p class="section-subtitle">
-        <span class="lang" data-lang="fr">Fini les guides complexes et les commandes dispersées. Tapez simplement <code>/setup</code> dans votre serveur Discord pour lancer un assistant interactif exclusif qui calibre vos annonces, vos rôles et vos filtres en 3 étapes visuelles.</span>
-        <span class="lang" data-lang="en">No complicated manuals or scattered commands. Simply type <code>/setup</code> in your Discord server to launch an exclusive interactive wizard configuring channels, roles, and release filters in 3 visual steps.</span>
+        <span class="lang" data-lang="fr">Fini les guides complexes et les commandes dispersées. Tapez simplement <code>/setup</code> dans votre serveur Discord pour lancer un assistant interactif qui calibre vos annonces, vos rôles et vos filtres en 3 étapes visuelles.</span>
+        <span class="lang" data-lang="en">No complicated manuals or scattered commands. Simply type <code>/setup</code> in your Discord server to launch an interactive wizard configuring channels, roles, and release filters in 3 visual steps.</span>
       </p>
 
       <div class="setup-grid">
-        <div class="setup-card">
+        <div class="setup-card glass">
           <div class="setup-step-num">01</div>
           <div class="setup-step-icon">📢</div>
           <h3 class="setup-step-title">
-            <span class="lang" data-lang="fr">1. Salon d'annonces</span>
-            <span class="lang" data-lang="en">1. Alert Channel</span>
+            <span class="lang" data-lang="fr">Salon d'annonces</span>
+            <span class="lang" data-lang="en">Alert channel</span>
           </h3>
           <p class="setup-step-desc">
             <span class="lang" data-lang="fr">Sélectionnez le salon Discord où diffuser les alertes dans un menu déroulant natif. AppleCore vérifie immédiatement les permissions d'envoi et d'embeds.</span>
             <span class="lang" data-lang="en">Pick your announcement channel from a native Discord menu. AppleCore immediately validates posting and embed permissions.</span>
           </p>
-          <div class="setup-step-pill">✨ ChannelSelect Automatique</div>
+          <div class="setup-step-pill">✨ ChannelSelect automatique</div>
         </div>
 
-        <div class="setup-card">
+        <div class="setup-card glass">
           <div class="setup-step-num">02</div>
           <div class="setup-step-icon">🏷️</div>
           <h3 class="setup-step-title">
-            <span class="lang" data-lang="fr">2. Rôles par Système</span>
-            <span class="lang" data-lang="en">2. Per-OS Roles</span>
+            <span class="lang" data-lang="fr">Rôles par système</span>
+            <span class="lang" data-lang="en">Per-OS roles</span>
           </h3>
           <p class="setup-step-desc">
             <span class="lang" data-lang="fr">Associez un rôle précis pour chaque plateforme (iOS, macOS, watchOS, visionOS, AirPods). Vos membres sont avertis uniquement pour les appareils qui les intéressent.</span>
             <span class="lang" data-lang="en">Map dedicated roles for each platform (iOS, macOS, watchOS, visionOS, AirPods). Members are pinged only for the devices they care about.</span>
           </p>
-          <div class="setup-step-pill">✨ RoleSelect Multi-OS</div>
+          <div class="setup-step-pill">✨ RoleSelect multi-OS</div>
         </div>
 
-        <div class="setup-card">
+        <div class="setup-card glass">
           <div class="setup-step-num">03</div>
           <div class="setup-step-icon">🎛️</div>
           <h3 class="setup-step-title">
-            <span class="lang" data-lang="fr">3. Filtres & Test Réel</span>
-            <span class="lang" data-lang="en">3. Filters & Test</span>
+            <span class="lang" data-lang="fr">Filtres & test réel</span>
+            <span class="lang" data-lang="en">Filters & test</span>
           </h3>
           <p class="setup-step-desc">
             <span class="lang" data-lang="fr">Choisissez si vous souhaitez diffuser uniquement les versions stables ou inclure les bêtas développeur/publiques, puis envoyez une alerte de test immédiate.</span>
             <span class="lang" data-lang="en">Choose whether to publish stable releases only or include developer/public betas, then trigger an instant live test alert.</span>
           </p>
-          <div class="setup-step-pill">✨ Test en Direct Intégré</div>
+          <div class="setup-step-pill">✨ Test en direct intégré</div>
         </div>
       </div>
     </section>
 
     <!-- INTERACTIVE DISCORD SIMULATOR -->
     <section id="demo" class="section container">
-      <div class="section-badge">
-        <span class="lang inline" data-lang="fr">Aperçu Réel</span>
-        <span class="lang inline" data-lang="en">Real Preview</span>
+      <div class="section-badge-wrap">
+        <div class="section-badge">
+          <span class="lang inline" data-lang="fr">Aperçu réel</span>
+          <span class="lang inline" data-lang="en">Real preview</span>
+        </div>
       </div>
       <h2 class="section-title">
-        <span class="lang" data-lang="fr">L'expérience Discord la plus soignée du web.</span>
-        <span class="lang" data-lang="en">The cleanest Discord update experience.</span>
+        <span class="lang" data-lang="fr">L'expérience Discord la plus soignée du web</span>
+        <span class="lang" data-lang="en">The cleanest Discord update experience</span>
       </h2>
       <p class="section-subtitle">
         <span class="lang" data-lang="fr">Chaque alerte est enrichie avec le nom de version exact, les numéros de build, les notes officielles traduites et les boutons de navigation.</span>
@@ -248,22 +248,20 @@
       <div class="discord-simulator">
         <div class="sim-header-bar">
           <div class="sim-dots">
-            <span class="dot dot-r"></span>
-            <span class="dot dot-y"></span>
-            <span class="dot dot-g"></span>
+            <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
           </div>
           <div class="sim-tabs" role="tablist">
-            <button class="sim-tab active" onclick="switchSim('ios', this)">📱 iOS 27.0</button>
-            <button class="sim-tab" onclick="switchSim('airpods', this)">🎧 AirPods 9.0</button>
-            <button class="sim-tab" onclick="switchSim('macos', this)">💻 macOS 27.0</button>
-            <button class="sim-tab" onclick="switchSim('watchos', this)">⌚ watchOS 11.2</button>
+            <button class="sim-tab active" onclick="switchSim('ios', this)">📱 iOS</button>
+            <button class="sim-tab" onclick="switchSim('airpods', this)">🎧 AirPods</button>
+            <button class="sim-tab" onclick="switchSim('macos', this)">💻 macOS</button>
+            <button class="sim-tab" onclick="switchSim('watchos', this)">⌚ watchOS</button>
           </div>
         </div>
 
         <div class="sim-chat-area">
           <div class="discord-message">
-            <div class="bot-avatar" style="padding:0; overflow:hidden; background:transparent;">
-              <img src="logo.png" alt="AppleCore Avatar" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+            <div class="bot-avatar">
+              <img src="logo.png" alt="AppleCore Avatar">
             </div>
             <div class="message-body">
               <div class="message-meta">
@@ -272,16 +270,13 @@
                 <span class="timestamp" id="sim-timestamp">Aujourd'hui à 19:01</span>
               </div>
 
-              <!-- L'EMBED DISCORD -->
               <div class="discord-embed" id="sim-embed-box">
-                <div class="embed-title" id="sim-title">
-                  🍎 iOS 27.0
-                </div>
+                <div class="embed-title" id="sim-title">🍎 iOS 27.0</div>
 
                 <div class="embed-field">
                   <div class="field-label">📝 Notes de version</div>
                   <div class="field-value" id="sim-notes">
-                    iOS 27 introduit la nouvelle génération d'Apple Intelligence et de Siri AI avec contexte personnel, ainsi que des améliorations majeures du contrôle parental, de la confidentialité et de la réactivité globale du système.
+                    iOS 27 introduit la nouvelle génération d'Apple Intelligence et de Siri avec contexte personnel, ainsi que des améliorations du contrôle parental, de la confidentialité et de la réactivité globale du système.
                   </div>
                 </div>
 
@@ -303,16 +298,15 @@
                 <div class="embed-field">
                   <div class="field-label">📱 Compatibilité</div>
                   <div class="field-value" id="sim-devices">
-                    <strong>48 modèles compatibles</strong> • <span style="color:var(--text-muted);">Cliquez ci-dessous pour le détail</span>
+                    <strong>48 modèles compatibles</strong> • <span style="color:var(--text-muted);">cliquez ci-dessous pour le détail</span>
                   </div>
                 </div>
 
-                <div class="embed-footer" style="display:flex; align-items:center; gap:8px; margin-top:14px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.08); font-size:12px; color:var(--text-muted);">
-                  <img src="logo.png" alt="AppleCore" style="width:16px; height:16px; border-radius:4px;">
+                <div class="embed-footer">
+                  <img src="logo.png" alt="AppleCore">
                   <span>AppleCore • Données officielles Apple</span>
                 </div>
 
-                <!-- BOUTONS DISCORD -->
                 <div class="embed-actions">
                   <button class="discord-btn" onclick="alertModal('devices')">📱 Appareils compatibles (48)</button>
                   <button class="discord-btn discord-btn-primary" id="sim-ipsw-btn">💾 Télécharger IPSW</button>
@@ -327,21 +321,25 @@
 
     <!-- LIVE RELEASES FEED -->
     <section id="releases" class="section container">
-      <div class="section-badge">
-        <span class="lang inline" data-lang="fr">Direct AppleDB & Pallas</span>
-        <span class="lang inline" data-lang="en">Live AppleDB & Pallas</span>
+      <div class="section-badge-wrap">
+        <div class="section-badge">
+          <span class="lang inline" data-lang="fr">Direct AppleDB & Pallas</span>
+          <span class="lang inline" data-lang="en">Live AppleDB & Pallas</span>
+        </div>
       </div>
       <h2 class="section-title">
         <span class="lang" data-lang="fr">Dernières sorties Apple détectées en direct</span>
         <span class="lang" data-lang="en">Latest Apple releases detected live</span>
       </h2>
       <p class="section-subtitle">
-        <span class="lang" data-lang="fr">Interrogation automatique en temps réel des serveurs Apple pour afficher les dernières versions officielles triées chronologiquement.</span>
+        <span class="lang" data-lang="fr">Interrogation automatique des serveurs Apple pour afficher les dernières versions officielles, triées chronologiquement.</span>
         <span class="lang" data-lang="en">Direct live polling of Apple servers displaying the latest verified releases ordered by release date.</span>
       </p>
 
       <div class="os-filter-bar">
-        <button class="os-chip active" onclick="filterReleases('ALL', this)">Tous</button>
+        <button class="os-chip active" onclick="filterReleases('ALL', this)">
+          <span class="lang inline" data-lang="fr">Tous</span><span class="lang inline" data-lang="en">All</span>
+        </button>
         <button class="os-chip" onclick="filterReleases('iOS', this)">📱 iOS</button>
         <button class="os-chip" onclick="filterReleases('AirPods', this)">🎧 AirPods</button>
         <button class="os-chip" onclick="filterReleases('macOS', this)">💻 macOS</button>
@@ -351,15 +349,20 @@
       </div>
 
       <div class="releases-grid" id="live-releases-container">
-        <div class="release-skeleton">Chargement des données en direct...</div>
+        <div class="release-skeleton">
+          <span class="lang inline" data-lang="fr">Chargement des données en direct...</span>
+          <span class="lang inline" data-lang="en">Loading live data...</span>
+        </div>
       </div>
     </section>
 
-    <!-- FEATURES SHOWCASE -->
+    <!-- FEATURES -->
     <section id="features" class="section container">
-      <div class="section-badge">
-        <span class="lang inline" data-lang="fr">Puissance & Fiabilité</span>
-        <span class="lang inline" data-lang="en">Power & Reliability</span>
+      <div class="section-badge-wrap">
+        <div class="section-badge">
+          <span class="lang inline" data-lang="fr">Puissance & fiabilité</span>
+          <span class="lang inline" data-lang="en">Power & reliability</span>
+        </div>
       </div>
       <h2 class="section-title">
         <span class="lang" data-lang="fr">Ce qui rend AppleCore unique</span>
@@ -367,49 +370,87 @@
       </h2>
 
       <div class="features-grid">
-        <div class="feature-card">
-          <div class="feat-icon" style="background:rgba(0,113,227,0.15); color:var(--apple-blue-light);">⚡</div>
-          <h3 class="feat-title">Double Moteur Pallas & AppleDB</h3>
-          <p class="feat-desc">Surveillance directe de l'API de déploiement d'Apple couplée à la base AppleDB pour être le premier bot Discord à sonner l'alerte à chaque nouvelle release.</p>
+        <div class="feature-card glass">
+          <div class="feat-icon" style="background:rgba(10,132,255,0.15); color:var(--blue-light);">⚡</div>
+          <h3 class="feat-title">
+            <span class="lang" data-lang="fr">Double moteur Pallas & AppleDB</span>
+            <span class="lang" data-lang="en">Dual Pallas & AppleDB engine</span>
+          </h3>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Surveillance directe de l'API de déploiement d'Apple couplée à la base AppleDB pour être l'un des premiers bots Discord à sonner l'alerte à chaque nouvelle release.</span>
+            <span class="lang" data-lang="en">Direct monitoring of Apple's deployment API paired with AppleDB, making AppleCore one of the fastest Discord bots to catch every new release.</span>
+          </p>
         </div>
 
-        <div class="feature-card">
-          <div class="feat-icon" style="background:rgba(48,209,88,0.15); color:var(--apple-green);">🇫🇷</div>
-          <h3 class="feat-title">Traduction Neurale Automatique</h3>
-          <p class="feat-desc">Tous les changelogs et notes officielles d'Apple sont traduits immédiatement et fidèlement en français grâce à un pipeline de traduction par découpage intelligent.</p>
+        <div class="feature-card glass">
+          <div class="feat-icon" style="background:rgba(50,215,75,0.15); color:var(--green);">🇫🇷</div>
+          <h3 class="feat-title">
+            <span class="lang" data-lang="fr">Traduction automatique</span>
+            <span class="lang" data-lang="en">Automatic translation</span>
+          </h3>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Tous les changelogs et notes officielles d'Apple sont traduits en français grâce à un pipeline de traduction par découpage intelligent.</span>
+            <span class="lang" data-lang="en">All Apple changelogs and release notes are translated into French through a smart chunked translation pipeline.</span>
+          </p>
         </div>
 
-        <div class="feature-card">
-          <div class="feat-icon" style="background:rgba(100,210,255,0.15); color:var(--apple-teal);">🎧</div>
-          <h3 class="feat-title">Support Intégral des AirPods</h3>
-          <p class="feat-desc">Le seul bot prenant en charge toute la gamme d'écouteurs et casques Apple : AirPods 1 à 4 ANC, AirPods Pro 1 & 2 Lightning/USB-C, AirPods Max et boîtiers.</p>
+        <div class="feature-card glass">
+          <div class="feat-icon" style="background:rgba(100,210,255,0.15); color:var(--teal);">🎧</div>
+          <h3 class="feat-title">
+            <span class="lang" data-lang="fr">Support intégral des AirPods</span>
+            <span class="lang" data-lang="en">Full AirPods support</span>
+          </h3>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">L'un des rares bots à prendre en charge toute la gamme d'écouteurs Apple : AirPods 1 à 4 ANC, AirPods Pro 1 & 2 Lightning/USB-C, AirPods Max et boîtiers.</span>
+            <span class="lang" data-lang="en">One of the few bots covering the full Apple audio lineup: AirPods 1 to 4 ANC, AirPods Pro 1 & 2 Lightning/USB-C, AirPods Max and cases.</span>
+          </p>
         </div>
 
-        <div class="feature-card">
-          <div class="feat-icon" style="background:rgba(255,159,10,0.15); color:var(--apple-orange);">🎛️</div>
-          <h3 class="feat-title">Panneau de Rôles en Libre-Service</h3>
-          <p class="feat-desc">Grâce à <code>/roles</code> et <code>/roles_panel</code>, vos membres choisissent eux-mêmes leurs alertes (iOS, Mac, AirPods...) dans un menu déroulant interactif persistant.</p>
+        <div class="feature-card glass">
+          <div class="feat-icon" style="background:rgba(255,159,10,0.15); color:var(--orange);">🎛️</div>
+          <h3 class="feat-title">
+            <span class="lang" data-lang="fr">Rôles en libre-service</span>
+            <span class="lang" data-lang="en">Self-service alert roles</span>
+          </h3>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Grâce à <code>/roles</code> et <code>/roles_panel</code>, vos membres choisissent eux-mêmes leurs alertes (iOS, Mac, AirPods...) dans un menu déroulant persistant.</span>
+            <span class="lang" data-lang="en">With <code>/roles</code> and <code>/roles_panel</code>, members self-assign their own alerts (iOS, Mac, AirPods...) from a persistent select menu.</span>
+          </p>
         </div>
 
-        <div class="feature-card">
-          <div class="feat-icon" style="background:rgba(191,90,242,0.15); color:var(--apple-purple);">🔮</div>
-          <h3 class="feat-title">Prédiction de Sorties Intelligente</h3>
-          <p class="feat-desc">La commande <code>/prediction</code> analyse la cadence des bêtas et les habitudes d'Apple pour calculer précisément le jour et l'heure de la prochaine version.</p>
+        <div class="feature-card glass">
+          <div class="feat-icon" style="background:rgba(191,90,242,0.15); color:var(--purple);">🔮</div>
+          <h3 class="feat-title">
+            <span class="lang" data-lang="fr">Prédiction de sorties</span>
+            <span class="lang" data-lang="en">Release prediction</span>
+          </h3>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">La commande <code>/prediction</code> analyse la cadence des bêtas et les habitudes d'Apple pour estimer le jour et l'heure de la prochaine version.</span>
+            <span class="lang" data-lang="en">The <code>/prediction</code> command analyzes beta cadence and Apple's habits to estimate the day and time of the next release.</span>
+          </p>
         </div>
 
-        <div class="feature-card">
-          <div class="feat-icon" style="background:rgba(255,69,58,0.15); color:var(--apple-red);">🔏</div>
-          <h3 class="feat-title">Signatures TSS & Liens IPSW</h3>
-          <p class="feat-desc">Alerte automatique dès qu'Apple cesse de signer une ancienne version (downgrade) et ajout de boutons de téléchargement direct IPSW sous chaque notification.</p>
+        <div class="feature-card glass">
+          <div class="feat-icon" style="background:rgba(255,69,58,0.15); color:var(--red);">🔏</div>
+          <h3 class="feat-title">
+            <span class="lang" data-lang="fr">Signatures TSS & liens IPSW</span>
+            <span class="lang" data-lang="en">TSS signing & IPSW links</span>
+          </h3>
+          <p class="feat-desc">
+            <span class="lang" data-lang="fr">Alerte automatique dès qu'Apple cesse de signer une ancienne version, et boutons de téléchargement direct IPSW sous chaque notification.</span>
+            <span class="lang" data-lang="en">Automatic alert whenever Apple stops signing an old version, plus direct IPSW download buttons under every notification.</span>
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- COMMANDS SHOWCASE -->
+    <!-- COMMANDS -->
     <section id="commands" class="section container">
-      <div class="section-badge">
-        <span class="lang inline" data-lang="fr">Commandes Slash</span>
-        <span class="lang inline" data-lang="en">Slash Commands</span>
+      <div class="section-badge-wrap">
+        <div class="section-badge">
+          <span class="lang inline" data-lang="fr">Commandes slash</span>
+          <span class="lang inline" data-lang="en">Slash commands</span>
+        </div>
       </div>
       <h2 class="section-title">
         <span class="lang" data-lang="fr">Des commandes claires, rapides et intuitives</span>
@@ -421,92 +462,90 @@
       </p>
 
       <div class="features-grid" style="margin-top:30px;">
-        <!-- COMMANDE STAR /SETUP -->
-        <div class="feature-card highlight-admin" style="border-top:3px solid var(--apple-orange); grid-column: 1 / -1;">
+        <div class="feature-card glass highlight-admin" style="grid-column: 1 / -1;">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
-            <div style="font-family:var(--font-mono); font-size:20px; font-weight:800; color:var(--apple-orange); margin-bottom:6px;">
-              ⚡ /setup
-            </div>
-            <span class="admin-tag-badge">👑 RECOMMANDÉ • CONFIGURATION EN 1 MINUTE</span>
+            <div style="font-family:var(--font-mono); font-size:20px; font-weight:700; color:var(--orange); margin-bottom:6px;">⚡ /setup</div>
+            <span class="admin-tag-badge">
+              <span class="lang inline" data-lang="fr">👑 Recommandé • configuration en 1 minute</span>
+              <span class="lang inline" data-lang="en">👑 Recommended • 1-minute setup</span>
+            </span>
           </div>
           <p class="feat-desc">
-            <span class="lang" data-lang="fr">
-              L'assistant interactif pas à pas pour configurer AppleCore sur votre serveur en moins de 60 secondes : détection automatique des salons Discord, liaison des rôles d'alertes par OS (iOS, Mac, AirPods...), filtres de versions et envoi d'une alerte de test immédiate.
-            </span>
-            <span class="lang" data-lang="en">
-              The 60-second interactive setup wizard for your Discord community: automated channel selection, targeted alert role binding per OS (iOS, Mac, AirPods...), release filtering, and live test alert verification.
-            </span>
+            <span class="lang" data-lang="fr">L'assistant interactif pas à pas pour configurer AppleCore sur votre serveur en moins de 60 secondes : détection automatique des salons Discord, liaison des rôles d'alertes par OS (iOS, Mac, AirPods...), filtres de versions et envoi d'une alerte de test immédiate.</span>
+            <span class="lang" data-lang="en">The 60-second interactive setup wizard for your Discord community: automated channel selection, targeted alert role binding per OS (iOS, Mac, AirPods...), release filtering, and live test alert verification.</span>
           </p>
         </div>
 
-        <div class="feature-card" style="border-top:3px solid var(--apple-blue);">
-          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-blue-light); margin-bottom:8px;">/info</div>
+        <div class="feature-card glass">
+          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--blue-light); margin-bottom:8px;">/info</div>
           <p class="feat-desc">
-            <span class="lang" data-lang="fr">Affiche la fiche complète d'une version Apple : numéro de build précis, date de sortie, changelog officiel traduit en français et bouton interactif pour la liste des appareils compatibles.</span>
-            <span class="lang" data-lang="en">Displays full release specs: exact build number, release date, verified changelog, and interactive compatible device viewer.</span>
+            <span class="lang" data-lang="fr">Affiche la fiche complète d'une version Apple : numéro de build précis, date de sortie, changelog traduit en français et bouton interactif pour la liste des appareils compatibles.</span>
+            <span class="lang" data-lang="en">Displays full release specs: exact build number, release date, translated changelog, and interactive compatible device viewer.</span>
           </p>
         </div>
 
-        <div class="feature-card" style="border-top:3px solid var(--apple-orange);">
-          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-orange); margin-bottom:8px;">/roles & /roles_panel</div>
+        <div class="feature-card glass">
+          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--orange); margin-bottom:8px;">/roles & /roles_panel</div>
           <p class="feat-desc">
-            <span class="lang" data-lang="fr">Déploie un menu déroulant élégant et persistant dans votre salon Discord pour que chaque membre active ou désactive ses alertes selon ses appareils (iOS, macOS, AirPods...).</span>
-            <span class="lang" data-lang="en">Deploys an interactive, persistent role select menu in Discord so members self-assign alerts for their preferred Apple devices.</span>
+            <span class="lang" data-lang="fr">Déploie un menu déroulant persistant dans votre salon Discord pour que chaque membre active ou désactive ses alertes selon ses appareils.</span>
+            <span class="lang" data-lang="en">Deploys a persistent role select menu in Discord so members self-assign alerts for their preferred Apple devices.</span>
           </p>
         </div>
 
-        <div class="feature-card" style="border-top:3px solid var(--apple-purple);">
-          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-purple); margin-bottom:8px;">/prediction</div>
+        <div class="feature-card glass">
+          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--purple); margin-bottom:8px;">/prediction</div>
           <p class="feat-desc">
-            <span class="lang" data-lang="fr">Analyse la cadence des bêtas et le calendrier historique d'Apple pour calculer la date et l'heure probabiliste de la prochaine mise à jour publique ou RC.</span>
+            <span class="lang" data-lang="fr">Analyse la cadence des bêtas et le calendrier historique d'Apple pour calculer la date et l'heure probable de la prochaine mise à jour.</span>
             <span class="lang" data-lang="en">Analyzes historical release intervals and beta cycles to forecast the probable release date and time of the next update.</span>
           </p>
         </div>
 
-        <div class="feature-card" style="border-top:3px solid var(--apple-green);">
-          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-green); margin-bottom:8px;">/apple_status</div>
+        <div class="feature-card glass">
+          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--green); margin-bottom:8px;">/apple_status</div>
           <p class="feat-desc">
-            <span class="lang" data-lang="fr">Interroge l'état opérationnel des 71 services Apple en temps réel (App Store, iCloud, Apple Music, Notarisation développeur, Find My) pour détecter les pannes en direct.</span>
+            <span class="lang" data-lang="fr">Interroge l'état opérationnel des 71 services Apple en temps réel (App Store, iCloud, Apple Music, Notarisation, Find My) pour détecter les pannes en direct.</span>
             <span class="lang" data-lang="en">Monitors the operational health of all 71 Apple services in real time (App Store, iCloud, Developer Notarization, Find My) with live outage detection.</span>
           </p>
         </div>
 
-        <div class="feature-card" style="border-top:3px solid var(--apple-teal);">
-          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-teal); margin-bottom:8px;">/latest</div>
+        <div class="feature-card glass">
+          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--teal); margin-bottom:8px;">/latest</div>
           <p class="feat-desc">
-            <span class="lang" data-lang="fr">Génère un tableau comparatif instantané des dernières versions stables publiques déployées pour iOS, iPadOS, macOS, watchOS, tvOS, visionOS et AirPods.</span>
+            <span class="lang" data-lang="fr">Génère un tableau comparatif instantané des dernières versions stables déployées pour iOS, iPadOS, macOS, watchOS, tvOS, visionOS et AirPods.</span>
             <span class="lang" data-lang="en">Generates an instant comparative overview of the latest public stable releases deployed across all Apple platforms.</span>
           </p>
         </div>
 
-        <div class="feature-card" style="border-top:3px solid var(--apple-red);">
-          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--apple-red); margin-bottom:8px;">/compat</div>
+        <div class="feature-card glass">
+          <div style="font-family:var(--font-mono); font-size:16px; font-weight:700; color:var(--red); margin-bottom:8px;">/compat</div>
           <p class="feat-desc">
-            <span class="lang" data-lang="fr">Vérifie en une seconde si votre modèle d'iPhone, iPad, Mac ou AirPods supportera la prochaine mise à jour majeure d'Apple et les fonctionnalités d'Apple Intelligence.</span>
+            <span class="lang" data-lang="fr">Vérifie en une seconde si votre modèle d'iPhone, iPad, Mac ou AirPods supportera la prochaine mise à jour majeure et les fonctionnalités d'Apple Intelligence.</span>
             <span class="lang" data-lang="en">Instantly checks whether your specific iPhone, iPad, Mac, or AirPods model will support the next major OS and Apple Intelligence features.</span>
           </p>
         </div>
       </div>
     </section>
 
-    <!-- LIVE APPLE SYSTEM STATUS SECTION -->
-    <section class="section container" style="padding-top:20px; padding-bottom:40px;">
-      <div class="section-badge" style="background:rgba(48,209,88,0.12); color:var(--apple-green); border-color:rgba(48,209,88,0.25);">
-        <span class="pulse-dot"></span>
-        <span class="lang inline" data-lang="fr">Surveillance Infrastructure en Direct</span>
-        <span class="lang inline" data-lang="en">Live Infrastructure Monitoring</span>
+    <!-- APPLE SYSTEM STATUS -->
+    <section class="section container" style="padding-top:16px; padding-bottom:36px;">
+      <div class="section-badge-wrap">
+        <div class="section-badge" style="color:var(--green); background:rgba(50,215,75,0.1); border-color:rgba(50,215,75,0.22);">
+          <span class="pulse-dot"></span>
+          <span class="lang inline" data-lang="fr">Surveillance infrastructure en direct</span>
+          <span class="lang inline" data-lang="en">Live infrastructure monitoring</span>
+        </div>
       </div>
-      <div class="apple-status-widget">
+      <div class="apple-status-widget glass">
         <div class="widget-left">
           <div class="widget-icon">🍏</div>
           <div>
             <div class="widget-title">
               <span class="lang" data-lang="fr">Surveillance Apple System Status en direct</span>
-              <span class="lang" data-lang="en">Live Apple System Status Watch</span>
+              <span class="lang" data-lang="en">Live Apple System Status watch</span>
             </div>
             <div class="widget-subtitle">
-              <span class="lang" data-lang="fr">Interrogation officielle toutes les 60 secondes de l'ensemble de l'infrastructure Apple.</span>
-              <span class="lang" data-lang="en">Official 60-second health check across all 71 Apple server infrastructures.</span>
+              <span class="lang" data-lang="fr">Interrogation régulière de l'ensemble de l'infrastructure Apple.</span>
+              <span class="lang" data-lang="en">Regular health check across Apple's server infrastructure.</span>
             </div>
           </div>
         </div>
@@ -517,86 +556,70 @@
           </div>
           <a href="https://www.apple.com/fr/support/systemstatus/" target="_blank" rel="noopener" class="widget-link">
             <span class="lang inline" data-lang="fr">Page officielle Apple ↗</span>
-            <span class="lang inline" data-lang="en">Official Apple Page ↗</span>
+            <span class="lang inline" data-lang="en">Official Apple page ↗</span>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- FAQ SECTION -->
+    <!-- FAQ -->
     <section class="section container" style="max-width: 860px;">
-      <div class="section-badge">FAQ</div>
+      <div class="section-badge-wrap"><div class="section-badge">FAQ</div></div>
       <h2 class="section-title">
         <span class="lang" data-lang="fr">Questions fréquentes</span>
-        <span class="lang" data-lang="en">Frequently Asked Questions</span>
+        <span class="lang" data-lang="en">Frequently asked questions</span>
       </h2>
 
       <div class="faq-list">
-        <details class="faq-item" open>
+        <details class="faq-item glass" open>
           <summary class="faq-question">
             <span class="lang" data-lang="fr">Comment configurer les alertes sur mon serveur Discord ?</span>
             <span class="lang" data-lang="en">How do I set up alerts on my Discord server?</span>
           </summary>
           <div class="faq-answer">
-            <span class="lang" data-lang="fr">
-              C'est extrêmement simple : tapez la commande <code>/setup</code> pour lancer l'assistant guidé interactif. Vous choisissez le salon d'annonces en un clic, vous attribuez vos rôles par OS (iOS, Mac, AirPods...) et vous validez avec un message de test réel.
-            </span>
-            <span class="lang" data-lang="en">
-              It's extremely simple: type <code>/setup</code> to launch the interactive wizard. Select your announcement channel in 1 click, bind your per-OS alert roles (iOS, Mac, AirPods...), and verify everything with a live test message.
-            </span>
+            <span class="lang" data-lang="fr">C'est extrêmement simple : tapez la commande <code>/setup</code> pour lancer l'assistant guidé interactif. Vous choisissez le salon d'annonces en un clic, vous attribuez vos rôles par OS (iOS, Mac, AirPods...) et vous validez avec un message de test réel.</span>
+            <span class="lang" data-lang="en">It's extremely simple: type <code>/setup</code> to launch the interactive wizard. Select your announcement channel in 1 click, bind your per-OS alert roles (iOS, Mac, AirPods...), and verify everything with a live test message.</span>
           </div>
         </details>
 
-        <details class="faq-item">
+        <details class="faq-item glass">
           <summary class="faq-question">
             <span class="lang" data-lang="fr">Les AirPods sont-ils réellement pris en charge ?</span>
             <span class="lang" data-lang="en">Are AirPods firmwares really supported?</span>
           </summary>
           <div class="faq-answer">
-            <span class="lang" data-lang="fr">
-              Oui ! AppleCore est l'un des très rares bots à intégrer un catalogue complet de plus de 130 versions historiques d'AirPods (AirPods 1 à 4 ANC, Pro, Max). Vous recevez une alerte dès qu'un nouveau firmware est déployé par Apple.
-            </span>
-            <span class="lang" data-lang="en">
-              Yes! AppleCore is one of the rare bots featuring a full historical firmware catalog of over 130 versions for AirPods (AirPods 1 to 4 ANC, Pro, Max). You receive an instant ping whenever Apple pushes a new firmware build.
-            </span>
+            <span class="lang" data-lang="fr">Oui : AppleCore intègre un catalogue historique de plus de 130 versions d'AirPods (AirPods 1 à 4 ANC, Pro, Max). Vous recevez une alerte dès qu'un nouveau firmware est déployé par Apple.</span>
+            <span class="lang" data-lang="en">Yes: AppleCore features a full historical firmware catalog of over 130 versions for AirPods (AirPods 1 to 4 ANC, Pro, Max). You get an instant ping whenever Apple pushes a new firmware build.</span>
           </div>
         </details>
 
-        <details class="faq-item">
+        <details class="faq-item glass">
           <summary class="faq-question">
             <span class="lang" data-lang="fr">D'où viennent les données et à quelle vitesse sortent les alertes ?</span>
             <span class="lang" data-lang="en">Where do the updates come from and how fast are alerts?</span>
           </summary>
           <div class="faq-answer">
-            <span class="lang" data-lang="fr">
-              Le bot interroge en continu l'API officielle de mise à jour Over-The-Air d'Apple (Pallas) et la base AppleDB. Les alertes sont déclenchées en quelques secondes dès qu'un build est signé par Apple.
-            </span>
-            <span class="lang" data-lang="en">
-              The bot polls Apple's official Over-The-Air update API (Pallas) and AppleDB continuously. Alerts fire within split seconds of an official build signature.
-            </span>
+            <span class="lang" data-lang="fr">Le bot interroge en continu l'API officielle de mise à jour Over-The-Air d'Apple (Pallas) et la base AppleDB. Les alertes se déclenchent en quelques secondes dès qu'un build est signé par Apple.</span>
+            <span class="lang" data-lang="en">The bot polls Apple's official Over-The-Air update API (Pallas) and AppleDB continuously. Alerts fire within seconds of an official build signature.</span>
           </div>
         </details>
 
-        <details class="faq-item">
+        <details class="faq-item glass">
           <summary class="faq-question">
             <span class="lang" data-lang="fr">Le bot est-il gratuit ?</span>
             <span class="lang" data-lang="en">Is the bot free to use?</span>
           </summary>
           <div class="faq-answer">
-            <span class="lang" data-lang="fr">
-              Oui, AppleCore est 100% gratuit et libre d'accès pour toutes les communautés Discord souhaitant suivre l'actualité des systèmes Apple.
-            </span>
-            <span class="lang" data-lang="en">
-              Yes, AppleCore is 100% free and open for all Discord communities following Apple software and hardware updates.
-            </span>
+            <span class="lang" data-lang="fr">Oui, AppleCore est 100% gratuit et libre d'accès pour toutes les communautés Discord souhaitant suivre l'actualité des systèmes Apple.</span>
+            <span class="lang" data-lang="en">Yes, AppleCore is 100% free and open for all Discord communities following Apple software and hardware updates.</span>
           </div>
         </details>
       </div>
     </section>
 
-    <!-- BOTTOM CTA BANNER -->
+    <!-- BOTTOM CTA -->
     <section class="container" style="margin-bottom: 90px;">
-      <div class="bottom-cta-card">
+      <div class="bottom-cta-card glass">
         <h2>
           <span class="lang" data-lang="fr">Prêt à équiper votre serveur Discord ?</span>
           <span class="lang" data-lang="en">Ready to power up your Discord server?</span>
@@ -605,12 +628,12 @@
           <span class="lang" data-lang="fr">Rejoignez les communautés qui profitent déjà des alertes Apple les plus rapides et complètes du web.</span>
           <span class="lang" data-lang="en">Join communities enjoying the fastest, most reliable Apple update alerts on Discord.</span>
         </p>
-        <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap; margin-top:28px;">
-          <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:16px; padding:12px 28px;">
+        <div class="bottom-cta-actions">
+          <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" class="btn btn-primary btn-hero">
             <span class="lang inline" data-lang="fr">Ajouter AppleCore à mon serveur</span>
             <span class="lang inline" data-lang="en">Add AppleCore to my server</span>
           </a>
-          <a href="help.html" class="btn btn-secondary" style="font-size:16px; padding:12px 24px;">
+          <a href="help.html" class="btn btn-secondary btn-hero">
             <span class="lang inline" data-lang="fr">Consulter la documentation</span>
             <span class="lang inline" data-lang="en">Browse documentation</span>
           </a>
@@ -625,10 +648,10 @@
       <div class="footer-top">
         <div class="footer-brand">
           <div class="brand">
-            <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="32" height="32" style="border-radius:8px;">
+            <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="32" height="32">
             <span class="brand-name" style="font-size:18px;">AppleCore</span>
           </div>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:8px;">
+          <p>
             <span class="lang" data-lang="fr">Sentinelle en temps réel des micrologiciels et mises à jour Apple pour Discord.</span>
             <span class="lang" data-lang="en">Real-time Apple firmware and software sentinel for Discord.</span>
           </p>
@@ -646,10 +669,7 @@
     </div>
   </footer>
 
-  <!-- TOAST ROOT -->
   <div id="toast-root"></div>
-
-  <!-- SCRIPT JS -->
   <script src="script.js"></script>
 </body>
 </html>
