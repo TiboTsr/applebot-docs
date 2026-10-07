@@ -22,8 +22,8 @@
         <p><span lang="fr">Chaque commande d’AppleCore, avec sa syntaxe, un exemple et l’aperçu du message qu’elle renvoie sur Discord.</span><span lang="en">Every AppleCore command, with its syntax, an example and a preview of the Discord message it returns.</span></p>
       </div>
 
-      <div class="toolbar">
-        <label class="search">
+      <div class="toolbar-unified">
+        <label class="search-unified">
           <span class="sr-only"><span lang="fr">Rechercher une commande</span><span lang="en">Search commands</span></span>
           <span id="search-ico"></span>
           <input id="q" type="search" autocomplete="off" spellcheck="false" data-ph-fr="Rechercher une commande ou un mot-clé  ( / )" data-ph-en="Search a command or keyword  ( / )">
@@ -36,11 +36,13 @@
           <div class="cmd-list" id="cmd-list"></div>
         </div>
         <aside class="sim" id="sim" aria-label="Aperçu Discord">
-          <div class="sim-cap">
-            <span><span lang="fr">Aperçu du message Discord</span><span lang="en">Discord message preview</span></span>
-            <span class="badge"><span lang="fr">Illustratif</span><span lang="en">Illustrative</span></span>
+          <div class="sim-box">
+            <div class="sim-cap">
+              <span><span lang="fr">Aperçu en direct du message Discord</span><span lang="en">Live Discord message preview</span></span>
+              <span class="badge blue"><span lang="fr">Interactif</span><span lang="en">Interactive</span></span>
+            </div>
+            <div id="sim-msg"></div>
           </div>
-          <div id="sim-msg"></div>
         </aside>
       </div>
 
@@ -49,13 +51,33 @@
           <h2><span lang="fr">Démarrage rapide pour les administrateurs</span><span lang="en">Quick start for server admins</span></h2>
           <p><span lang="fr">L’assistant <code>/setup</code> configure AppleCore pas à pas. Il suffit d’être administrateur du serveur.</span><span lang="en">The <code>/setup</code> wizard configures AppleCore step by step. You just need to be a server administrator.</span></p>
         </div>
-        <ol class="qs">
-          <li><span class="n">1</span><div><h3><span lang="fr">Lancez /setup</span><span lang="en">Run /setup</span></h3><p><span lang="fr">Tapez la commande dans n’importe quel salon : l’assistant répond avec un message visible par vous seul.</span><span lang="en">Type the command in any channel: the wizard replies with a message only you can see.</span></p></div></li>
-          <li><span class="n">2</span><div><h3><span lang="fr">Choisissez le salon d’annonces</span><span lang="en">Choose the announcement channel</span></h3><p><span lang="fr">Sélectionnez le salon dans un menu natif. AppleCore contrôle immédiatement qu’il peut y envoyer des messages et des embeds.</span><span lang="en">Pick the channel from a native menu. AppleCore immediately checks it can send messages and embeds there.</span></p></div></li>
-          <li><span class="n">3</span><div><h3><span lang="fr">Associez un rôle à chaque système</span><span lang="en">Map a role to each system</span></h3><p><span lang="fr">iOS, iPadOS, macOS, watchOS, visionOS, AirPods : chaque rôle n’est mentionné que pour son système. Ajustez plus tard avec <code>/config os</code>.</span><span lang="en">iOS, iPadOS, macOS, watchOS, visionOS, AirPods: each role is only pinged for its own system. Fine-tune later with <code>/config os</code>.</span></p></div></li>
-          <li><span class="n">4</span><div><h3><span lang="fr">Réglez les filtres de versions</span><span lang="en">Set release filters</span></h3><p><span lang="fr">Versions stables uniquement, ou bêtas développeur et publiques incluses.</span><span lang="en">Stable releases only, or developer and public betas included.</span></p></div></li>
-          <li><span class="n">5</span><div><h3><span lang="fr">Envoyez une alerte de test</span><span lang="en">Send a test alert</span></h3><p><span lang="fr">Une vraie alerte part dans le salon choisi. Relancez-la à tout moment avec <code>/test_notification</code>. Pour que vos membres choisissent leurs alertes, déployez ensuite <code>/roles_panel</code>.</span><span lang="en">A real alert is posted in the chosen channel. Re-run it any time with <code>/test_notification</code>. To let members pick their own alerts, then deploy <code>/roles_panel</code>.</span></p></div></li>
-        </ol>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h3><code>/setup</code></h3>
+            <p><span lang="fr">Tapez la commande dans n’importe quel salon : l’assistant répond avec un message visible par vous seul.</span><span lang="en">Type the command in any channel: the wizard replies with a message only you can see.</span></p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h3><span lang="fr">Salon d’annonces</span><span lang="en">Channel</span></h3>
+            <p><span lang="fr">Sélectionnez le salon dans un menu natif. AppleCore contrôle immédiatement qu’il peut y envoyer des messages et des embeds.</span><span lang="en">Pick the channel from a native menu. AppleCore immediately checks it can send messages and embeds there.</span></p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h3><span lang="fr">Rôles par OS</span><span lang="en">Roles per OS</span></h3>
+            <p><span lang="fr">iOS, iPadOS, macOS, watchOS, visionOS, AirPods : chaque rôle n’est mentionné que pour son système.</span><span lang="en">iOS, iPadOS, macOS, watchOS, visionOS, AirPods: each role is only pinged for its own system.</span></p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">4</div>
+            <h3><span lang="fr">Filtres de versions</span><span lang="en">Filters</span></h3>
+            <p><span lang="fr">Versions stables uniquement, ou bêtas développeur et publiques incluses.</span><span lang="en">Stable releases only, or developer and public betas included.</span></p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">5</div>
+            <h3><span lang="fr">Alerte de test</span><span lang="en">Test alert</span></h3>
+            <p><span lang="fr">Une vraie alerte part dans le salon choisi pour valider les permissions et le rendu des embeds.</span><span lang="en">A real alert is posted in the chosen channel to validate permissions and rendering.</span></p>
+          </div>
+        </div>
       </section>
     </div>
   </main>

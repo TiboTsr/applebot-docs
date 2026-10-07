@@ -23,23 +23,21 @@
       </div>
 
       <div class="page-body" id="root">
-        <div class="toolbar">
-          <label class="search">
+        <div class="toolbar-unified">
+          <label class="search-unified">
             <span class="sr-only"><span lang="fr">Rechercher une version ou un build</span><span lang="en">Search a version or build</span></span>
-            <span id="search-ico" style="display:contents"></span>
-            <input id="q" type="search" autocomplete="off" spellcheck="false" data-ph-fr="Version ou build  ( / )" data-ph-en="Version or build  ( / )">
+            <span id="search-ico"></span>
+            <input id="q" type="search" autocomplete="off" spellcheck="false" data-ph-fr="Version ou build (ex: 22B83, 18.3)" data-ph-en="Version or build (e.g. 22B83, 18.3)">
           </label>
           <label class="switch"><input type="checkbox" id="signed"><span class="track"></span><span><span lang="fr">Signées uniquement</span><span lang="en">Signed only</span></span></label>
-          <button class="btn btn-ghost btn-sm" type="button" id="reload" style="margin-left:auto"></button>
+          <button class="btn btn-ghost btn-sm" type="button" id="reload"></button>
         </div>
-        <div class="toolbar" style="margin-top:-4px">
+        <div class="toolbar-unified" style="margin-top:-12px;justify-content:space-between">
           <div class="chips" id="os-chips" role="group" aria-label="Système"></div>
-        </div>
-        <div class="toolbar">
           <div class="chips" id="type-chips" role="group" aria-label="Type de release"></div>
         </div>
 
-        <p class="result-count" id="count" aria-live="polite"></p>
+        <p class="result-count" id="count" aria-live="polite" style="margin: 16px 0 12px;"></p>
         <div class="rel-list" id="list">
           <div class="sk sk-row"></div><div class="sk sk-row"></div><div class="sk sk-row"></div><div class="sk sk-row"></div><div class="sk sk-row"></div><div class="sk sk-row"></div>
         </div>

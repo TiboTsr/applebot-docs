@@ -25,12 +25,15 @@
       <div class="page-body stack" id="root">
         <div>
           <!-- Indicateur global -->
-          <div class="global" id="global" data-state="load" role="status">
-            <i class="dot"></i>
-            <div>
-              <h2><span class="sk sk-line" style="display:block;width:280px;height:28px"></span></h2>
-              <p id="global-sub"></p>
+          <div class="global-banner" id="global" data-state="load" role="status">
+            <div class="global-left">
+              <i class="dot"></i>
+              <div>
+                <h2><span class="sk sk-line" style="display:block;width:280px;height:28px"></span></h2>
+                <p id="global-sub"></p>
+              </div>
             </div>
+            <div class="badge green" id="auto-refresh-pill"><i class="dot ok"></i><span lang="fr">Télémétrie active · 15s</span><span lang="en">Live telemetry · 15s</span></div>
           </div>
 
           <!-- Composants -->
@@ -60,29 +63,29 @@
         </div>
 
         <!-- Latence -->
-        <section class="panel">
-          <h3><span lang="fr">Latence de la passerelle</span><span lang="en">Gateway latency</span></h3>
-          <p class="sub" id="chart-note"></p>
+        <section class="chart-panel">
+          <h3><span lang="fr">Historique de latence de la passerelle Discord</span><span lang="en">Discord gateway latency history</span></h3>
+          <p class="sub" id="chart-note" style="color:var(--text-2);font-size:14px;margin-top:4px"></p>
           <div class="chart-box"><canvas id="lat" aria-label="Historique de latence" role="img"></canvas></div>
         </section>
 
         <!-- Services Apple -->
-        <section>
-          <div class="section-head" style="margin-bottom:24px">
-            <h2 style="font-size:clamp(1.6rem,3vw,2.2rem)"><span lang="fr">Services Apple</span><span lang="en">Apple services</span></h2>
-            <p id="svc-summary" style="font-size:17px"></p>
+        <section style="margin-top:32px">
+          <div class="section-head" style="margin-bottom:20px">
+            <h2 style="font-size:clamp(1.6rem,3vw,2.2rem)"><span lang="fr">Statut des 71 Services Apple</span><span lang="en">71 Apple Services Status</span></h2>
+            <p id="svc-summary" style="font-size:16px"></p>
           </div>
-          <div class="svc-tools">
-            <label class="search" style="max-width:320px">
+          <div class="toolbar-unified">
+            <label class="search-unified" style="max-width:360px">
               <span class="sr-only"><span lang="fr">Filtrer les services</span><span lang="en">Filter services</span></span>
-              <span id="search-ico" style="display:contents"></span>
-              <input id="sq" type="search" autocomplete="off" data-ph-fr="Filtrer les services" data-ph-en="Filter services">
+              <span id="search-ico"></span>
+              <input id="sq" type="search" autocomplete="off" data-ph-fr="Filtrer les 71 services Apple" data-ph-en="Filter the 71 Apple services">
             </label>
             <div class="chips" id="svc-filter" role="group" aria-label="Filtre">
               <button class="chip" type="button" data-f="all" aria-pressed="true"><span lang="fr">Tous</span><span lang="en">All</span></button>
               <button class="chip" type="button" data-f="issues" aria-pressed="false"><span lang="fr">Incidents</span><span lang="en">Issues</span></button>
             </div>
-            <a class="btn btn-ghost btn-sm" id="apple-link" target="_blank" rel="noopener"><span lang="fr">Page officielle Apple</span><span lang="en">Official Apple page</span></a>
+            <a class="btn btn-ghost btn-sm" id="apple-link" target="_blank" rel="noopener" style="margin-left:auto"><span lang="fr">Page officielle Apple</span><span lang="en">Official Apple page</span></a>
           </div>
           <div class="svc-grid" id="svc-grid"></div>
         </section>

@@ -23,20 +23,20 @@
       </div>
 
       <div class="page-body" id="root">
-        <div class="toolbar">
-          <label class="search">
+        <div class="toolbar-unified">
+          <label class="search-unified">
             <span class="sr-only"><span lang="fr">Rechercher un appareil</span><span lang="en">Search a device</span></span>
-            <span id="search-ico" style="display:contents"></span>
-            <input id="q" type="search" autocomplete="off" spellcheck="false" data-ph-fr="Un modèle ou une puce  ( / )" data-ph-en="A model or a chip  ( / )">
+            <span id="search-ico"></span>
+            <input id="q" type="search" autocomplete="off" spellcheck="false" data-ph-fr="Rechercher un modèle ou une puce (ex: iPhone 16 Pro, M4)" data-ph-en="Search a model or chip (e.g. iPhone 16 Pro, M4)">
           </label>
           <label class="switch"><input type="checkbox" id="f-ai"><span class="track"></span><span><span lang="fr">Compatibles Apple Intelligence</span><span lang="en">Apple Intelligence ready</span></span></label>
           <label class="switch"><input type="checkbox" id="f-old"><span class="track"></span><span><span lang="fr">Vintage et obsolètes</span><span lang="en">Vintage and obsolete</span></span></label>
         </div>
-        <div class="toolbar">
+        <div class="toolbar-unified" style="margin-top:-12px">
           <div class="chips" id="cats" role="group" aria-label="Catégorie"></div>
         </div>
 
-        <p class="result-count" id="count" aria-live="polite"></p>
+        <p class="result-count" id="count" aria-live="polite" style="margin: 16px 0 12px;"></p>
         <div class="dev-grid" id="grid"></div>
       </div>
     </div>
@@ -96,9 +96,18 @@
       $('#grid').innerHTML = list.length ? list.map(d => {
         const v = AC.vintageOf(d.released);
         return `<button class="dev" type="button" data-id="${esc(d.id)}">
-          <span class="os-ico" data-os="${CAT_OS[d.cat] || 'iOS'}">${icon(AC.CAT_ICON[d.cat] || 'iphone', 22)}</span>
-          <span><h3>${esc(d.name)}</h3><span class="soc">${esc(d.soc)}</span></span>
-          <span class="dev-badges">${aiBadge(d)}${vBadge(v?.key)}</span></button>`;
+          <div class="dev-top">
+            <span class="os-ico" data-os="${CAT_OS[d.cat] || 'iOS'}">${icon(AC.CAT_ICON[d.cat] || 'iphone', 22)}</span>
+            ${d.ai ? `<span class="badge purple">${icon('sparkle', 12)}Apple Intelligence</span>` : ''}
+          </div>
+          <h3>${esc(d.name)}</h3>
+          <span class="soc">${esc(d.soc)} · ${esc(AC.fmtRam(d.ram))}</span>
+          <div class="dev-specs">
+            <span>${esc(d.arch)}</span>
+            <span>·</span>
+            <span>${esc(fmtDate(d.released, { year: 'numeric' }))}</span>
+          </div>
+          <span class="dev-badges">${vBadge(v?.key)}</span></button>`;
       }).join('') : `<div class="empty" style="grid-column:1/-1"><h3>${bi('Aucun appareil ne correspond.', 'No device matches.')}</h3><p>${bi('Retirez un filtre ou essayez un autre nom de modèle.', 'Remove a filter or try another model name.')}</p><button class="btn btn-ghost btn-sm" type="button" data-reset>${bi('Réinitialiser les filtres', 'Reset filters')}</button></div>`;
     }
 
