@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="utf-8">
+  <title>AppleCore — Répertoire & Spécifications Matériel Apple</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explorez les fiches techniques, SoC, puces, compatibilité Apple Intelligence et cycles de vie logiciels de tout l'écosystème Apple.">
+  <meta name="theme-color" content="#090a0f">
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Apple_logo_grey.svg/500px-Apple_logo_grey.svg.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(18, 20, 29, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(26, 30, 44, 0.9);
+
+      --text: #f4f4f6;
+      --text-muted: #9494a6;
+      --text-subtle: #5d5d70;
+
+      --apple-blue: #0071e3;
+      --apple-green: #30d158;
+      --apple-amber: #ffd60a;
+      --apple-orange: #ff9f0a;
+      --apple-purple: #bf5af2;
+      --apple-red: #ff453a;
+      --apple-indigo: #5e5ce6;
+      --apple-cyan: #00e5ff;
+
+      --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, sans-serif;
+      --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      background-image:
+        radial-gradient(circle at 10% -10%, rgba(0, 113, 227, 0.14) 0%, transparent 45%),
+        radial-gradient(circle at 90% 15%, rgba(191, 90, 242, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 50% 95%, rgba(48, 209, 88, 0.08) 0%, transparent 50%);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ─── NAVIGATION UNIFIÉE ─── */
+    nav {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9, 10, 15, 0.85);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 17px;
+    }
+    .brand-svg {
+      color: var(--text);
+      display: flex;
+      align-items: center;
+    }
+    .brand-pill {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .nav-link:hover { color: var(--text); background: rgba(255, 255, 255, 0.04); }
+    .nav-link.active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      font-weight: 600;
+    }
+    .btn-invite {
+      background: var(--apple-blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-invite:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ─── EN-TÊTE PAGE & KPIS ─── */
+    .page-header {
+      margin: 40px 0 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .page-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      max-width: 720px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px;
+      backdrop-filter: blur(12px);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .kpi-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .kpi-title {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .kpi-icon {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+    .kpi-value {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .kpi-sub {
+      font-size: 12px;
+      color: var(--text-subtle);
+      margin-top: 4px;
+    }
+
+    /* ─── FILTRES & CONTRÔLES ─── */
+    .controls-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(12px);
+    }
+
+    .search-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .search-container {
+      position: relative;
+      flex: 1;
+      min-width: 260px;
+    }
+    .search-input {
+      width: 100%;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 0 40px 0 38px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-input:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .search-clear {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-subtle);
+      cursor: pointer;
+      font-size: 16px;
+      display: none;
+    }
+    .search-clear:hover { color: var(--text); }
+
+    .select-dropdown {
+      height: 42px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 0 14px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .select-dropdown:focus {
+      border-color: var(--apple-blue);
+    }
+    .select-dropdown option {
+      background: #141722;
+      color: #fff;
+    }
+
+    /* Familles d'appareils (onglets puces) */
+    .family-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .family-tab {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .family-tab:hover {
+      background: rgba(255, 255, 255, 0.09);
+      color: var(--text);
+    }
+    .family-tab.active {
+      background: var(--apple-blue);
+      color: #fff;
+      border-color: var(--apple-blue);
+      font-weight: 600;
+      box-shadow: 0 2px 10px rgba(0, 113, 227, 0.3);
+    }
+
+    /* Filtres secondaires (Apple Intelligence) */
+    .filter-pills-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .ai-filters {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .ai-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-right: 4px;
+    }
+    .ai-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ai-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+    }
+    .ai-btn.active {
+      background: linear-gradient(135deg, rgba(191, 90, 242, 0.25), rgba(0, 113, 227, 0.25));
+      border-color: var(--apple-purple);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .results-count {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ─── GRILLE D'APPAREILS ─── */
+    .devices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+
+    .device-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .device-card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      background: var(--card-hover);
+    }
+
+    .device-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .device-type-badge {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+      border: 1px solid var(--card-border);
+    }
+    .device-release-date {
+      font-size: 12px;
+      color: var(--text-subtle);
+      font-weight: 500;
+    }
+
+    .device-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .badge-ai {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, rgba(191, 90, 242, 0.2), rgba(0, 113, 227, 0.2));
+      border: 1px solid rgba(191, 90, 242, 0.4);
+      color: #e5b3ff;
+    }
+    .badge-no-ai {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-subtle);
+      border: 1px solid var(--card-border);
+    }
+    .badge-soc {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(48, 209, 88, 0.12);
+      border: 1px solid rgba(48, 209, 88, 0.25);
+      color: var(--apple-green);
+      font-family: var(--font-mono);
+    }
+    .badge-ram {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(0, 229, 255, 0.1);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      color: var(--apple-cyan);
+    }
+
+    /* Cycle de vie OS */
+    .os-lifecycle-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-size: 12px;
+    }
+    .os-lifecycle-label {
+      color: var(--text-subtle);
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .os-lifecycle-flow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .os-lifecycle-arrow {
+      color: var(--text-subtle);
+      font-size: 11px;
+    }
+    .os-tag-first { color: var(--apple-blue); }
+    .os-tag-latest { color: var(--apple-green); }
+
+    /* Nuancier de couleurs */
+    .colors-preview {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+      min-height: 20px;
+    }
+    .color-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      transition: transform 0.15s;
+    }
+    .color-dot:hover {
+      transform: scale(1.3);
+      border-color: #fff;
+    }
+    .color-more {
+      font-size: 11px;
+      color: var(--text-subtle);
+      margin-left: 2px;
+    }
+
+    /* Carte footer */
+    .device-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 12px;
+      color: var(--text-subtle);
+    }
+    .device-model-code {
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+    .device-view-btn {
+      color: var(--apple-blue);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+    }
+
+    /* ─── PAGINATION ─── */
+    .pagination-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 20px 0 60px;
+      padding: 16px 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+    }
+    .pagination-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-page {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-page:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .btn-page:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* ─── MODAL DÉTAILS MATÉRIEL ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-window {
+      background: #12141d;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+    .modal-top-accent {
+      height: 4px;
+      background: linear-gradient(90deg, #0071e3, #bf5af2, #30d158);
+    }
+    .modal-header {
+      padding: 24px 24px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: none;
+      color: var(--text-muted);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .modal-close-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text);
+    }
+    .modal-body {
+      padding: 20px 24px 24px;
+    }
+
+    .modal-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .modal-spec-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .modal-spec-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-subtle);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    .modal-spec-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: var(--font-mono);
+      word-break: break-word;
+    }
+
+    .section-headline {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 18px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ai-diag-card {
+      background: rgba(191, 90, 242, 0.06);
+      border: 1px solid rgba(191, 90, 242, 0.25);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+    .ai-diag-card.no-compat {
+      background: rgba(255, 255, 255, 0.02);
+      border-color: var(--card-border);
+    }
+
+    .colors-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .color-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .color-detail-swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      flex-shrink: 0;
+    }
+    .color-detail-text {
+      font-size: 12px;
+      line-height: 1.2;
+    }
+    .color-detail-hex {
+      font-size: 10px;
+      color: var(--text-subtle);
+      font-family: var(--font-mono);
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+    .tech-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .btn-modal-primary {
+      flex: 1;
+      background: var(--apple-blue);
+      color: #fff;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+      text-decoration: none;
+    }
+    .btn-modal-primary:hover { opacity: 0.9; }
+
+    .btn-modal-secondary {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+      padding: 11px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-modal-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+
+    /* Loading / Spinner */
+    .loading-state, .empty-state {
+      padding: 80px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      grid-column: 1 / -1;
+    }
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--card-border);
+      border-top-color: var(--apple-blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 14px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 36px 0;
+      margin-top: 60px;
+      color: var(--text-subtle);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-link:hover { color: var(--text); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .modal-specs-grid { grid-template-columns: 1fr; }
+      .filter-pills-row { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+  <script src="config.js"></script>
+</head>
+<body>
+
+  <!-- NAVIGATION UNIFIÉE -->
+  <nav>
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+      <a href="index.html" class="brand">
+        <span class="brand-svg">
+          <svg viewBox="0 0 170 170" width="20" height="20" fill="currentColor">
+            <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.58-7.7-11.64-13.99-5.99-9.35-10.66-20.08-14.01-32.18-3.36-12.11-5.04-23.23-5.04-33.37 0-14.28 3.53-26.04 10.59-35.3 7.06-9.26 16.03-13.97 26.92-14.13 5.48 0 11.45 1.45 17.91 4.35 6.46 2.9 10.59 4.41 12.38 4.53 1.62-.12 6.06-1.74 13.33-4.87 7.27-3.13 13.43-4.47 18.49-4.02 13.84 1.03 24.63 6.36 32.36 15.99-12.27 7.42-18.29 17.51-18.06 30.27.24 9.94 4.09 18.23 11.55 24.87 7.46 6.64 16.36 10.36 26.7 11.16-2.58 8.01-5.69 15.69-9.33 23.05zM119.22 31.84c0-7.39 2.67-14.26 8.01-20.61 5.34-6.35 12.06-10.49 20.16-12.43.23 1.25.35 2.37.35 3.36 0 7.39-2.84 14.47-8.52 21.23-5.68 6.77-12.48 10.74-20.4 11.91-.56-1.12-.84-2.28-.84-3.46z"/>
+          </svg>
+        </span>
+        <span>AppleCore</span>
+        <span class="brand-pill">Matériel</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <span>Statut</span>
+        </a>
+        <a href="devices.html" class="nav-link active">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg>
+          <span>Appareils</span>
+        </a>
+        <a href="releases.html" class="nav-link">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Firmwares Apple</span>
+        </a>
+        <a href="analytics_dashboard.html" class="nav-link">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg>
+          <span>Statistiques</span>
+        </a>
+        <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&scope=bot%20applications.commands&permissions=277025508416" target="_blank" class="btn-invite">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+          <span>Ajouter à Discord</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- EN-TÊTE PAGE -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">
+          <span>Catalogue & Spécifications Matériel Apple</span>
+        </h1>
+        <p class="page-subtitle">
+          Explorez les fiches techniques, SoC, puces Apple Silicon, compatibilités Apple Intelligence, coloris et cycles de vie logiciels de tout l'écosystème Apple.
+        </p>
+      </div>
+    </div>
+
+    <!-- KPIS EN TÊTE -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Appareils Répertoriés</span>
+          <span class="kpi-icon">📱</span>
+        </div>
+        <div class="kpi-value" id="kpiTotal">...</div>
+        <div class="kpi-sub">Catalogue officiel & unifié</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Apple Intelligence</span>
+          <span class="kpi-icon">🧠</span>
+        </div>
+        <div class="kpi-value" id="kpiAi" style="color: var(--apple-purple);">...</div>
+        <div class="kpi-sub">8 Go+ RAM & NPU moderne</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Puces Apple Silicon</span>
+          <span class="kpi-icon">⚡</span>
+        </div>
+        <div class="kpi-value" id="kpiSilicon" style="color: var(--apple-green);">...</div>
+        <div class="kpi-sub">SoC séries A & M</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Familles Apple</span>
+          <span class="kpi-icon">🍏</span>
+        </div>
+        <div class="kpi-value">6</div>
+        <div class="kpi-sub">iPhone, Mac, iPad, Watch, Audio</div>
+      </div>
+    </div>
+
+    <!-- CONTRÔLES & RECHERCHE -->
+    <div class="controls-panel">
+      <!-- Ligne recherche + tri -->
+      <div class="search-row">
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom (ex: iPhone 16 Pro), modèle (A3101), puce (A18, M4), board..." autocomplete="off">
+          <button id="searchClear" class="search-clear" onclick="clearSearch()">&times;</button>
+        </div>
+
+        <select id="sortSelect" class="select-dropdown" onchange="onSortChange()">
+          <option value="released_desc">Plus récents d'abord</option>
+          <option value="released_asc">Plus anciens d'abord</option>
+          <option value="name_asc">Nom commercial (A-Z)</option>
+          <option value="name_desc">Nom commercial (Z-A)</option>
+        </select>
+      </div>
+
+      <!-- Onglets familles -->
+      <div class="family-tabs" id="familyTabs">
+        <button class="family-tab active" data-family="all">🌐 Tous</button>
+        <button class="family-tab" data-family="iphone">📱 iPhone</button>
+        <button class="family-tab" data-family="mac">💻 Mac</button>
+        <button class="family-tab" data-family="ipad">📟 iPad</button>
+        <button class="family-tab" data-family="watch">⌚ Watch</button>
+        <button class="family-tab" data-family="audio_tv">🎧 Audio & TV</button>
+        <button class="family-tab" data-family="accessories">🏷️ Accessoires</button>
+      </div>
+
+      <!-- Filtres secondaires (Apple Intelligence) -->
+      <div class="filter-pills-row">
+        <div class="ai-filters">
+          <span class="ai-label">Apple Intelligence :</span>
+          <button class="ai-btn active" data-ai="all" onclick="setAiFilter('all')">Tous</button>
+          <button class="ai-btn" data-ai="yes" onclick="setAiFilter('yes')">🧠 Compatible</button>
+          <button class="ai-btn" data-ai="no" onclick="setAiFilter('no')">❌ Non éligible</button>
+        </div>
+
+        <div class="results-count" id="resultsCount">Chargement des appareils...</div>
+      </div>
+    </div>
+
+    <!-- GRILLE D'APPAREILS -->
+    <div class="devices-grid" id="devicesGrid">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        Chargement des caractéristiques du catalogue Apple...
+      </div>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination-bar" id="paginationBar">
+      <div id="pagStatus" style="font-size: 13px; color: var(--text-muted);">Affichage...</div>
+      <div class="pagination-btns">
+        <button class="btn-page" id="btnPrev" onclick="changePage(-1)">← Précédent</button>
+        <button class="btn-page" id="btnNext" onclick="changePage(1)">Suivant →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL DÉTAILS APPAREIL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+    <div class="modal-window">
+      <div class="modal-top-accent"></div>
+      <div class="modal-header">
+        <div>
+          <div id="modalTypeBadge" class="device-type-badge" style="margin-bottom: 6px; display: inline-block;">iPhone</div>
+          <h2 id="modalDeviceTitle" style="font-size: 22px; font-weight: 800; letter-spacing: -0.3px;">iPhone 16 Pro</h2>
+          <div id="modalReleaseDate" style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">Sorti le 20 septembre 2024</div>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal()">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Spécifications Clés -->
+        <div class="modal-specs-grid">
+          <div class="modal-spec-box">
+            <div class="modal-spec-label">Puce (SoC) & Architecture</div>
+            <div class="modal-spec-val" id="modalSoc">A18 Pro • arm64e</div>
+          </div>
+          <div class="modal-spec-box">
+            <div class="modal-spec-label">Identifiants Techniques</div>
+            <div class="modal-spec-val" id="modalIdentifiers">iPhone17,1</div>
+          </div>
+          <div class="modal-spec-box">
+            <div class="modal-spec-label">Numéros de Modèles Axxxx</div>
+            <div class="modal-spec-val" id="modalModels">A3083, A3292...</div>
+          </div>
+          <div class="modal-spec-box">
+            <div class="modal-spec-label">Cartes Mères (Boards) & CPID</div>
+            <div class="modal-spec-val" id="modalBoards">D93AP • 0x8140</div>
+          </div>
+        </div>
+
+        <!-- Diagnostic Apple Intelligence -->
+        <div class="section-headline">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-6h2zm0-8h-2V7h2z"/></svg>
+          <span>Éligibilité Apple Intelligence</span>
+        </div>
+        <div class="ai-diag-card" id="modalAiBox">
+          <div id="modalAiStatus" style="font-weight: 700; font-size: 14px; margin-bottom: 6px;">Pris en charge ✅</div>
+          <div id="modalAiDetails" style="font-size: 13px; color: var(--text-muted);">
+            Cet appareil dispose d'une puce moderne et d'au minimum 8 Go de mémoire unifiée pour exécuter les modèles d'intelligence embarquée Apple.
+          </div>
+        </div>
+
+        <!-- Cycle de Vie Logiciel (Première et dernière version d'OS) -->
+        <div class="section-headline">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Cycle de Vie Logiciel & Support OS</span>
+        </div>
+        <div class="modal-specs-grid" id="modalOsGrid">
+          <div class="modal-spec-box">
+            <div class="modal-spec-label">Version Initiale (Lancement)</div>
+            <div class="modal-spec-val" id="modalFirstOs" style="color: var(--apple-blue);">iOS 18.0</div>
+            <div id="modalFirstDate" style="font-size: 11px; color: var(--text-subtle); margin-top: 2px;">2024-09-09</div>
+          </div>
+          <div class="modal-spec-box">
+            <div class="modal-spec-label">Dernière Version Supportée</div>
+            <div class="modal-spec-val" id="modalLatestOs" style="color: var(--apple-green);">iOS 27.0.1</div>
+            <div id="modalLatestDate" style="font-size: 11px; color: var(--text-subtle); margin-top: 2px;">2026-09-28</div>
+          </div>
+        </div>
+
+        <!-- Nuancier & Finitions -->
+        <div class="section-headline">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"/></svg>
+          <span>Finitions & Coloris Disponibles</span>
+        </div>
+        <div class="colors-detail-grid" id="modalColorsGrid"></div>
+
+        <!-- Firmwares Récents compatibles -->
+        <div class="section-headline">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Firmwares Récents Compatibles</span>
+        </div>
+        <div id="modalFirmwaresList" class="tags-container" style="max-height: 120px; overflow-y: auto;"></div>
+
+        <!-- Actions -->
+        <div class="modal-actions">
+          <button class="btn-modal-secondary" id="btnCopyDetails" onclick="copyDeviceDetails()">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            <span id="btnCopyText">Copier la fiche</span>
+          </button>
+          <a class="btn-modal-primary" id="btnAppleDb" href="#" target="_blank">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span>Fiche AppleDB</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container" style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <div>AppleCore • Répertoire et catalogue matériel indépendant des produits Apple</div>
+      <div class="footer-links">
+        <a href="index.html" class="footer-link">Statut</a>
+        <a href="devices.html" class="footer-link">Appareils</a>
+        <a href="releases.html" class="footer-link">Firmwares</a>
+        <a href="analytics_dashboard.html" class="footer-link">Statistiques</a>
+        <a href="https://github.com/TiboTsr/AppleBot" target="_blank" class="footer-link">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let currentFamily = 'all';
+    let currentAi = 'all';
+    let currentSort = 'released_desc';
+    let currentSearch = '';
+    let offset = 0;
+    const limit = 48;
+    let totalDevices = 0;
+    let searchTimeout = null;
+    let currentModalDevice = null;
+
+    // Initialisation via paramètres URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('search') || urlParams.has('q')) {
+      currentSearch = urlParams.get('search') || urlParams.get('q');
+      document.getElementById('searchInput').value = currentSearch;
+      document.getElementById('searchClear').style.display = 'block';
+    }
+    if (urlParams.has('family')) {
+      currentFamily = urlParams.get('family');
+      document.querySelectorAll('.family-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.family === currentFamily);
+      });
+    }
+    if (urlParams.has('ai')) {
+      currentAi = urlParams.get('ai');
+      document.querySelectorAll('.ai-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.ai === currentAi);
+      });
+    }
+
+    // Gestion de la saisie avec debounce
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      currentSearch = e.target.value.trim();
+      document.getElementById('searchClear').style.display = currentSearch ? 'block' : 'none';
+      searchTimeout = setTimeout(() => {
+        offset = 0;
+        updateUrlParams();
+        loadDevices();
+      }, 250);
+    });
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      currentSearch = '';
+      document.getElementById('searchClear').style.display = 'none';
+      offset = 0;
+      updateUrlParams();
+      loadDevices();
+    }
+
+    // Onglets familles
+    document.querySelectorAll('.family-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.family-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFamily = tab.dataset.family;
+        offset = 0;
+        updateUrlParams();
+        loadDevices();
+      });
+    });
+
+    function setAiFilter(val) {
+      currentAi = val;
+      document.querySelectorAll('.ai-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.ai === val);
+      });
+      offset = 0;
+      updateUrlParams();
+      loadDevices();
+    }
+
+    function onSortChange() {
+      currentSort = document.getElementById('sortSelect').value;
+      offset = 0;
+      loadDevices();
+    }
+
+    function updateUrlParams() {
+      const p = new URLSearchParams();
+      if (currentSearch) p.set('search', currentSearch);
+      if (currentFamily !== 'all') p.set('family', currentFamily);
+      if (currentAi !== 'all') p.set('ai', currentAi);
+      const newUrl = window.location.pathname + (p.toString() ? '?' + p.toString() : '');
+      window.history.replaceState({}, '', newUrl);
+    }
+
+    async function loadDevices() {
+      const grid = document.getElementById('devicesGrid');
+      grid.innerHTML = `
+        <div class="loading-state">
+          <div class="spinner"></div>
+          Recherche des caractéristiques matérielles Apple...
+        </div>
+      `;
+
+      try {
+        const queryParams = new URLSearchParams({
+          family: currentFamily,
+          ai: currentAi,
+          sort: currentSort,
+          limit: limit,
+          offset: offset,
+        });
+        if (currentSearch) queryParams.set('search', currentSearch);
+
+        const resp = await fetch(`${(window.API_BASE || '')}/api/devices?${queryParams.toString()}`);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+
+        // Mettre à jour KPIs globaux
+        if (data.total_catalog) {
+          document.getElementById('kpiTotal').textContent = data.total_catalog.toLocaleString('fr-FR');
+          document.getElementById('kpiAi').textContent = data.ai_compatible_count.toLocaleString('fr-FR');
+          document.getElementById('kpiSilicon').textContent = data.apple_silicon_count.toLocaleString('fr-FR');
+        }
+
+        totalDevices = data.total || 0;
+        document.getElementById('resultsCount').textContent =
+          `${totalDevices.toLocaleString('fr-FR')} appareil${totalDevices > 1 ? 's trouvés' : ' trouvé'}`;
+
+        renderDevices(data.devices || []);
+        updatePagination();
+
+        // Si recherche exacte avec 1 seul résultat depuis URL, ouvrir modal
+        if (urlParams.has('open') && data.devices && data.devices.length === 1) {
+          openModal(data.devices[0]);
+        }
+      } catch (err) {
+        grid.innerHTML = `
+          <div class="empty-state" style="color: var(--apple-red);">
+            ❌ Erreur de chargement du catalogue : ${err.message}
+          </div>
+        `;
+      }
+    }
+
+    function renderDevices(devices) {
+      const grid = document.getElementById('devicesGrid');
+      if (devices.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 12px; color: var(--text-subtle);"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div style="font-weight: 600; font-size: 15px; margin-bottom: 6px;">Aucun appareil trouvé</div>
+            <div style="color: var(--text-subtle); font-size: 13px;">Essayez d'ajuster votre recherche ou de modifier les filtres appliqués.</div>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = devices.map(dev => {
+        const aiBadge = dev.ai_compatible
+          ? `<span class="badge-ai">🧠 Apple Intelligence ✅</span>`
+          : `<span class="badge-no-ai">Non compatible</span>`;
+
+        const socBadge = dev.soc
+          ? `<span class="badge-soc">⚡ ${dev.soc}</span>`
+          : '';
+
+        const ramVal = (dev.ai_info && dev.ai_info.ram) || '';
+        const ramBadge = ramVal ? `<span class="badge-ram">🧠 ${ramVal}</span>` : '';
+
+        // Pastilles de couleurs
+        let colorsHtml = '';
+        if (Array.isArray(dev.colors) && dev.colors.length > 0) {
+          const maxDots = 6;
+          const dots = dev.colors.slice(0, maxDots).map(c => {
+            const hex = c.hex || '#666';
+            const name = c.name || '';
+            return `<span class="color-dot" style="background: ${hex};" title="${name} (${hex})"></span>`;
+          }).join('');
+          const more = dev.colors.length > maxDots ? `<span class="color-more">+${dev.colors.length - maxDots}</span>` : '';
+          colorsHtml = `<div class="colors-preview">${dots}${more}</div>`;
+        } else {
+          colorsHtml = `<div class="colors-preview"><span style="font-size: 11px; color: var(--text-subtle);">Finitions standard</span></div>`;
+        }
+
+        // Support OS
+        let osHtml = '';
+        if (dev.os_support && (dev.os_support.first_os || dev.os_support.latest_os)) {
+          osHtml = `
+            <div class="os-lifecycle-box">
+              <div class="os-lifecycle-label">
+                <span>Cycle de vie OS</span>
+                <span>${dev.os_support.latest_date ? dev.os_support.latest_date.slice(0, 4) : ''}</span>
+              </div>
+              <div class="os-lifecycle-flow">
+                <span class="os-tag-first">${dev.os_support.first_os || 'Lancement'}</span>
+                <span class="os-lifecycle-arrow">➔</span>
+                <span class="os-tag-latest">${dev.os_support.latest_os || 'Dernier'}</span>
+              </div>
+            </div>
+          `;
+        }
+
+        const modelStr = Array.isArray(dev.model) && dev.model.length > 0 ? dev.model.slice(0, 2).join(', ') : (dev.identifier && dev.identifier[0]) || '';
+
+        return `
+          <div class="device-card" onclick='openModalByName("${encodeURIComponent(dev.name)}")'>
+            <div>
+              <div class="device-card-header">
+                <span class="device-type-badge">${dev.type || 'Apple'}</span>
+                <span class="device-release-date">${dev.released_formatted || dev.released || '—'}</span>
+              </div>
+              <h3 class="device-title">${dev.name}</h3>
+              <div class="badges-row">
+                ${aiBadge}
+                ${socBadge}
+                ${ramBadge}
+              </div>
+              ${osHtml}
+              ${colorsHtml}
+            </div>
+            <div class="device-card-footer">
+              <span class="device-model-code">${modelStr}</span>
+              <span class="device-view-btn">
+                Fiche complète
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updatePagination() {
+      const totalPages = Math.max(1, Math.ceil(totalDevices / limit));
+      const start = totalDevices > 0 ? offset + 1 : 0;
+      const end = Math.min(offset + limit, totalDevices);
+
+      document.getElementById('pagStatus').textContent =
+        `Affichage de ${start} à ${end} sur ${totalDevices.toLocaleString('fr-FR')} appareils`;
+
+      document.getElementById('btnPrev').disabled = offset <= 0;
+      document.getElementById('btnNext').disabled = offset + limit >= totalDevices;
+    }
+
+    function changePage(direction) {
+      const newOffset = offset + (direction * limit);
+      if (newOffset < 0 || newOffset >= totalDevices) return;
+      offset = newOffset;
+      loadDevices();
+      window.scrollTo({ top: 300, behavior: 'smooth' });
+    }
+
+    // Modal
+    async function openModalByName(encodedName) {
+      const devName = decodeURIComponent(encodedName);
+      try {
+        const resp = await fetch(`${(window.API_BASE || '')}/api/devices/${encodeURIComponent(devName)}`);
+        if (!resp.ok) throw new Error('Appareil introuvable');
+        const dev = await resp.json();
+        openModal(dev);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function openModal(dev) {
+      currentModalDevice = dev;
+
+      document.getElementById('modalTypeBadge').textContent = dev.type || 'Apple';
+      document.getElementById('modalDeviceTitle').textContent = dev.name;
+      document.getElementById('modalReleaseDate').textContent = dev.released_formatted ? `Commercialisé le ${dev.released_formatted}` : (dev.released ? `Sorti le ${dev.released}` : 'Date de commercialisation non spécifiée');
+
+      // Specs
+      document.getElementById('modalSoc').textContent = `${dev.soc || 'Non spécifié'} ${dev.arch ? '• ' + dev.arch : ''}`;
+      document.getElementById('modalIdentifiers').textContent = Array.isArray(dev.identifier) && dev.identifier.length > 0 ? dev.identifier.join(', ') : '—';
+      document.getElementById('modalModels').textContent = Array.isArray(dev.model) && dev.model.length > 0 ? dev.model.join(', ') : '—';
+      document.getElementById('modalBoards').textContent = `${Array.isArray(dev.board) && dev.board.length > 0 ? dev.board.join(', ') : '—'} ${dev.cpid ? '• CPID: ' + dev.cpid : ''}`;
+
+      // Apple Intelligence
+      const aiBox = document.getElementById('modalAiBox');
+      const aiStatus = document.getElementById('modalAiStatus');
+      const aiDetails = document.getElementById('modalAiDetails');
+
+      if (dev.ai_compatible) {
+        aiBox.className = 'ai-diag-card';
+        aiStatus.innerHTML = '<span style="color: #e5b3ff;">🧠 Pris en charge par Apple Intelligence</span>';
+        aiDetails.innerHTML = `Cet appareil est compatible avec Apple Intelligence (${dev.ai_info && dev.ai_info.ram ? dev.ai_info.ram + ' RAM' : '8 Go+'} et puce ${dev.soc || 'Apple Silicon'}). Il prend en charge la rédaction contextuelle, Genmoji, Siri augmenté et le traitement sur appareil.`;
+      } else {
+        aiBox.className = 'ai-diag-card no-compat';
+        aiStatus.innerHTML = '<span style="color: var(--text-muted);">❌ Non éligible à Apple Intelligence</span>';
+        aiDetails.innerHTML = "Apple Intelligence requiert au minimum un iPhone 15 Pro, iPhone 16 ou tout Mac / iPad équipé d'une puce Apple Silicon série M avec au moins 8 Go de mémoire vive unifiée.";
+      }
+
+      // OS Support
+      const osSup = dev.os_support;
+      if (osSup && (osSup.first_os || osSup.latest_os)) {
+        document.getElementById('modalOsGrid').style.display = 'grid';
+        document.getElementById('modalFirstOs').textContent = osSup.first_os || 'Lancement';
+        document.getElementById('modalFirstDate').textContent = osSup.first_date ? `Publié le ${osSup.first_date}` : '';
+        document.getElementById('modalLatestOs').textContent = osSup.latest_os || 'Dernier supporté';
+        document.getElementById('modalLatestDate').textContent = osSup.latest_date ? `Publié le ${osSup.latest_date}` : '';
+      } else {
+        document.getElementById('modalOsGrid').style.display = 'none';
+      }
+
+      // Nuancier
+      const colorsGrid = document.getElementById('modalColorsGrid');
+      if (Array.isArray(dev.colors) && dev.colors.length > 0) {
+        colorsGrid.innerHTML = dev.colors.map(c => `
+          <div class="color-detail-item">
+            <span class="color-detail-swatch" style="background: ${c.hex || '#666'};"></span>
+            <div class="color-detail-text">
+              <div style="font-weight: 600;">${c.name}</div>
+              <div class="color-detail-hex">${c.hex || ''}</div>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        colorsGrid.innerHTML = '<div style="font-size: 12px; color: var(--text-subtle);">Finitions et coloris standard Apple.</div>';
+      }
+
+      // Firmwares récents
+      const fwList = document.getElementById('modalFirmwaresList');
+      if (Array.isArray(dev.recent_firmwares) && dev.recent_firmwares.length > 0) {
+        fwList.innerHTML = dev.recent_firmwares.map(f => `
+          <a href="releases.html?search=${encodeURIComponent(f.version)}" target="_blank" class="tech-tag" style="text-decoration: none; color: var(--apple-blue);" title="Voir la mise à jour ${f.os} ${f.version}">
+            ${f.os} ${f.version} (${f.build})
+          </a>
+        `).join('');
+      } else {
+        fwList.innerHTML = `
+          <a href="releases.html" class="tech-tag" style="text-decoration: none; color: var(--apple-blue);">
+            Explorer tous les firmwares compatibles sur le portail ➔
+          </a>
+        `;
+      }
+
+      // AppleDB Button
+      const btnAppleDb = document.getElementById('btnAppleDb');
+      if (dev.appledb_url) {
+        btnAppleDb.style.display = 'inline-flex';
+        btnAppleDb.href = dev.appledb_url;
+      } else {
+        btnAppleDb.style.display = 'none';
+      }
+
+      document.getElementById('modalOverlay').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+      currentModalDevice = null;
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modalOverlay')) {
+        closeModal();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function copyDeviceDetails() {
+      if (!currentModalDevice) return;
+      const d = currentModalDevice;
+      const txt = `${d.name} (${d.type}) — SoC: ${d.soc || 'N/A'} | Identifiant: ${d.identifier && d.identifier[0] ? d.identifier[0] : 'N/A'} | Apple Intelligence: ${d.ai_compatible ? 'Oui' : 'Non'}`;
+      navigator.clipboard.writeText(txt).then(() => {
+        const btnText = document.getElementById('btnCopyText');
+        btnText.textContent = 'Fiche copiée !';
+        setTimeout(() => { btnText.textContent = 'Copier la fiche'; }, 2000);
+      });
+    }
+
+    // Lancer chargement initial
+    loadDevices();
+  </script>
+</body>
+</html>
