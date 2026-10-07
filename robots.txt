@@ -8,6 +8,6 @@ Allow: /
 Disallow:  /CNAME
 
 # Sitemap
-Sitemap: https://applebot.tibotsr.dev/sitemap.xml
+Sitemap: https://applecore.tibotsr.dev/sitemap.xml
 
 Crawl-delay: 1

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const DOMAIN = 'https://applebot.tibotsr.dev';
+const DOMAIN = 'https://applecore.tibotsr.dev';
 const OUTPUT_FILE = 'sitemap.xml';
 
 // Pages à inclure avec leurs priorités et fréquences de mise à jour
