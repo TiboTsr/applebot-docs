@@ -29,7 +29,7 @@
   if (qs.has('api')) { qs.get('api') === 'default' ? store.del('ac_api') : store.set('ac_api', qs.get('api')); }
   const isLocal = ['localhost', '127.0.0.1', '[::1]', ''].includes(location.hostname);
   window.API_BASE = String(
-    window.API_BASE || store.get('ac_api') || (isLocal ? 'http://localhost:8080' : 'https://api.applecore.tibotsr.dev')
+    window.API_BASE || store.get('ac_api') || (isLocal ? 'http://localhost:8080' : 'https://api-applecore.tibotsr.dev')
   ).replace(/\/+$/, '');
 
   /* ---------------------------------------------------------------- Helpers */
