@@ -1,1285 +1,149 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr" data-lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>AppleCore — Répertoire des Firmwares & Mises à Jour Apple</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Explorez l'historique complet des firmwares, versions stables, bêtas développeur et release candidates Apple en temps réel.">
-  <meta name="theme-color" content="#090a0f">
-
-  <style>
-    :root {
-      --bg: #090a0f;
-      --card-bg: rgba(18, 20, 29, 0.75);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --card-hover: rgba(25, 28, 40, 0.85);
-
-      --text: #f4f4f6;
-      --text-muted: #9494a6;
-      --text-subtle: #5d5d70;
-
-      --apple-blue: #0071e3;
-      --apple-green: #30d158;
-      --apple-amber: #ffd60a;
-      --apple-orange: #ff9f0a;
-      --apple-purple: #bf5af2;
-      --apple-red: #ff453a;
-      --apple-indigo: #5e5ce6;
-      --apple-coral: #ff375f;
-
-      --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-      --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--font-main);
-      background-color: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.5;
-      background-image:
-        radial-gradient(circle at 15% -10%, rgba(48, 209, 88, 0.12) 0%, transparent 45%),
-        radial-gradient(circle at 85% 20%, rgba(0, 113, 227, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 50% 90%, rgba(191, 90, 242, 0.08) 0%, transparent 50%);
-    }
-
-    .container {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* ─── NAVIGATION ─── */
-    nav {
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--card-border);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(9, 10, 15, 0.8);
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 17px;
-    }
-    .brand-svg {
-      color: var(--text);
-      display: flex;
-      align-items: center;
-    }
-    .brand-pill {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 3px 8px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-muted);
-      border: 1px solid var(--card-border);
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .nav-link:hover, .nav-link.active { color: var(--text); }
-    .btn-invite {
-      background: var(--apple-blue);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-invite:hover { opacity: 0.9; transform: translateY(-1px); }
-
-    /* ─── EN-TÊTE PAGE ─── */
-    .page-header {
-      margin: 40px 0 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .page-title {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .page-subtitle {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
-    /* ─── DERNIÈRES SORTIES PAR OS (HERO CARDS) ─── */
-    .section-title {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-subtle);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .featured-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 14px;
-      margin-bottom: 36px;
-    }
-    .feat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 18px;
-      backdrop-filter: blur(12px);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s, border-color 0.2s, background 0.2s;
-    }
-    .feat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--os-color, var(--apple-blue));
-    }
-    .feat-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.16);
-      background: var(--card-hover);
-    }
-    .feat-os-tag {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--os-color, var(--apple-blue));
-      margin-bottom: 6px;
-    }
-    .feat-version {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      color: var(--text);
-      line-height: 1.2;
-      margin-bottom: 6px;
-    }
-    .feat-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      font-size: 11px;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-    }
-
-    /* ─── BARRE DE FILTRES ET RECHERCHE ─── */
-    .filter-panel {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 18px 20px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(12px);
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .filter-row-top {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-    .search-box {
-      flex: 1;
-      min-width: 240px;
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-    .search-icon {
-      position: absolute;
-      left: 12px;
-      color: var(--text-subtle);
-      pointer-events: none;
-      display: flex;
-    }
-    .search-input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 10px 14px 10px 38px;
-      color: var(--text);
-      font-size: 13px;
-      outline: none;
-      transition: border-color 0.2s, background 0.2s;
-      font-family: var(--font-main);
-    }
-    .search-input:focus {
-      border-color: var(--apple-blue);
-      background: rgba(255, 255, 255, 0.06);
-    }
-    .search-input::placeholder { color: var(--text-subtle); }
-
-    .dropdown-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .custom-select {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 9px 12px;
-      color: var(--text);
-      font-size: 12px;
-      font-weight: 500;
-      outline: none;
-      cursor: pointer;
-      font-family: var(--font-main);
-    }
-    .custom-select:focus {
-      border-color: var(--apple-blue);
-    }
-    .custom-select option {
-      background: #161822;
-      color: var(--text);
-    }
-
-    /* Puces OS */
-    .os-tabs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-    }
-    .os-tab {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      color: var(--text-muted);
-      border-radius: 8px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-    .os-tab:hover {
-      color: var(--text);
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-    .os-tab.active {
-      background: var(--os-tab-color, var(--apple-blue));
-      color: #fff;
-      border-color: transparent;
-    }
-
-    /* ─── TABLEAU DES RELEASES ─── */
-    .table-box {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      overflow: hidden;
-      backdrop-filter: blur(12px);
-      margin-bottom: 24px;
-    }
-    .releases-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .releases-table th {
-      text-align: left;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: var(--text-subtle);
-      padding: 14px 18px;
-      background: rgba(255, 255, 255, 0.02);
-      border-bottom: 1px solid var(--card-border);
-    }
-    .releases-table td {
-      padding: 14px 18px;
-      font-size: 13px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      vertical-align: middle;
-    }
-    .releases-table tbody tr {
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .releases-table tbody tr:hover {
-      background: rgba(255, 255, 255, 0.04);
-    }
-    .releases-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    .td-os {
-      font-weight: 700;
-      color: var(--os-row-color, var(--text));
-      font-size: 12px;
-      letter-spacing: 0.3px;
-      white-space: nowrap;
-    }
-    .td-version {
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text);
-    }
-    .td-build {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .td-date {
-      color: var(--text-muted);
-      font-size: 12px;
-      white-space: nowrap;
-    }
-
-    /* ─── BADGES AUDIENCE ─── */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 3px 9px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
-    .badge-stable {
-      background: rgba(48, 209, 88, 0.12);
-      color: var(--apple-green);
-      border: 1px solid rgba(48, 209, 88, 0.25);
-    }
-    .badge-stable .badge-dot { background: var(--apple-green); }
-
-    .badge-beta {
-      background: rgba(255, 214, 10, 0.12);
-      color: var(--apple-amber);
-      border: 1px solid rgba(255, 214, 10, 0.25);
-    }
-    .badge-beta .badge-dot { background: var(--apple-amber); }
-
-    .badge-pub-beta {
-      background: rgba(0, 113, 227, 0.12);
-      color: #38bdf8;
-      border: 1px solid rgba(56, 189, 248, 0.25);
-    }
-    .badge-pub-beta .badge-dot { background: #38bdf8; }
-
-    .badge-rc {
-      background: rgba(94, 92, 230, 0.15);
-      color: #a78bfa;
-      border: 1px solid rgba(167, 139, 250, 0.25);
-    }
-    .badge-rc .badge-dot { background: #a78bfa; }
-
-    .badge-security {
-      background: rgba(191, 90, 242, 0.12);
-      color: var(--apple-purple);
-      border: 1px solid rgba(191, 90, 242, 0.25);
-    }
-    .badge-security .badge-dot { background: var(--apple-purple); }
-
-    /* ─── PAGINATION ─── */
-    .pagination-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 20px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    .pag-buttons {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-pag {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
-      color: var(--text);
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-    .btn-pag:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-    .btn-pag:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
-
-    /* ─── MODAL DÉTAILS DE LA RELEASE ─── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal-window {
-      background: #12141d;
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      width: 100%;
-      max-width: 620px;
-      max-height: 85vh;
-      overflow-y: auto;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
-      position: relative;
-    }
-    .modal-top-accent {
-      height: 4px;
-      background: var(--modal-accent, var(--apple-blue));
-    }
-    .modal-header {
-      padding: 24px 24px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      border-bottom: 1px solid var(--card-border);
-    }
-    .modal-close-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: none;
-      color: var(--text-muted);
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .modal-close-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--text);
-    }
-    .modal-body {
-      padding: 20px 24px 24px;
-    }
-    .modal-grid-specs {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    .spec-item {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 12px;
-    }
-    .spec-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-subtle);
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .spec-value {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-      font-family: var(--font-mono);
-    }
-
-    .device-group-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin: 16px 0 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .device-tags-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      max-height: 180px;
-      overflow-y: auto;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-    }
-    .device-chip {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .device-chip:hover {
-      background: rgba(0, 113, 227, 0.15);
-      border-color: var(--apple-blue);
-      color: #fff;
-      transform: translateY(-1px);
-    }
-    .changelog-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin: 16px 0 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .changelog-box {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
-      padding: 14px 16px;
-      max-height: 200px;
-      overflow-y: auto;
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--text);
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 22px;
-    }
-    .btn-action-primary {
-      flex: 1;
-      background: var(--apple-blue);
-      color: #fff;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: opacity 0.2s;
-      text-decoration: none;
-    }
-    .btn-action-primary:hover { opacity: 0.9; }
-
-    .btn-action-secondary {
-      flex: 1;
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text);
-      border: 1px solid var(--card-border);
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: background 0.2s;
-    }
-    .btn-action-secondary:hover { background: rgba(255, 255, 255, 0.1); }
-
-    /* ─── FOOTER ─── */
-    footer {
-      border-top: 1px solid var(--card-border);
-      padding: 36px 0;
-      margin-top: 60px;
-      color: var(--text-subtle);
-      font-size: 13px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .footer-links {
-      display: flex;
-      gap: 20px;
-    }
-    .footer-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-link:hover { color: var(--text); }
-
-    .loading-state, .empty-state {
-      padding: 60px 20px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-    .spinner {
-      width: 24px;
-      height: 24px;
-      border: 2px solid var(--card-border);
-      border-top-color: var(--apple-blue);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 12px;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .featured-grid { grid-template-columns: repeat(2, 1fr); }
-      .releases-table th:nth-child(4), .releases-table td:nth-child(4),
-      .releases-table th:nth-child(5), .releases-table td:nth-child(5) {
-        display: none;
-      }
-      .modal-grid-specs { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 480px) {
-      .featured-grid { grid-template-columns: 1fr; }
-    }
-  </style>
-  <script src="config.js"></script>
+  <script>try{var l=localStorage.getItem('ac_lang')}catch(e){}document.documentElement.dataset.lang=l||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en')</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title data-fr="Firmwares Apple — AppleCore" data-en="Apple firmwares — AppleCore">Firmwares Apple — AppleCore</title>
+  <meta name="description" content="Les dernières versions iOS, iPadOS, macOS, watchOS, visionOS et AirPods détectées par AppleCore : builds, type de release, signature et liens de téléchargement.">
+  <meta name="theme-color" content="#000000">
+  <link rel="canonical" href="https://applecore.tibotsr.dev/releases.html">
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <a class="skip" href="#main"><span lang="fr">Aller au contenu</span><span lang="en">Skip to content</span></a>
+  <header id="site-header"></header>
 
-  <!-- NAVIGATION -->
-  <nav>
-    <div class="container" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-      <a href="index.html" class="brand">
-        <span class="brand-svg">
-          <svg viewBox="0 0 170 170" width="20" height="20" fill="currentColor">
-            <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.58-7.7-11.64-13.99-5.99-9.35-10.66-20.08-14.01-32.18-3.36-12.11-5.04-23.23-5.04-33.37 0-14.28 3.53-26.04 10.59-35.3 7.06-9.26 16.03-13.97 26.92-14.13 5.48 0 11.45 1.45 17.91 4.35 6.46 2.9 10.59 4.41 12.38 4.53 1.62-.12 6.06-1.74 13.33-4.87 7.27-3.13 13.43-4.47 18.49-4.02 13.84 1.03 24.63 6.36 32.36 15.99-12.27 7.42-18.29 17.51-18.06 30.27.24 9.94 4.09 18.23 11.55 24.87 7.46 6.64 16.36 10.36 26.7 11.16-2.58 8.01-5.69 15.69-9.33 23.05zM119.22 31.84c0-7.39 2.67-14.26 8.01-20.61 5.34-6.35 12.06-10.49 20.16-12.43.23 1.25.35 2.37.35 3.36 0 7.39-2.84 14.47-8.52 21.23-5.68 6.77-12.48 10.74-20.4 11.91-.56-1.12-.84-2.28-.84-3.46z"/>
-          </svg>
-        </span>
-        <span>AppleCore</span>
-        <span class="brand-pill">Firmwares</span>
-      </a>
-      <div class="nav-links">
-        <a href="index.html" class="nav-link">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          <span>Statut</span>
-        </a>
-        <a href="devices.html" class="nav-link">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg>
-          <span>Appareils</span>
-        </a>
-        <a href="releases.html" class="nav-link active">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          <span>Firmwares Apple</span>
-        </a>
-        <a href="analytics_dashboard.html" class="nav-link">
-          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg>
-          <span>Statistiques</span>
-        </a>
-        <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&scope=bot%20applications.commands&permissions=277025508416" target="_blank" class="btn-invite">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-          <span>Ajouter à Discord</span>
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <div class="container">
-
-    <!-- EN-TÊTE PAGE -->
-    <div class="page-header">
-      <div>
-        <h1 class="page-title">
-          <span>Firmwares & Mises à Jour Apple</span>
-        </h1>
-        <div class="page-subtitle">Répertoire officiel synchronisé avec les serveurs Apple Pallas OTA et AppleDB.</div>
-      </div>
-    </div>
-
-    <!-- DERNIÈRES VERSIONS PAR GAMME (HERO) -->
-    <div class="section-title">
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      <span>Dernières Versions par Système</span>
-    </div>
-    <div class="featured-grid" id="featuredGrid">
-      <div class="loading-state" style="grid-column: 1 / -1;">
-        <div class="spinner"></div>
-        Chargement des dernières versions Apple...
-      </div>
-    </div>
-
-    <!-- RECHERCHE ET FILTRES -->
-    <div class="section-title">
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
-      <span>Explorer Tous les Firmwares</span>
-    </div>
-
-    <div class="filter-panel">
-      <div class="filter-row-top">
-        <div class="search-box">
-          <span class="search-icon">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/></svg>
-          </span>
-          <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par version, build, appareil..." autocomplete="off">
-        </div>
-
-        <div class="dropdown-group">
-          <select id="audienceSelect" class="custom-select" onchange="applyFilters()">
-            <option value="">Toutes les audiences</option>
-            <option value="stable">Stables Uniquement</option>
-            <option value="beta">Bêtas Développeur</option>
-            <option value="public_beta">Bêtas Publiques</option>
-            <option value="rc">Release Candidates (RC)</option>
-            <option value="security">Mises à Jour de Sécurité</option>
-          </select>
-
-          <select id="daysSelect" class="custom-select" onchange="reloadReleases()">
-            <option value="30">30 derniers jours</option>
-            <option value="90" selected>90 derniers jours</option>
-            <option value="365">1 an</option>
-            <option value="0">Tout l'historique</option>
-          </select>
-
-          <select id="sortSelect" class="custom-select" onchange="applyFilters()">
-            <option value="date-desc">Plus récents d'abord</option>
-            <option value="date-asc">Plus anciens d'abord</option>
-            <option value="version">Par numéro de version</option>
-            <option value="os">Par système (OS)</option>
-          </select>
-        </div>
+  <main id="main">
+    <div class="wrap">
+      <div class="page-head">
+        <h1><span lang="fr">Firmwares Apple</span><span lang="en">Apple firmwares</span></h1>
+        <p><span lang="fr">Les dernières versions détectées par AppleCore. Cherchez un numéro de version ou un build, comme <code>22B83</code>.</span><span lang="en">The latest builds detected by AppleCore. Search by version number or build, like <code>22B83</code>.</span></p>
       </div>
 
-      <!-- Puces OS -->
-      <div class="os-tabs" id="osTabs">
-        <button class="os-tab active" data-os="" style="--os-tab-color: var(--apple-blue);">Tous les systèmes</button>
-        <button class="os-tab" data-os="iOS" style="--os-tab-color: #30d158;">iOS</button>
-        <button class="os-tab" data-os="iPadOS" style="--os-tab-color: #0071e3;">iPadOS</button>
-        <button class="os-tab" data-os="macOS" style="--os-tab-color: #bf5af2;">macOS</button>
-        <button class="os-tab" data-os="watchOS" style="--os-tab-color: #ff375f;">watchOS</button>
-        <button class="os-tab" data-os="tvOS" style="--os-tab-color: #ffd60a;">tvOS</button>
-        <button class="os-tab" data-os="audioOS" style="--os-tab-color: #ff9f0a;">audioOS</button>
-        <button class="os-tab" data-os="visionOS" style="--os-tab-color: #5e5ce6;">visionOS</button>
-      </div>
-    </div>
-
-    <!-- TABLEAU DE RÉSULTATS -->
-    <div class="table-box">
-      <table class="releases-table">
-        <thead>
-          <tr>
-            <th>Système</th>
-            <th>Version</th>
-            <th>Build ID</th>
-            <th>Audience</th>
-            <th>Date de Sortie</th>
-            <th>Appareils</th>
-          </tr>
-        </thead>
-        <tbody id="releasesTbody">
-          <tr>
-            <td colspan="6" class="loading-state">
-              <div class="spinner"></div>
-              Récupération des firmwares en cours...
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- BARRE DE PAGINATION -->
-    <div class="pagination-bar">
-      <div id="pagStatus">Chargement...</div>
-      <div class="pag-buttons">
-        <button class="btn-pag" id="btnPrev" onclick="changePage(-1)" disabled>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          Précédent
-        </button>
-        <button class="btn-pag" id="btnNext" onclick="changePage(1)" disabled>
-          Suivant
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- MODAL DÉTAILS -->
-  <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
-    <div class="modal-window" id="modalWindow">
-      <div class="modal-top-accent" id="modalAccent"></div>
-      <div class="modal-header">
-        <div>
-          <div id="modalOsTag" style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px;"></div>
-          <h2 id="modalVersionTitle" style="font-size: 26px; font-weight: 800; letter-spacing: -0.5px;"></h2>
+      <div class="page-body" id="root">
+        <div class="toolbar">
+          <label class="search">
+            <span class="sr-only"><span lang="fr">Rechercher une version ou un build</span><span lang="en">Search a version or build</span></span>
+            <span id="search-ico" style="display:contents"></span>
+            <input id="q" type="search" autocomplete="off" spellcheck="false" data-ph-fr="Version ou build  ( / )" data-ph-en="Version or build  ( / )">
+          </label>
+          <label class="switch"><input type="checkbox" id="signed"><span class="track"></span><span><span lang="fr">Signées uniquement</span><span lang="en">Signed only</span></span></label>
+          <button class="btn btn-ghost btn-sm" type="button" id="reload" style="margin-left:auto"></button>
         </div>
-        <button class="modal-close-btn" onclick="closeModal()">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-grid-specs">
-          <div class="spec-item">
-            <div class="spec-label">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>
-              Build ID
-            </div>
-            <div class="spec-value" id="modalBuild">--</div>
-          </div>
-          <div class="spec-item">
-            <div class="spec-label">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-              Date de publication
-            </div>
-            <div class="spec-value" id="modalDate" style="font-family: var(--font-main); font-size: 13px;">--</div>
-          </div>
-          <div class="spec-item" style="grid-column: 1 / -1;">
-            <div class="spec-label">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              Canal & Audience
-            </div>
-            <div id="modalBadgeContainer" style="margin-top: 4px;"></div>
-          </div>
+        <div class="toolbar" style="margin-top:-4px">
+          <div class="chips" id="os-chips" role="group" aria-label="Système"></div>
+        </div>
+        <div class="toolbar">
+          <div class="chips" id="type-chips" role="group" aria-label="Type de release"></div>
         </div>
 
-        <div class="device-group-title">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg>
-          <span id="modalDeviceCount">Appareils compatibles</span>
+        <p class="result-count" id="count" aria-live="polite"></p>
+        <div class="rel-list" id="list">
+          <div class="sk sk-row"></div><div class="sk sk-row"></div><div class="sk sk-row"></div><div class="sk sk-row"></div><div class="sk sk-row"></div><div class="sk sk-row"></div>
         </div>
-        <div class="device-tags-container" id="modalDeviceTags"></div>
-
-        <div class="changelog-title">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            <span>Notes de Version Officielles (Apple)</span>
-          </div>
-          <span id="modalChangelogBadge" style="font-size: 11px; color: var(--apple-blue); text-transform: none; font-weight: normal;"></span>
-        </div>
-        <div class="changelog-box" id="modalChangelogBox">
-          <div id="modalChangelogText" style="color: var(--text-muted);">Recherche des notes officielles...</div>
-        </div>
-
-        <div class="modal-actions">
-          <button class="btn-action-secondary" id="btnCopyDetails" onclick="copyModalDetails()">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-            <span id="btnCopyText">Copier les détails</span>
-          </button>
-          <a class="btn-action-primary" id="btnDownloadIpsw" href="#" target="_blank" style="display: none;">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-            <span>Télécharger l'IPSW</span>
-          </a>
+        <div style="text-align:center;margin-top:24px" id="more-wrap" hidden>
+          <button class="btn btn-ghost" type="button" id="more"><span lang="fr">Charger plus de sorties</span><span lang="en">Load more releases</span></button>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container" style="display: flex; justify-content: space-between; width: 100%; align-items: center; flex-wrap: wrap; gap: 16px;">
-      <div>AppleCore • Répertoire public et indépendant des firmwares Apple</div>
-      <div class="footer-links">
-        <a href="index.html" class="footer-link">Statut</a>
-        <a href="devices.html" class="footer-link">Appareils</a>
-        <a href="releases.html" class="footer-link">Firmwares</a>
-        <a href="analytics_dashboard.html" class="footer-link">Statistiques</a>
-        <a href="https://github.com/TiboTsr/AppleBot" target="_blank" class="footer-link">GitHub</a>
-      </div>
-    </div>
-  </footer>
+  <footer id="site-footer"></footer>
 
+  <script src="config.js"></script>
   <script>
-    const OS_CONFIG = {
-      'ios':      { name: 'iOS',      color: '#30d158' },
-      'ipados':   { name: 'iPadOS',   color: '#0071e3' },
-      'macos':    { name: 'macOS',    color: '#bf5af2' },
-      'watchos':  { name: 'watchOS',  color: '#ff375f' },
-      'tvos':     { name: 'tvOS',     color: '#ffd60a' },
-      'audioos':  { name: 'audioOS',  color: '#ff9f0a' },
-      'visionos': { name: 'visionOS', color: '#5e5ce6' }
-    };
+  AC.ready(() => {
+    const { $, $$, t, bi, esc, icon, fmtDate, relTime } = AC;
+    AC.mountChrome('releases');
+    $('#search-ico').innerHTML = icon('search', 18);
+    $('#reload').innerHTML = icon('refresh', 15) + bi('Actualiser', 'Refresh');
 
-    function getOsColor(osName) {
-      const key = (osName || '').toLowerCase().replace(/\s/g, '');
-      return (OS_CONFIG[key] && OS_CONFIG[key].color) || '#9494a6';
+    const params = new URLSearchParams(location.search);
+    const f = { q: params.get('q') || '', os: AC.OS_LIST.includes(params.get('os')) ? params.get('os') : 'all', type: 'all', signed: false };
+    $('#q').value = f.q;
+
+    let all = [], page = 1, more = false, live = true, loading = false;
+
+    const slug = r => (['iOS', 'iPadOS', 'macOS', 'watchOS', 'tvOS', 'visionOS'].includes(r.os) ? r.os : null);
+    const keyOf = r => `${r.os}|${r.version}|${r.build}`;
+    const norm = s => String(s).toLowerCase().replace(/\s+/g, '');
+
+    function filtered() {
+      const q = norm(f.q);
+      return all
+        .filter(r => (f.os === 'all' || r.os === f.os)
+          && (f.type === 'all' || r.type === f.type)
+          && (!f.signed || r.signed === true)
+          && (!q || norm(`${r.os}${r.version}${r.build}`).includes(q)))
+        .sort((a, b) => (+new Date(b.date) || 0) - (+new Date(a.date) || 0));
     }
 
-    function getAudienceBadge(audienceStr) {
-      const aud = (audienceStr || '').toLowerCase();
-      if (aud.includes('security')) {
-        return `<span class="badge badge-security"><span class="badge-dot"></span>Sécurité</span>`;
-      }
-      if (aud.includes('public beta')) {
-        return `<span class="badge badge-pub-beta"><span class="badge-dot"></span>Bêta Publique</span>`;
-      }
-      if (aud.includes('beta') || aud.includes('seed')) {
-        return `<span class="badge badge-beta"><span class="badge-dot"></span>Bêta Dev</span>`;
-      }
-      if (aud.includes('rc') || aud.includes('candidate')) {
-        return `<span class="badge badge-rc"><span class="badge-dot"></span>Release Candidate</span>`;
-      }
-      return `<span class="badge badge-stable"><span class="badge-dot"></span>Stable</span>`;
+    function renderChips() {
+      const osPresent = AC.OS_LIST.filter(o => all.some(r => r.os === o));
+      $('#os-chips').innerHTML = [['all', 'Tous les systèmes', 'All systems', null], ...osPresent.map(o => [o, o, o, o])]
+        .map(([k, fr, en, o]) => `<button type="button" class="chip" data-os="${esc(k)}" aria-pressed="${f.os === k}">${o ? icon(AC.OS_ICON[o], 15) : ''}${bi(esc(fr), esc(en))}</button>`).join('');
+      $('#type-chips').innerHTML = [['all', 'Tous les types', 'All types'], ...Object.entries(AC.TYPES).map(([k, m]) => [k, m.fr, m.en])]
+        .map(([k, fr, en]) => `<button type="button" class="chip" data-type="${k}" aria-pressed="${f.type === k}">${bi(fr, en)}</button>`).join('');
     }
 
-    function formatDate(dStr) {
-      if (!dStr) return '—';
-      try {
-        const d = new Date(dStr);
-        if (isNaN(d)) return dStr;
-        return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
-      } catch (_) { return dStr; }
+    function row(r) {
+      const sl = slug(r);
+      const dbUrl = sl && r.build ? `https://appledb.dev/firmware/${sl}/${encodeURIComponent(r.build)}.html` : AC.LINKS.appledb;
+      const signed = r.os === 'AirPods' || r.signed === undefined ? ''
+        : r.signed ? `<span class="badge green">${icon('check', 12)}${bi('Signée', 'Signed')}</span>`
+          : `<span class="badge red">${icon('x', 12)}${bi('Non signée', 'Unsigned')}</span>`;
+      return `<article class="rel">
+        <div class="rel-main">${AC.osIcon(r.os)}<div><div class="rel-title">${esc(r.os)} ${esc(r.version)}</div><div class="rel-build">${esc(r.build) || '—'}</div></div></div>
+        <div class="rel-badges">${AC.typeBadge(r.type)}${signed}${r.sample ? `<span class="badge">${bi('Exemple', 'Sample')}</span>` : ''}</div>
+        <div class="rel-date">${fmtDate(r.date)}<small>${esc(relTime(r.date))}</small></div>
+        <div class="rel-actions">
+          ${r.url ? `<a class="btn btn-ghost btn-sm" href="${esc(r.url)}" target="_blank" rel="noopener">${icon('download', 15)}IPSW</a>` : ''}
+          <a class="btn btn-ghost btn-sm" href="${esc(dbUrl)}" target="_blank" rel="noopener">AppleDB${icon('external', 13)}</a>
+        </div></article>`;
     }
 
-    let allReleases = [];
-    let displayedReleases = [];
-    let totalReleases = 0;
-    let offset = 0;
-    let limit = 100;
-    let currentOS = '';
-    let currentModalRelease = null;
-
-    async function loadReleases() {
-      const days = document.getElementById('daysSelect').value;
-      const params = new URLSearchParams({ limit, offset, days });
-      if (currentOS) params.set('os', currentOS);
-
-      try {
-        const res = await fetch(`${(window.API_BASE || '')}/api/releases?${params}`);
-        if (!res.ok) throw new Error('Erreur HTTP ' + res.status);
-        const data = await res.json();
-
-        allReleases = data.releases || [];
-        totalReleases = data.total || 0;
-
-        renderFeaturedReleases();
-        applyFilters();
-        updatePagination();
-      } catch (err) {
-        document.getElementById('releasesTbody').innerHTML = `
-          <tr>
-            <td colspan="6" class="empty-state">
-              Impossible de contacter l'API des firmwares (${err.message}).
-            </td>
-          </tr>
-        `;
-      }
+    function render() {
+      renderChips();
+      const list = filtered();
+      $('#count').innerHTML = bi(`${list.length} sortie${list.length > 1 ? 's' : ''} affichée${list.length > 1 ? 's' : ''}`, `${list.length} release${list.length === 1 ? '' : 's'} shown`);
+      $('#list').innerHTML = list.length ? list.map(row).join('')
+        : `<div class="empty"><h3>${bi('Aucune sortie ne correspond à ces filtres.', 'No release matches these filters.')}</h3>
+            <p>${more ? bi('Chargez d’autres sorties pour élargir la recherche, ou retirez un filtre.', 'Load more releases to widen the search, or remove a filter.') : bi('Vérifiez l’orthographe du build ou retirez un filtre.', 'Check the build spelling or remove a filter.')}</p>
+            <button class="btn btn-ghost btn-sm" type="button" data-reset>${bi('Réinitialiser les filtres', 'Reset filters')}</button></div>`;
+      $('#more-wrap').hidden = !more;
     }
 
-    function reloadReleases() {
-      offset = 0;
-      loadReleases();
+    async function load(reset) {
+      if (loading) return; loading = true;
+      if (reset) { page = 1; $('#list').innerHTML = AC.skeleton(6); }
+      const r = await AC.loadReleases({ page, limit: 60 });
+      live = r.live; more = r.more;
+      if (reset) all = r.items;
+      else { const seen = new Set(all.map(keyOf)); all = all.concat(r.items.filter(x => !seen.has(keyOf(x)))); }
+      AC.notice($('#root'), live, () => load(true));
+      loading = false; render();
     }
 
-    function renderFeaturedReleases() {
-      const grid = document.getElementById('featuredGrid');
-      const latestMap = new Map();
-
-      // Obtenir la version la plus récente de chaque OS
-      const sorted = [...allReleases].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-      for (const rel of sorted) {
-        const osKey = (rel.os || '').toLowerCase();
-        if (!latestMap.has(osKey) && OS_CONFIG[osKey]) {
-          latestMap.set(osKey, rel);
-        }
-      }
-
-      const featuredList = Array.from(latestMap.values());
-      if (featuredList.length === 0) {
-        grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;">Aucun firmware récent disponible.</div>';
-        return;
-      }
-
-      grid.innerHTML = featuredList.map(rel => {
-        const color = getOsColor(rel.os);
-        const dateFormatted = formatDate(rel.date);
-        const devCount = Array.isArray(rel.devices) ? rel.devices.length : 0;
-        return `
-          <div class="feat-card" style="--os-color: ${color};" onclick="openModalByRelease('${rel.os}', '${rel.build}')">
-            <div class="feat-os-tag">${rel.os}</div>
-            <div class="feat-version">${rel.version}</div>
-            <div class="feat-meta">
-              <span>${rel.build}</span>
-              <span>${dateFormatted}</span>
-            </div>
-            <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
-              ${getAudienceBadge(rel.audience)}
-              <span style="font-size: 11px; color: var(--text-subtle);">${devCount > 0 ? devCount + ' modèles' : ''}</span>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function applyFilters() {
-      const search = (document.getElementById('searchInput').value || '').toLowerCase().trim();
-      const audienceFilter = document.getElementById('audienceSelect').value;
-      const sortBy = document.getElementById('sortSelect').value;
-
-      displayedReleases = allReleases.filter(r => {
-        // Recherche textuelle
-        if (search) {
-          const matchVersion = (r.version || '').toLowerCase().includes(search);
-          const matchBuild = (r.build || '').toLowerCase().includes(search);
-          const matchOs = (r.os || '').toLowerCase().includes(search);
-          const matchDev = Array.isArray(r.devices) && r.devices.some(d => d.toLowerCase().includes(search));
-          if (!matchVersion && !matchBuild && !matchOs && !matchDev) return false;
-        }
-
-        // Filtre audience
-        if (audienceFilter) {
-          const a = (r.audience || '').toLowerCase();
-          if (audienceFilter === 'stable' && !a.includes('stable')) return false;
-          if (audienceFilter === 'beta' && (!a.includes('beta') || a.includes('public beta'))) return false;
-          if (audienceFilter === 'public_beta' && !a.includes('public beta')) return false;
-          if (audienceFilter === 'rc' && !a.includes('rc') && !a.includes('candidate')) return false;
-          if (audienceFilter === 'security' && !a.includes('security')) return false;
-        }
-
-        return true;
-      });
-
-      // Tri
-      displayedReleases.sort((a, b) => {
-        if (sortBy === 'date-asc') return new Date(a.date || 0) - new Date(b.date || 0);
-        if (sortBy === 'version') return (a.version || '').localeCompare(b.version || '', undefined, { numeric: true });
-        if (sortBy === 'os') return (a.os || '').localeCompare(b.os || '');
-        return new Date(b.date || 0) - new Date(a.date || 0);
-      });
-
-      renderTable();
-    }
-
-    function renderTable() {
-      const tbody = document.getElementById('releasesTbody');
-      if (displayedReleases.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="6" class="empty-state">
-              Aucun firmware ne correspond aux critères sélectionnés.
-            </td>
-          </tr>
-        `;
-        return;
-      }
-
-      tbody.innerHTML = displayedReleases.map(rel => {
-        const color = getOsColor(rel.os);
-        const devCount = Array.isArray(rel.devices) ? rel.devices.length : 0;
-        return `
-          <tr onclick="openModalByRelease('${rel.os}', '${rel.build}')">
-            <td class="td-os" style="--os-row-color: ${color};">${rel.os}</td>
-            <td class="td-version">${rel.version}</td>
-            <td class="td-build">${rel.build}</td>
-            <td>${getAudienceBadge(rel.audience)}</td>
-            <td class="td-date">${formatDate(rel.date)}</td>
-            <td style="color: var(--text-muted); font-size: 12px;">${devCount > 0 ? devCount + ' modèles' : '—'}</td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function updatePagination() {
-      const page = Math.floor(offset / limit) + 1;
-      const totalPages = Math.max(1, Math.ceil(totalReleases / limit));
-
-      document.getElementById('pagStatus').textContent =
-        `Affichage de ${offset + 1} à ${Math.min(offset + limit, totalReleases)} sur ${totalReleases.toLocaleString('fr-FR')} firmwares`;
-
-      document.getElementById('btnPrev').disabled = offset <= 0;
-      document.getElementById('btnNext').disabled = offset + limit >= totalReleases;
-    }
-
-    function changePage(direction) {
-      const newOffset = offset + (direction * limit);
-      if (newOffset < 0 || newOffset >= totalReleases) return;
-      offset = newOffset;
-      loadReleases();
-    }
-
-    // Puces OS
-    document.querySelectorAll('.os-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        currentOS = tab.dataset.os;
-        reloadReleases();
-      });
+    $('#os-chips').addEventListener('click', e => { const b = e.target.closest('[data-os]'); if (b) { f.os = b.dataset.os; render(); } });
+    $('#type-chips').addEventListener('click', e => { const b = e.target.closest('[data-type]'); if (b) { f.type = b.dataset.type; render(); } });
+    $('#signed').addEventListener('change', e => { f.signed = e.target.checked; render(); });
+    $('#q').addEventListener('input', AC.debounce(e => { f.q = e.target.value; render(); }, 100));
+    $('#list').addEventListener('click', e => {
+      if (!e.target.closest('[data-reset]')) return;
+      Object.assign(f, { q: '', os: 'all', type: 'all', signed: false });
+      $('#q').value = ''; $('#signed').checked = false; render();
     });
-
-    document.getElementById('searchInput').addEventListener('input', applyFilters);
-
-    // Modal
-    function openModalByRelease(os, build) {
-      const rel = allReleases.find(r => r.os === os && r.build === build) ||
-                  displayedReleases.find(r => r.os === os && r.build === build);
-      if (!rel) return;
-
-      currentModalRelease = rel;
-      const color = getOsColor(rel.os);
-
-      document.getElementById('modalAccent').style.background = color;
-      document.getElementById('modalOsTag').textContent = rel.os;
-      document.getElementById('modalOsTag').style.color = color;
-      document.getElementById('modalVersionTitle').textContent = `${rel.os} ${rel.version}`;
-      document.getElementById('modalBuild').textContent = rel.build;
-      document.getElementById('modalDate').textContent = formatDate(rel.date);
-      document.getElementById('modalBadgeContainer').innerHTML = getAudienceBadge(rel.audience);
-
-      const devTags = document.getElementById('modalDeviceTags');
-      const devCountEl = document.getElementById('modalDeviceCount');
-      if (Array.isArray(rel.devices) && rel.devices.length > 0) {
-        devCountEl.textContent = `${rel.devices.length} Appareils Compatibles`;
-        devTags.innerHTML = rel.devices.map(d => `<a href="/devices?search=${encodeURIComponent(d)}" target="_blank" class="device-chip" title="Consulter la fiche technique de ${d}">📱 ${d}</a>`).join('');
-      } else {
-        devCountEl.textContent = 'Appareils compatibles';
-        devTags.innerHTML = '<span style="font-size: 12px; color: var(--text-subtle);">Informations matérielles non spécifiées</span>';
-      }
-
-      // Récupération asynchrone des notes de version officielles
-      fetchReleaseNotes(rel.os, rel.version);
-
-      const btnDl = document.getElementById('btnDownloadIpsw');
-      if (rel.url) {
-        btnDl.style.display = 'inline-flex';
-        btnDl.href = rel.url;
-      } else {
-        btnDl.style.display = 'none';
-      }
-
-      document.getElementById('modalOverlay').classList.add('active');
-    }
-
-    let currentChangelogReq = 0;
-    async function fetchReleaseNotes(os, version) {
-      const box = document.getElementById('modalChangelogText');
-      const badge = document.getElementById('modalChangelogBadge');
-      box.innerHTML = '<div style="color: var(--text-muted); font-size: 12px;">🔍 Recherche des notes de version officielles Apple...</div>';
-      badge.textContent = '';
-
-      const reqId = ++currentChangelogReq;
-      try {
-        const resp = await fetch(`${(window.API_BASE || '')}/api/release-notes?os=${encodeURIComponent(os)}&version=${encodeURIComponent(version)}`);
-        if (reqId !== currentChangelogReq) return;
-        if (!resp.ok) throw new Error('Erreur HTTP');
-        const data = await resp.json();
-        if (reqId !== currentChangelogReq) return;
-
-        if (data.notes && data.notes.trim()) {
-          badge.textContent = 'Notes officielles en français';
-          box.textContent = data.notes.trim();
-        } else {
-          badge.textContent = '';
-          box.innerHTML = '<span style="color: var(--text-subtle); font-style: italic;">Aucune note de version détaillée spécifique n\'a été publiée par Apple pour cette version (version corrective mineure ou pré-version interne).</span>';
-        }
-      } catch (e) {
-        if (reqId !== currentChangelogReq) return;
-        badge.textContent = '';
-        box.innerHTML = '<span style="color: var(--text-subtle);">Impossible de charger les notes de version pour le moment.</span>';
-      }
-    }
-
-    function closeModal() {
-      document.getElementById('modalOverlay').classList.remove('active');
-      currentModalRelease = null;
-    }
-
-    function handleOverlayClick(e) {
-      if (e.target === document.getElementById('modalOverlay')) {
-        closeModal();
-      }
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
+    $('#more').addEventListener('click', () => { page += 1; load(false); });
+    $('#reload').addEventListener('click', () => load(true));
+    addEventListener('keydown', e => {
+      if (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { e.preventDefault(); $('#q').focus(); }
     });
+    document.addEventListener('langchange', render);
 
-    function copyModalDetails() {
-      if (!currentModalRelease) return;
-      const r = currentModalRelease;
-      const txt = `${r.os} ${r.version} (${r.build}) — Sortie le ${formatDate(r.date)} [${r.audience}]`;
-      navigator.clipboard.writeText(txt).then(() => {
-        const btnText = document.getElementById('btnCopyText');
-        btnText.textContent = 'Détails copiés !';
-        setTimeout(() => { btnText.textContent = 'Copier les détails'; }, 2000);
-      });
-    }
-
-    loadReleases();
-    setInterval(loadReleases, 120000);
+    load(true);
+  });
   </script>
 </body>
 </html>

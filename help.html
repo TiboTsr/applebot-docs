@@ -1,226 +1,233 @@
 <!DOCTYPE html>
 <html lang="fr" data-lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AppleCore Docs — Commandes, configuration & guide</title>
-  <meta name="description" content="Documentation complète d'AppleCore : commandes slash, configuration des salons et rôles, et fonctionnement technique.">
+  <meta charset="utf-8">
+  <script>try{var l=localStorage.getItem('ac_lang')}catch(e){}document.documentElement.dataset.lang=l||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en')</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title data-fr="Documentation — AppleCore" data-en="Documentation — AppleCore">Documentation — AppleCore</title>
+  <meta name="description" content="Toutes les commandes d’AppleCore : syntaxe, exemples, permissions et aperçu du message Discord généré. Guide de démarrage pour les administrateurs.">
+  <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://applecore.tibotsr.dev/help.html">
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="bg-glow bg-glow-1"></div>
-  <div class="bg-glow bg-glow-2"></div>
-  <div class="grid-pattern"></div>
+  <a class="skip" href="#main"><span lang="fr">Aller au contenu</span><span lang="en">Skip to content</span></a>
+  <header id="site-header"></header>
 
-  <header class="site-header">
-    <nav class="nav container" aria-label="Navigation principale">
-      <a class="brand" href="index.html" aria-label="AppleCore — Accueil">
-        <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="34" height="34">
-        <span class="brand-name">AppleCore</span>
-      </a>
-
-      <div class="nav-links">
-        <a href="index.html" class="nav-link"><span class="lang inline" data-lang="fr">Accueil</span><span class="lang inline" data-lang="en">Home</span></a>
-        <a href="releases.html" class="nav-link"><span class="lang inline" data-lang="fr">Firmwares</span><span class="lang inline" data-lang="en">Releases</span></a>
-        <a href="devices.html" class="nav-link"><span class="lang inline" data-lang="fr">Appareils</span><span class="lang inline" data-lang="en">Devices</span></a>
-        <a href="status_public.html" class="nav-link"><span class="lang inline" data-lang="fr">Statut</span><span class="lang inline" data-lang="en">Status</span></a>
-        <a href="help.html" class="nav-link"><span class="lang inline" data-lang="fr">Docs</span><span class="lang inline" data-lang="en">Docs</span></a>
+  <main id="main">
+    <div class="wrap">
+      <div class="page-head">
+        <h1><span lang="fr">Documentation</span><span lang="en">Documentation</span></h1>
+        <p><span lang="fr">Chaque commande d’AppleCore, avec sa syntaxe, un exemple et l’aperçu du message qu’elle renvoie sur Discord.</span><span lang="en">Every AppleCore command, with its syntax, an example and a preview of the Discord message it returns.</span></p>
       </div>
 
-      <div class="nav-actions">
-        <div class="lang-toggle" role="group" aria-label="Langue">
-          <button type="button" data-lang-toggle="fr" aria-pressed="true">FR</button>
-          <button type="button" data-lang-toggle="en" aria-pressed="false">EN</button>
+      <div class="toolbar">
+        <label class="search">
+          <span class="sr-only"><span lang="fr">Rechercher une commande</span><span lang="en">Search commands</span></span>
+          <span id="search-ico"></span>
+          <input id="q" type="search" autocomplete="off" spellcheck="false" data-ph-fr="Rechercher une commande ou un mot-clé  ( / )" data-ph-en="Search a command or keyword  ( / )">
+        </label>
+        <div class="chips" id="cats" role="group" aria-label="Catégories"></div>
+      </div>
+
+      <div class="help-layout page-body">
+        <div>
+          <div class="cmd-list" id="cmd-list"></div>
         </div>
-        <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" class="btn btn-primary btn-nav">
-          <span class="lang inline" data-lang="fr">Ajouter</span><span class="lang inline" data-lang="en">Add</span>
-        </a>
+        <aside class="sim" id="sim" aria-label="Aperçu Discord">
+          <div class="sim-cap">
+            <span><span lang="fr">Aperçu du message Discord</span><span lang="en">Discord message preview</span></span>
+            <span class="badge"><span lang="fr">Illustratif</span><span lang="en">Illustrative</span></span>
+          </div>
+          <div id="sim-msg"></div>
+        </aside>
       </div>
 
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-      </button>
-    </nav>
-
-    <div id="nav-menu" class="mobile-menu">
-      <a href="index.html">Accueil</a>
-      <a href="releases.html">Firmwares Apple</a>
-      <a href="devices.html">Appareils & Spécifications</a>
-      <a href="status_public.html">Statut du Système</a>
-      <a href="help.html">Documentation</a>
-      <a href="privacy.html">Confidentialité</a>
-      <a href="terms.html">Conditions</a>
-    </div>
-  </header>
-
-  <section class="docs-hero">
-    <span class="eyebrow">Documentation officielle</span>
-    <h1 class="lang" data-lang="fr">Guide & commandes AppleCore</h1>
-    <h1 class="lang" data-lang="en">AppleCore guide & commands</h1>
-    <p class="lang" data-lang="fr">Découvrez l'ensemble des commandes slash publiques, administratives et les étapes de configuration pour équiper votre serveur Discord.</p>
-    <p class="lang" data-lang="en">Explore public commands, admin tools, and configuration guidelines to power up your Discord community.</p>
-  </section>
-
-  <main class="docs-layout container">
-    <aside class="toc glass" aria-label="Table des matières">
-      <h3>Sommaire</h3>
-      <a href="#quickstart">Démarrage rapide</a>
-      <a href="#commands-public">Commandes publiques</a>
-      <a href="#commands-admin">Commandes d'administration</a>
-      <a href="#config">Architecture & sources</a>
-      <a href="#whatsnew">Nouveautés récentes</a>
-      <a href="#faq">FAQ</a>
-    </aside>
-
-    <div>
-      <!-- QUICK START -->
-      <section id="quickstart" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">⚡ Démarrage rapide (moins de 60 secondes)</h2>
-        <h2 class="lang" data-lang="en">⚡ Quick start (under 60 seconds)</h2>
-        <p class="lang" data-lang="fr">Configurer AppleCore sur votre serveur Discord se fait en 3 étapes simples :</p>
-        <p class="lang" data-lang="en">Setting up AppleCore in your Discord server takes 3 simple steps:</p>
-        <ol style="display:flex; flex-direction:column; gap:12px; margin-top:12px;">
-          <li><strong>1. Inviter le bot :</strong> cliquez sur <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" style="color:var(--blue-light);">ce lien d'autorisation</a> et sélectionnez votre serveur Discord.</li>
-          <li><strong>2. Lancer l'assistant <code>/setup</code> :</strong> tapez simplement <code>/setup</code> dans votre serveur. L'assistant interactif vous guide pas à pas pour choisir le salon d'annonces, associer les rôles de notifications par OS (iOS, macOS, AirPods...) et envoyer une alerte de test réelle.</li>
-          <li><strong>3. (Optionnel) Déployer le panneau libre-service :</strong> tapez <code>/roles_panel</code> pour générer un menu déroulant permettant à vos membres de choisir eux-mêmes leurs alertes.</li>
+      <section id="quickstart" class="page-body" style="padding-top:0">
+        <div class="section-head">
+          <h2><span lang="fr">Démarrage rapide pour les administrateurs</span><span lang="en">Quick start for server admins</span></h2>
+          <p><span lang="fr">L’assistant <code>/setup</code> configure AppleCore pas à pas. Il suffit d’être administrateur du serveur.</span><span lang="en">The <code>/setup</code> wizard configures AppleCore step by step. You just need to be a server administrator.</span></p>
+        </div>
+        <ol class="qs">
+          <li><span class="n">1</span><div><h3><span lang="fr">Lancez /setup</span><span lang="en">Run /setup</span></h3><p><span lang="fr">Tapez la commande dans n’importe quel salon : l’assistant répond avec un message visible par vous seul.</span><span lang="en">Type the command in any channel: the wizard replies with a message only you can see.</span></p></div></li>
+          <li><span class="n">2</span><div><h3><span lang="fr">Choisissez le salon d’annonces</span><span lang="en">Choose the announcement channel</span></h3><p><span lang="fr">Sélectionnez le salon dans un menu natif. AppleCore contrôle immédiatement qu’il peut y envoyer des messages et des embeds.</span><span lang="en">Pick the channel from a native menu. AppleCore immediately checks it can send messages and embeds there.</span></p></div></li>
+          <li><span class="n">3</span><div><h3><span lang="fr">Associez un rôle à chaque système</span><span lang="en">Map a role to each system</span></h3><p><span lang="fr">iOS, iPadOS, macOS, watchOS, visionOS, AirPods : chaque rôle n’est mentionné que pour son système. Ajustez plus tard avec <code>/config os</code>.</span><span lang="en">iOS, iPadOS, macOS, watchOS, visionOS, AirPods: each role is only pinged for its own system. Fine-tune later with <code>/config os</code>.</span></p></div></li>
+          <li><span class="n">4</span><div><h3><span lang="fr">Réglez les filtres de versions</span><span lang="en">Set release filters</span></h3><p><span lang="fr">Versions stables uniquement, ou bêtas développeur et publiques incluses.</span><span lang="en">Stable releases only, or developer and public betas included.</span></p></div></li>
+          <li><span class="n">5</span><div><h3><span lang="fr">Envoyez une alerte de test</span><span lang="en">Send a test alert</span></h3><p><span lang="fr">Une vraie alerte part dans le salon choisi. Relancez-la à tout moment avec <code>/test_notification</code>. Pour que vos membres choisissent leurs alertes, déployez ensuite <code>/roles_panel</code>.</span><span lang="en">A real alert is posted in the chosen channel. Re-run it any time with <code>/test_notification</code>. To let members pick their own alerts, then deploy <code>/roles_panel</code>.</span></p></div></li>
         </ol>
-      </section>
-
-      <!-- COMMANDS -->
-      <section id="commands-public" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">📱 Commandes publiques</h2>
-        <h2 class="lang" data-lang="en">📱 Public commands</h2>
-
-        <div class="grid-2">
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--blue-light);">/info [os:] [version:]</div>
-            <p class="command-desc">Recherche complète d'une version Apple : builds, audience, notes officielles et appareils compatibles.</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--blue-light);">/latest</div>
-            <p class="command-desc">Affiche un récapitulatif complet des dernières versions publiques stables pour chaque système.</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--blue-light);">/compat [appareil:]</div>
-            <p class="command-desc">Vérifie l'éligibilité d'un iPhone, Mac, iPad ou modèle d'AirPods aux dernières versions.</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--blue-light);">/prediction [os:]</div>
-            <p class="command-desc">Analyse probabiliste de la date et de l'heure probable de la prochaine mise à jour.</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--blue-light);">/apple_status</div>
-            <p class="command-desc">État en temps réel des 71 services Apple (App Store, iCloud, Apple Music, Notarisation...).</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--blue-light);">/ipsw [appareil:]</div>
-            <p class="command-desc">Vérification en temps réel des signatures firmware (IPSW) et liens directs de téléchargement officiel Apple.</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--blue-light);">/vintage [appareil:]</div>
-            <p class="command-desc">Statut officiel de fin de vie matérielle Apple (Supporté, Vintage ou Obsolète) et règles de réparation.</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--blue-light);">/roles</div>
-            <p class="command-desc">Permet à l'utilisateur de s'abonner individuellement aux rôles d'alertes de son choix.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ADMIN COMMANDS -->
-      <section id="commands-admin" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">⚙️ Commandes d'administration</h2>
-        <h2 class="lang" data-lang="en">⚙️ Administrator commands</h2>
-
-        <div class="grid-2">
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--orange);">/setup</div>
-            <p class="command-desc">Assistant de configuration interactif pas à pas pour votre serveur Discord.</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--orange);">/config salon [#salon]</div>
-            <p class="command-desc">Définit le salon où seront publiées automatiquement les annonces d'Apple.</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--orange);">/config os [os:] [role:]</div>
-            <p class="command-desc">Associe un rôle précis à mentionner pour un système (iOS, macOS, AirPods...).</p>
-          </div>
-          <div class="command-card glass">
-            <div class="command-name" style="color:var(--orange);">/roles_panel</div>
-            <p class="command-desc">Publie dans le salon un menu déroulant persistant d'auto-attribution des rôles.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ARCHITECTURE -->
-      <section id="config" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">🛠️ Architecture & sources de données</h2>
-        <h2 class="lang" data-lang="en">🛠️ Architecture & data sources</h2>
-        <p class="lang" data-lang="fr">AppleCore repose sur un pipeline de détection multi-sources :</p>
-        <p class="lang" data-lang="en">AppleCore relies on a multi-source detection pipeline:</p>
-        <ul>
-          <li><strong>Pallas OTA Service :</strong> polling direct des serveurs de mise à jour Over-The-Air d'Apple pour une alerte en quasi-instantané dès la publication d'un profil.</li>
-          <li><strong>Base AppleDB :</strong> corrélation des hashes et compatibilités de modèles d'appareils et numéros de build.</li>
-          <li><strong>Moteur de traduction :</strong> traduction automatique fidèle en français des notes officielles d'Apple avec conservation du formatage technique.</li>
-        </ul>
-      </section>
-
-      <!-- WHATS NEW -->
-      <section id="whatsnew" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">✨ Nouveautés de la version 2.0</h2>
-        <h2 class="lang" data-lang="en">✨ Version 2.0 highlights</h2>
-        <ul>
-          <li><strong>Nouveau design Discord :</strong> embeds modernes avec boutons directs (téléchargements IPSW, vue détaillée AppleDB, changelog complet).</li>
-          <li><strong>Support AirPods étendu :</strong> prise en charge des AirPods 4 (ANC et standard), AirPods Pro 2 USB-C et AirPods Max.</li>
-          <li><strong>Surveillance Apple System Status :</strong> suivi en continu des 71 services Apple avec alertes d'incidents.</li>
-          <li><strong>Moteur prédictif amélioré :</strong> modèle de calcul des dates probables de sortie selon les cycles bêta d'Apple.</li>
-        </ul>
-      </section>
-
-      <!-- FAQ -->
-      <section id="faq" class="doc-section glass">
-        <h2>FAQ</h2>
-        <details class="faq-item-doc glass" open>
-          <summary class="faq-question">Le bot nécessite-t-il des permissions administrateur ?</summary>
-          <div class="faq-answer">Non. AppleCore requiert uniquement la permission d'envoyer des messages, d'intégrer des liens (embeds) et d'ajouter des réactions dans le salon configuré.</div>
-        </details>
-        <details class="faq-item-doc glass">
-          <summary class="faq-question">Comment tester si une alerte fonctionne ?</summary>
-          <div class="faq-answer">Les administrateurs peuvent utiliser la commande <code>/test_alert</code> pour envoyer un embed de test directement dans votre salon d'annonces.</div>
-        </details>
       </section>
     </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div class="brand">
-            <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="32" height="32">
-            <span class="brand-name" style="font-size:18px;">AppleCore</span>
-          </div>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Sentinelle en temps réel des micrologiciels et mises à jour Apple pour Discord.</p>
-        </div>
-        <div class="footer-nav">
-          <a href="index.html">Accueil</a>
-          <a href="privacy.html">Confidentialité</a>
-          <a href="terms.html">Conditions</a>
-          <a href="https://github.com/TiboTsr/AppleBot" target="_blank" rel="noopener">GitHub</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2026 AppleCore • Développé par TiboTsr. Non affilié à Apple Inc.</p>
-      </div>
-    </div>
-  </footer>
+  <footer id="site-footer"></footer>
 
-  <script src="script.js"></script>
+  <script src="config.js"></script>
+  <script>
+  AC.ready(() => {
+    const { $, $$, t, bi, esc, icon } = AC;
+    AC.mountChrome('help');
+    $('#search-ico').innerHTML = icon('search', 18);
+    $('#search-ico').style.display = 'contents';
+
+    /* ------------------------------------------------------------ Aperçus */
+    const e = (color, title, o = {}) => ({ embed: { color, title, ...o } });
+    const foot = () => t('AppleCore • Données officielles Apple', 'AppleCore • Official Apple data');
+    const vint = AC.vintageOf('2020-10-23');
+    const vintYears = Math.floor(vint.years);
+
+    const CMDS = [
+      { id: 'info', cat: 'public', syntax: '/info [os:] [version:] [device:]', ex: '/info os:iOS version:27.0',
+        fr: 'Recherche complète d’une version Apple : builds, audience (bêta développeur, bêta publique, RC, stable), notes officielles traduites en français et appareils compatibles.',
+        en: 'Full lookup of an Apple release: builds, audience (developer beta, public beta, RC, stable), official notes translated into French and compatible devices.',
+        preview: () => ({ cmd: '/info os:iOS version:27.0', ...e('#0a84ff', '🍎 iOS 27.0', { footer: foot(), fields: [
+          { name: t('📝 Notes de version', '📝 Release notes'), value: t('iOS 27 introduit la nouvelle génération d’Apple Intelligence et de Siri avec contexte personnel.', 'iOS 27 introduces the next generation of Apple Intelligence and Siri with personal context.') },
+          { name: '🆔 Build(s)', value: '`24A427`', inline: true }, { name: '📡 Audience', value: '`Public Stable`', inline: true }, { name: '📅 Date', value: AC.fmtDate('2026-09-14', { day: 'numeric', month: 'long', year: 'numeric' }), inline: true },
+          { name: t('📱 Compatibilité', '📱 Compatibility'), value: t('**48 modèles compatibles**', '**48 compatible models**') }] }),
+          buttons: [{ label: t('📱 Appareils compatibles', '📱 Compatible devices') }, { label: t('💾 Télécharger IPSW', '💾 Download IPSW'), primary: true }, { label: t('🔗 Fiche AppleDB', '🔗 AppleDB page') }] }) },
+      { id: 'latest', cat: 'public', syntax: '/latest [os:]', ex: '/latest os:macOS',
+        fr: 'Récapitulatif instantané des dernières versions stables publiques pour chaque système : iOS, iPadOS, macOS, watchOS, tvOS, visionOS, audioOS et AirPods.',
+        en: 'Instant recap of the latest public stable releases for every system: iOS, iPadOS, macOS, watchOS, tvOS, visionOS, audioOS and AirPods.',
+        preview: () => ({ cmd: '/latest', ...e('#30d158', t('📦 Dernières versions stables', '📦 Latest stable releases'), { footer: foot(), fields: ['iOS', 'iPadOS', 'macOS', 'watchOS', 'tvOS', 'visionOS'].map(n => ({ name: n, value: '`27.0`', inline: true })) }) }) },
+      { id: 'compat', cat: 'public', syntax: '/compat [appareil:]', ex: '/compat appareil:iPhone 15 Pro',
+        fr: 'Vérifie la compatibilité d’un modèle avec les versions actuelles et futures des OS Apple, avec un badge de compatibilité Apple Intelligence.',
+        en: 'Checks a model’s compatibility with current and upcoming Apple OS versions, with an Apple Intelligence compatibility badge.',
+        preview: () => ({ cmd: '/compat appareil:iPhone 15 Pro', ...e('#bf5af2', '📱 iPhone 15 Pro', { footer: foot(), fields: [
+          { name: 'iOS 27', value: t('✅ Compatible', '✅ Compatible'), inline: true }, { name: t('Puce', 'Chip'), value: '`A17 Pro`', inline: true }, { name: 'RAM', value: t('`8 Go`', '`8 GB`'), inline: true },
+          { name: '✨ Apple Intelligence', value: t('✅ Compatible — Neural Engine 16 cœurs et 8 Go de mémoire unifiée.', '✅ Compatible — 16-core Neural Engine and 8 GB of unified memory.') }] }) }) },
+      { id: 'ipsw', cat: 'public', syntax: '/ipsw [appareil:]', ex: '/ipsw appareil:iPhone 15 Pro',
+        fr: 'Diagnostic en direct des signatures firmware : versions signées (vert) et non signées (rouge), avec boutons de téléchargement officiels Apple.',
+        en: 'Live firmware signing diagnostic: signed (green) and unsigned (red) versions, with official Apple download buttons.',
+        preview: () => ({ cmd: '/ipsw appareil:iPhone 15 Pro', ...e('#30d158', '🔏 IPSW — iPhone 15 Pro', { footer: foot(), fields: [
+          { name: t('✅ Signées', '✅ Signed'), value: 'iOS 27.0 (`24A427`)' }, { name: t('🔴 Non signées', '🔴 Unsigned'), value: 'iOS 26.x' }] }),
+          buttons: [{ label: t('💾 iOS 27.0 — Apple', '💾 iOS 27.0 — Apple'), primary: true }] }) },
+      { id: 'vintage', cat: 'public', syntax: '/vintage [appareil:]', ex: '/vintage appareil:iPhone 12',
+        fr: 'Statut officiel Apple Hardware Service — Supporté, Vintage ou Obsolète — et éligibilité aux réparations en Apple Store ou centre agréé.',
+        en: 'Official Apple hardware service status — Supported, Vintage or Obsolete — and eligibility for repair at an Apple Store or authorized provider.',
+        preview: () => ({ cmd: '/vintage appareil:iPhone 12', ...e('#ff9f0a', '🟠 iPhone 12', { footer: foot(), fields: [
+          { name: t('Statut', 'Status'), value: '**Vintage**', inline: true }, { name: t('Âge', 'Age'), value: t(`${vintYears} ans`, `${vintYears} years`), inline: true }, { name: t('Lancement', 'Launch'), value: AC.fmtDate('2020-10-23', { month: 'long', year: 'numeric' }), inline: true },
+          { name: t('🔧 Réparation', '🔧 Repair'), value: t('Possible selon la disponibilité des pièces.', 'Possible depending on parts availability.') }] }) }) },
+      { id: 'prediction', cat: 'public', syntax: '/prediction [os:]', ex: '/prediction os:iOS',
+        fr: 'Analyse probabiliste de la date et de l’heure probables de la prochaine sortie, d’après les cycles de diffusion des bêtas d’Apple.',
+        en: 'Probabilistic estimate of the likely date and time of the next release, based on Apple’s beta release cycles.',
+        preview: () => ({ cmd: '/prediction os:iOS', ...e('#5e5ce6', t('🔮 Prochaine sortie : iOS 27.1', '🔮 Next release: iOS 27.1'), { footer: foot(), fields: [
+          { name: t('📅 Jour probable', '📅 Likely day'), value: t('mardi', 'Tuesday'), inline: true }, { name: t('🕐 Heure probable', '🕐 Likely time'), value: t('19:00 (Paris)', '19:00 (Paris)'), inline: true }, { name: t('📊 Confiance', '📊 Confidence'), value: '`71 %`', inline: true }] }) }) },
+      { id: 'apple_status', cat: 'public', syntax: '/apple_status', ex: '/apple_status',
+        fr: 'Statut en direct des 71 services Apple, avec le détail des pannes ou dégradations éventuelles.',
+        en: 'Live status of the 71 Apple services, with details of any outage or degradation.',
+        preview: () => ({ cmd: '/apple_status', ...e('#ff9f0a', '🍏 Apple System Status', { footer: foot(), desc: t('**70 / 71** services opérationnels', '**70 / 71** services operational'), fields: [{ name: t('🟠 Dégradé', '🟠 Degraded'), value: 'iMessage' }, { name: t('🟢 Tout le reste', '🟢 Everything else'), value: 'App Store, iCloud, Apple Music, TestFlight…' }] }) }) },
+      { id: 'roles', cat: 'public', syntax: '/roles', ex: '/roles',
+        fr: 'Menu déroulant interactif : chaque membre s’abonne aux rôles de notification de son choix.',
+        en: 'Interactive dropdown: each member subscribes to the notification roles they want.',
+        preview: () => ({ cmd: '/roles', ...e('#0a84ff', t('🎛️ Vos alertes', '🎛️ Your alerts'), { desc: t('Sélectionnez les systèmes pour lesquels vous souhaitez être notifié.', 'Select the systems you want to be notified about.') }),
+          select: { placeholder: t('Choisissez vos alertes', 'Choose your alerts'), options: [{ label: 'iOS', on: true }, { label: 'iPadOS' }, { label: 'macOS', on: true }, { label: 'watchOS' }, { label: 'visionOS' }, { label: 'AirPods' }] } }) },
+      { id: 'status', cat: 'system', syntax: '/status', ex: '/status',
+        fr: 'Télémétrie du bot : latence de la passerelle Discord, état de PostgreSQL, uptime et surveillance GDMF.',
+        en: 'Bot telemetry: Discord gateway latency, PostgreSQL status, uptime and GDMF monitoring.',
+        preview: () => ({ cmd: '/status', ...e('#30d158', t('⚙️ Télémétrie AppleCore', '⚙️ AppleCore telemetry'), { footer: 'AppleCore', fields: [
+          { name: t('Passerelle Discord', 'Discord gateway'), value: '`42 ms`', inline: true }, { name: 'PostgreSQL', value: t('✅ Connecté', '✅ Connected'), inline: true }, { name: 'Uptime', value: t('12 j 4 h', '12 d 4 h'), inline: true },
+          { name: t('Surveillance GDMF', 'GDMF monitoring'), value: t('✅ Active', '✅ Active') }] }) }) },
+      { id: 'setup', cat: 'admin', syntax: '/setup', ex: '/setup',
+        fr: 'Assistant interactif en 5 étapes pour configurer le bot : salon, rôles par système, filtres et alerte de test.',
+        en: '5-step interactive wizard to configure the bot: channel, per-system roles, filters and a test alert.',
+        preview: () => ({ cmd: '/setup', ...e('#0a84ff', t('⚙️ Configuration d’AppleCore — étape 2/5', '⚙️ AppleCore setup — step 2/5'), { desc: t('Dans quel salon publier les annonces d’Apple ?', 'Which channel should Apple announcements go to?') }),
+          select: { placeholder: t('Choisir un salon', 'Choose a channel'), options: [{ label: '# apple-updates', on: true }, { label: '# general' }, { label: '# tech' }] },
+          buttons: [{ label: t('Précédent', 'Back') }, { label: t('Suivant', 'Next'), primary: true }] }) },
+      { id: 'config_salon', cat: 'admin', syntax: '/config salon [#salon]', ex: '/config salon #apple-updates',
+        fr: 'Définit le salon Discord où sont publiées les annonces officielles d’Apple.',
+        en: 'Sets the Discord channel where official Apple announcements are posted.',
+        preview: () => ({ cmd: '/config salon #apple-updates', ...e('#30d158', t('✅ Salon configuré', '✅ Channel configured'), { desc: t('Les annonces seront publiées dans **#apple-updates**. Permissions vérifiées : messages et embeds.', 'Announcements will be posted in **#apple-updates**. Permissions checked: messages and embeds.') }) }) },
+      { id: 'config_os', cat: 'admin', syntax: '/config os [os:] [role:]', ex: '/config os os:iOS role:@iOS-Notif',
+        fr: 'Associe un rôle à mentionner pour un système précis, par exemple @iOS-Notif pour iOS.',
+        en: 'Maps a role to ping for a specific system, for example @iOS-Notif for iOS.',
+        preview: () => ({ cmd: '/config os os:iOS role:@iOS-Notif', ...e('#30d158', t('✅ Rôle associé', '✅ Role mapped'), { desc: t('Les annonces **iOS** mentionneront désormais **@iOS-Notif**.', '**iOS** announcements will now ping **@iOS-Notif**.') }) }) },
+      { id: 'roles_panel', cat: 'admin', syntax: '/roles_panel', ex: '/roles_panel',
+        fr: 'Déploie dans un salon un menu déroulant persistant : la communauté choisit ses rôles d’alerte en libre-service.',
+        en: 'Deploys a persistent dropdown in a channel: the community picks its alert roles on its own.',
+        preview: () => ({ cmd: '/roles_panel', ...e('#0a84ff', t('🎛️ Choisissez vos notifications', '🎛️ Choose your notifications'), { desc: t('Ouvrez le menu pour activer ou désactiver vos alertes par système.', 'Open the menu to turn alerts on or off per system.') }),
+          select: { placeholder: t('Mes alertes Apple', 'My Apple alerts'), options: [{ label: 'iOS', on: true }, { label: 'macOS' }, { label: 'watchOS' }, { label: 'AirPods', on: true }] } }) },
+      { id: 'test_notification', cat: 'admin', syntax: '/test_notification [type:]', ex: '/test_notification type:iOS',
+        fr: 'Simule et envoie une vraie alerte de test pour valider les permissions et le rendu des embeds.',
+        en: 'Sends a real test alert to validate permissions and embed rendering.',
+        preview: () => ({ cmd: '/test_notification type:iOS', ...e('#ff9f0a', t('🧪 Notification de test', '🧪 Test notification'), { footer: foot(), desc: t('Alerte de test envoyée par un administrateur. Si vous la voyez, les permissions et le rendu sont corrects.', 'Test alert sent by an administrator. If you can see it, permissions and rendering are correct.'), fields: [{ name: 'Type', value: '`iOS`', inline: true }, { name: t('Salon', 'Channel'), value: '#apple-updates', inline: true }] }) }) }
+    ];
+
+    const CATS = [
+      ['all', 'Toutes', 'All'], ['public', 'Publiques', 'Public'], ['admin', 'Admin', 'Admin'], ['system', 'Système', 'System']
+    ];
+    const CAT_BADGE = { public: ['blue', 'Publique', 'Public'], admin: ['purple', 'Admin', 'Admin'], system: ['green', 'Système', 'System'] };
+
+    let cat = 'all', query = '', selected = 'info';
+
+    const syntaxHtml = s => esc(s).replace(/\[([^\]]+)\]/g, '<span class="arg">[$1]</span>');
+
+    function renderCats() {
+      const q = norm(query);
+      $('#cats').innerHTML = CATS.map(([k, fr, en]) => {
+        const n = CMDS.filter(c => (k === 'all' || c.cat === k) && match(c, q)).length;
+        return `<button type="button" class="chip" data-cat="${k}" aria-pressed="${k === cat}">${bi(fr, en)} <span class="count">${n}</span></button>`;
+      }).join('');
+    }
+    const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+    const match = (c, q) => !q || norm([c.id, c.syntax, c.ex, c.fr, c.en].join(' ')).includes(q);
+
+    function renderList() {
+      const q = norm(query);
+      const list = CMDS.filter(c => (cat === 'all' || c.cat === cat) && match(c, q));
+      if (!list.length) {
+        $('#cmd-list').innerHTML = `<div class="empty"><h3>${bi('Aucune commande ne correspond.', 'No command matches.')}</h3><p>${bi('Essayez un autre mot-clé, ou effacez la recherche pour revoir toutes les commandes.', 'Try another keyword, or clear the search to see all commands.')}</p><button class="btn btn-ghost btn-sm" type="button" data-clear>${bi('Effacer la recherche', 'Clear search')}</button></div>`;
+        return;
+      }
+      $('#cmd-list').innerHTML = list.map(c => {
+        const b = CAT_BADGE[c.cat];
+        return `<article class="cmd${c.id === selected ? ' active' : ''}" data-id="${c.id}">
+          <div class="cmd-top"><span class="cmd-syntax">${syntaxHtml(c.syntax)}</span>
+            <button class="btn btn-ghost btn-sm" type="button" aria-pressed="${c.id === selected}">${bi('Aperçu', 'Preview')}</button></div>
+          <p>${bi(esc(c.fr), esc(c.en))}</p>
+          <div class="cmd-meta"><span class="badge ${b[0]}">${bi(b[1], b[2])}</span>
+            <span class="badge">${c.cat === 'admin' ? bi('Réservée aux administrateurs', 'Administrators only') : bi('Ouverte à tous', 'Open to everyone')}</span></div>
+          <div class="cmd-ex">${esc(c.ex)}</div></article>`;
+      }).join('');
+    }
+
+    function renderSim(animate) {
+      const c = CMDS.find(x => x.id === selected); if (!c) return;
+      const p = c.preview();
+      p.embed.enter = animate;
+      $('#sim-msg').innerHTML = AC.dcMessage(p);
+    }
+
+    function select(id, fromUser) {
+      selected = id;
+      $$('.cmd').forEach(el => {
+        const on = el.dataset.id === id;
+        el.classList.toggle('active', on);
+        $('.cmd-top button', el).setAttribute('aria-pressed', String(on));
+      });
+      renderSim(!AC.reduced);
+      if (fromUser && matchMedia('(max-width: 1040px)').matches) $('#sim').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function refresh() { renderCats(); renderList(); }
+
+    $('#cmd-list').addEventListener('click', ev => {
+      if (ev.target.closest('[data-clear]')) { $('#q').value = ''; query = ''; refresh(); return; }
+      const card = ev.target.closest('.cmd'); if (card) select(card.dataset.id, true);
+    });
+    $('#cats').addEventListener('click', ev => {
+      const b = ev.target.closest('[data-cat]'); if (!b) return;
+      cat = b.dataset.cat; refresh();
+    });
+    $('#q').addEventListener('input', AC.debounce(ev => { query = ev.target.value; refresh(); }, 100));
+    addEventListener('keydown', ev => {
+      if (ev.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { ev.preventDefault(); $('#q').focus(); }
+    });
+    document.addEventListener('langchange', () => { renderSim(false); });
+
+    const hash = location.hash.replace('#cmd-', '');
+    if (CMDS.some(c => c.id === hash)) selected = hash;
+    refresh(); renderSim(false);
+  });
+  </script>
 </body>
 </html>
