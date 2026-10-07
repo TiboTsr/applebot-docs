@@ -207,7 +207,10 @@
             const seed = seedFrom(s.pub);
             series = seed || []; mode = seed ? 'api' : 'live';
           }
-          if (h.ping != null) { series.push({ t: Date.now(), v: Math.round(h.ping) }); if (series.length > MAX) series.shift(); }
+          if (h.ping != null && Number.isFinite(h.ping) && h.ping > 0) {
+            series.push({ t: Date.now(), v: Math.round(h.ping), label: null });
+            if (series.length > 100) series.shift();
+          }
 
           const gwState = h.ping == null ? 'unknown' : h.ping < 200 ? 'ok' : h.ping < 500 ? 'warn' : 'down';
           setComp('c-gw', { state: gwState, val: h.ping == null ? '—' : `${Math.round(h.ping)}<small> ms</small>`, pct: h.ping == null ? 0 : Math.min(100, h.ping / 500 * 100), hint: t('Latence mesurée par le bot', 'Latency measured by the bot') });
