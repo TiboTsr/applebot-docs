@@ -147,24 +147,23 @@
 
     /* --------------------------------------------------------------- Courbe */
     let series = [], mode = 'sample';
-    const sampleSeries = () => Array.from({ length: 24 }, (_, i) => ({ t: Date.now() - (24 - i) * EVERY, v: Math.round(46 + Math.sin(i / 3) * 9 + ((i * 7) % 5)), label: null }));
+    const sampleSeries = () => Array.from({ length: 24 }, (_, i) => ({ t: Date.now() - (24 - i) * EVERY, v: Math.round(46 + Math.sin(i / 3) * 9 + ((i * 7) % 5)) }));
     function seedFrom(pub) {
       const raw = pick(pub || {}, 'latency_history', 'ping_history', 'history');
       if (!Array.isArray(raw) || !raw.length) return null;
       const list = raw.map((x, i) => {
         const v = typeof x === 'number' ? x : Number(pick(x, 'latency', 'ping', 'ping_ms', 'latency_ms', 'gateway_ping_ms', 'value'));
-        const timeStr = pick(x, 'time', 'date', 'recorded_at');
-        const ts = typeof x === 'object' ? Date.parse(pick(x, 'timestamp', 'ts') || timeStr) : NaN;
-        return {
-          t: Number.isFinite(ts) ? ts : Date.now() - (raw.length - i) * 60000,
-          v,
-          label: (typeof timeStr === 'string' && timeStr.length <= 8) ? timeStr : null
-        };
+        const rawTs = pick(x, 'timestamp', 'ts', 'recorded_at');
+        let ts = rawTs ? Date.parse(rawTs) : NaN;
+        if (!Number.isFinite(ts)) {
+          ts = Date.now() - (raw.length - i) * 300000;
+        }
+        return { t: ts, v };
       }).filter(s => Number.isFinite(s.v));
       return list.length ? list : null;
     }
     function drawChart() {
-      const labels = series.map(s => s.label || new Date(s.t).toLocaleTimeString(AC.loc(), { hour: '2-digit', minute: '2-digit' }));
+      const labels = series.map(s => new Date(s.t).toLocaleTimeString(AC.loc(), { hour: '2-digit', minute: '2-digit' }));
       AC.lineChart($('#lat'), labels, series.map(s => s.v), { unit: 'ms' });
       $('#chart-note').innerHTML = {
         sample: bi('Courbe d’exemple : l’API ne répond pas. Les vraies mesures s’afficheront dès qu’elle sera de retour.', 'Sample curve: the API is not responding. Real measurements will appear once it is back.'),
