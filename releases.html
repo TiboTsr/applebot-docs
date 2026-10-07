@@ -92,12 +92,14 @@
       const signed = r.os === 'AirPods' || r.signed === undefined ? ''
         : r.signed ? `<span class="badge green">${icon('check', 12)}${bi('Signée', 'Signed')}</span>`
           : `<span class="badge red">${icon('x', 12)}${bi('Non signée', 'Unsigned')}</span>`;
+      const isDirectIpsw = r.url && (r.url.toLowerCase().endsWith('.ipsw') || r.url.includes('cdn-apple.com') || r.url.includes('updates.apple.com'));
+      const ipswLink = isDirectIpsw ? r.url : (['iOS', 'iPadOS', 'macOS'].includes(r.os) ? `https://ipsw.me/` : null);
       return `<article class="rel">
         <div class="rel-main">${AC.osIcon(r.os)}<div><div class="rel-title">${esc(r.os)} ${esc(r.version)}</div><div class="rel-build">${esc(r.build) || '—'}</div></div></div>
         <div class="rel-badges">${AC.typeBadge(r.type)}${signed}${r.sample ? `<span class="badge">${bi('Exemple', 'Sample')}</span>` : ''}</div>
         <div class="rel-date">${fmtDate(r.date)}<small>${esc(relTime(r.date))}</small></div>
         <div class="rel-actions">
-          ${r.url ? `<a class="btn btn-ghost btn-sm" href="${esc(r.url)}" target="_blank" rel="noopener">${icon('download', 15)}IPSW</a>` : ''}
+          ${isDirectIpsw ? `<a class="btn btn-ghost btn-sm" href="${esc(r.url)}" target="_blank" rel="noopener">${icon('download', 15)}IPSW</a>` : ''}
           <a class="btn btn-ghost btn-sm" href="${esc(dbUrl)}" target="_blank" rel="noopener">AppleDB${icon('external', 13)}</a>
         </div></article>`;
     }
