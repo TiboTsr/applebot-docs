@@ -209,7 +209,7 @@
           }
           if (h.ping != null && Number.isFinite(h.ping) && h.ping > 0) {
             series.push({ t: Date.now(), v: Math.round(h.ping), label: null });
-            if (series.length > 100) series.shift();
+            if (series.length > 350) series.shift();
           }
 
           const gwState = h.ping == null ? 'unknown' : h.ping < 200 ? 'ok' : h.ping < 500 ? 'warn' : 'down';
