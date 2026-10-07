@@ -556,6 +556,33 @@ html[data-lang="en"] [lang="fr"] { display: none !important; }
 .badge.blue { background: rgba(41, 151, 255, 0.16); color: #64b5ff; }
 .badge.purple { background: rgba(191, 90, 242, 0.16); color: #d28cff; }
 
+/* Bannière d'avertissement / Notice API */
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-radius: var(--r-md);
+  background: rgba(255, 159, 10, 0.1);
+  border: 1px solid rgba(255, 159, 10, 0.3);
+  color: #ffb84d;
+  font-size: 14.5px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(255, 159, 10, 0.08);
+}
+.notice .ico { flex: none; color: var(--orange); }
+.notice p { flex: 1; line-height: 1.45; color: #ffd699; }
+.notice .btn {
+  flex: none;
+  border-color: rgba(255, 159, 10, 0.35);
+  color: #fff;
+  background: rgba(255, 159, 10, 0.18);
+}
+.notice .btn:hover {
+  background: rgba(255, 159, 10, 0.3);
+  border-color: rgba(255, 159, 10, 0.5);
+}
+
 /* 13. Documentation Layout (`help.html`) ------------------------------------ */
 .help-layout {
   display: grid;
