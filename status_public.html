@@ -147,264 +147,29 @@
 
     /* --------------------------------------------------------------- Courbe */
     let series = [], mode = 'sample';
-    const sampleSeries = () => Array.from({ length: 24 }, (_, i) => ({ t: Date.now() - (24 - i) * EVERY, v: Math.round(46 + Math.sin(i / 3) * 9 + ((i * 7) % 5)) }));
+    const sampleSeries = () => Array.from({ length: 24 }, (_, i) => ({ t: Date.now() - (24 - i) * EVERY, v: Math.round(46 + Math.sin(i / 3) * 9 + ((i * 7) % 5)), label: null }));
     function seedFrom(pub) {
       const raw = pick(pub || {}, 'latency_history', 'ping_history', 'history');
       if (!Array.isArray(raw) || !raw.length) return null;
       const list = raw.map((x, i) => {
-        const v = typeof x === 'number' ? x : Number(pick(x, 'ping', 'ping_ms', 'latency_ms', 'gateway_ping_ms', 'value'));
-        const ts = typeof x === 'object' ? Date.parse(pick(x, 'ts', 'time', 'timestamp', 'date')) : NaN;
-        return { t: Number.isFinite(ts) ? ts : Date.now() - (raw.length - i) * EVERY, v };
+        const v = typeof x === 'number' ? x : Number(pick(x, 'latency', 'ping', 'ping_ms', 'latency_ms', 'gateway_ping_ms', 'value'));
+        const timeStr = pick(x, 'time', 'date', 'recorded_at');
+        const ts = typeof x === 'object' ? Date.parse(pick(x, 'timestamp', 'ts') || timeStr) : NaN;
+        return {
+          t: Number.isFinite(ts) ? ts : Date.now() - (raw.length - i) * 60000,
+          v,
+          label: (typeof timeStr === 'string' && timeStr.length <= 8) ? timeStr : null
+        };
       }).filter(s => Number.isFinite(s.v));
-      return list.length ? list.slice(-MAX) : null;
+      return list.length ? list : null;
     }
     function drawChart() {
-      const labels = series.map(s => new Date(s.t).toLocaleTimeString(AC.loc(), { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+      const labels = series.map(s => s.label || new Date(s.t).toLocaleTimeString(AC.loc(), { hour: '2-digit', minute: '2-digit' }));
       AC.lineChart($('#lat'), labels, series.map(s => s.v), { unit: 'ms' });
       $('#chart-note').innerHTML = {
         sample: bi('Courbe d’exemple : l’API ne répond pas. Les vraies mesures s’afficheront dès qu’elle sera de retour.', 'Sample curve: the API is not responding. Real measurements will appear once it is back.'),
-        api: bi('Historique fourni par l’API, complété toutes les 15 secondes depuis ce navigateur.', 'History provided by the API, extended every 15 seconds from this browser.'),
-        live: bi('Une mesure toutes les 15 secondes depuis ce navigateur : la courbe se remplit tant que la page reste ouverte.', 'One measurement every 15 seconds from this browser: the curve fills in while the page stays open.')
-      }[mode];
-    }
-
-    /* ------------------------------------------------------ Services Apple */
-    let svc = [], svcLive = false, filter = 'all', sq = '';
-    function renderServices() {
-      const total = svc.length;
-      const ok = svc.filter(s => s.status === 'ok').length;
-      const issues = svc.filter(s => s.status === 'warn' || s.status === 'down').length;
-      $('#svc-summary').innerHTML = !svcLive
-        ? bi(`${total} services suivis. L’état en direct n’est pas disponible pour l’instant.`, `${total} services tracked. Live state is not available right now.`)
-        : issues
-          ? bi(`${ok} sur ${total} opérationnels, ${issues} avec un incident.`, `${ok} of ${total} operational, ${issues} with an incident.`)
-          : bi(`Les ${total} services répondent normalement.`, `All ${total} services are responding normally.`);
-      const list = svc.filter(s => (filter === 'all' || s.status === 'warn' || s.status === 'down') && (!sq || s.name.toLowerCase().includes(sq)));
-      $('#svc-grid').innerHTML = list.length
-        ? list.map(s => `<div class="svc"><i class="dot ${dotCls(s.status)}"></i><span>${esc(s.name)}</span><span class="st">${s.status === 'unknown' ? '—' : stateVal(s.status)}</span></div>`).join('')
-        : `<div class="empty" style="grid-column:1/-1"><h3>${filter === 'issues' && svcLive ? bi('Aucun incident en cours.', 'No incident right now.') : bi('Aucun service ne correspond.', 'No service matches.')}</h3><p>${bi('Effacez le filtre pour revoir la liste complète.', 'Clear the filter to see the full list.')}</p></div>`;
-    }
-
-    /* -------------------------------------------------------------- Boucle */
-    let busy = false;
-    async function refresh() {
-      if (busy) return; busy = true;
-      try {
-        const [h, s, rel] = await Promise.all([AC.health(), AC.loadServices(), AC.apiOr('/api/releases?limit=1', null, { timeout: 5000 })]);
-        svc = s.list; svcLive = s.live; renderServices();
-
-        if (!h.live) {
-          ['c-gw', 'c-db', 'c-pallas', 'c-adb'].forEach(id => setComp(id, { state: 'unknown', val: '—', hint: t('Indisponible', 'Unavailable') }));
-          setGlobal('down', [], h);
-          if (!series.length) { series = sampleSeries(); mode = 'sample'; }
-        } else {
-          if (mode === 'sample') {
-            const seed = seedFrom(s.pub);
-            series = seed || []; mode = seed ? 'api' : 'live';
-          }
-          if (h.ping != null) { series.push({ t: Date.now(), v: Math.round(h.ping) }); if (series.length > MAX) series.shift(); }
-
-          const gwState = h.ping == null ? 'unknown' : h.ping < 200 ? 'ok' : h.ping < 500 ? 'warn' : 'down';
-          setComp('c-gw', { state: gwState, val: h.ping == null ? '—' : `${Math.round(h.ping)}<small> ms</small>`, pct: h.ping == null ? 0 : Math.min(100, h.ping / 500 * 100), hint: t('Latence mesurée par le bot', 'Latency measured by the bot') });
-          const dbS = boolState(h.db);
-          setComp('c-db', { state: dbS, val: stateVal(dbS), hint: t('Base de données du bot', 'The bot’s database') });
-          const paS = boolState(h.pallas);
-          setComp('c-pallas', { state: paS, val: paS === 'ok' ? bi('Active', 'Running') : stateVal(paS), hint: t('Sondage OTA toutes les 60 s', 'OTA polling every 60 s') });
-          const adbRaw = flag(pick(s.pub || {}, 'appledb', 'appledb_ok', 'appledb_status', 'appledb_api'));
-          const adbS = adbRaw !== undefined ? boolState(adbRaw) : (rel.live ? 'ok' : 'down');
-          setComp('c-adb', { state: adbS, val: stateVal(adbS), hint: t('Index des releases', 'Release index') });
-
-          const bad = [];
-          if (gwState === 'warn' || gwState === 'down') bad.push(t('Passerelle Discord', 'Discord gateway'));
-          if (dbS === 'down') bad.push('PostgreSQL');
-          if (paS === 'down') bad.push(t('Veille Pallas', 'Pallas watcher'));
-          if (adbS === 'down') bad.push('AppleDB');
-          if (!h.ok && !bad.length) bad.push(t('Statut général du bot', 'Overall bot status'));
-          setGlobal(bad.length ? 'warn' : 'ok', bad, h);
-        }
-        drawChart();
-      } finally { busy = false; }
-    }
-
-    $('#sq').addEventListener('input', AC.debounce(e => { sq = e.target.value.toLowerCase().trim(); renderServices(); }, 80));
-    $('#svc-filter').addEventListener('click', e => {
-      const b = e.target.closest('[data-f]'); if (!b) return;
-      filter = b.dataset.f;
-      $$('#svc-filter .chip').forEach(c => c.setAttribute('aria-pressed', String(c === b)));
-      renderServices();
-    });
-    document.addEventListener('langchange', () => { renderServices(); drawChart(); });
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
-
-    refresh();
-    setInterval(() => { if (!document.hidden) refresh(); }, EVERY);
-  });
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="fr" data-lang="fr">
-<head>
-  <meta charset="utf-8">
-  <script>try{var l=localStorage.getItem('ac_lang')}catch(e){}document.documentElement.dataset.lang=l||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en')</script>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title data-fr="Statut du système — AppleCore" data-en="System status — AppleCore">Statut du système — AppleCore</title>
-  <meta name="description" content="État en temps réel d’AppleCore : passerelle Discord, base PostgreSQL, boucle de veille Pallas, API AppleDB et services Apple.">
-  <meta name="theme-color" content="#000000">
-  <link rel="canonical" href="https://applecore.tibotsr.dev/status_public.html">
-  <link rel="icon" href="logo.png">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <a class="skip" href="#main"><span lang="fr">Aller au contenu</span><span lang="en">Skip to content</span></a>
-  <header id="site-header"></header>
-
-  <main id="main">
-    <div class="wrap">
-      <div class="page-head">
-        <h1><span lang="fr">Statut du système</span><span lang="en">System status</span></h1>
-        <p><span lang="fr">L’état d’AppleCore et des services Apple, mis à jour toutes les 15 secondes tant que cette page reste ouverte.</span><span lang="en">The state of AppleCore and Apple’s services, refreshed every 15 seconds while this page stays open.</span></p>
-      </div>
-
-      <div class="page-body stack" id="root">
-        <div>
-          <!-- Indicateur global -->
-          <div class="global" id="global" data-state="load" role="status">
-            <i class="dot"></i>
-            <div>
-              <h2><span class="sk sk-line" style="display:block;width:280px;height:28px"></span></h2>
-              <p id="global-sub"></p>
-            </div>
-          </div>
-
-          <!-- Composants -->
-          <div class="comp-grid">
-            <div class="comp" id="c-gw">
-              <div class="comp-head"><span><span lang="fr">Passerelle Discord</span><span lang="en">Discord gateway</span></span><i class="dot"></i></div>
-              <div class="val"><span class="sk sk-line" style="display:block;width:90px;height:30px"></span></div>
-              <div class="gauge" aria-hidden="true"><i></i></div>
-              <div class="hint"></div>
-            </div>
-            <div class="comp" id="c-db">
-              <div class="comp-head"><span>PostgreSQL</span><i class="dot"></i></div>
-              <div class="val"><span class="sk sk-line" style="display:block;width:110px;height:30px"></span></div>
-              <div class="hint"></div>
-            </div>
-            <div class="comp" id="c-pallas">
-              <div class="comp-head"><span><span lang="fr">Veille Pallas OTA</span><span lang="en">Pallas OTA watcher</span></span><i class="dot"></i></div>
-              <div class="val"><span class="sk sk-line" style="display:block;width:100px;height:30px"></span></div>
-              <div class="hint"></div>
-            </div>
-            <div class="comp" id="c-adb">
-              <div class="comp-head"><span><span lang="fr">API AppleDB</span><span lang="en">AppleDB API</span></span><i class="dot"></i></div>
-              <div class="val"><span class="sk sk-line" style="display:block;width:100px;height:30px"></span></div>
-              <div class="hint"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Latence -->
-        <section class="panel">
-          <h3><span lang="fr">Latence de la passerelle</span><span lang="en">Gateway latency</span></h3>
-          <p class="sub" id="chart-note"></p>
-          <div class="chart-box"><canvas id="lat" aria-label="Historique de latence" role="img"></canvas></div>
-        </section>
-
-        <!-- Services Apple -->
-        <section>
-          <div class="section-head" style="margin-bottom:24px">
-            <h2 style="font-size:clamp(1.6rem,3vw,2.2rem)"><span lang="fr">Services Apple</span><span lang="en">Apple services</span></h2>
-            <p id="svc-summary" style="font-size:17px"></p>
-          </div>
-          <div class="svc-tools">
-            <label class="search" style="max-width:320px">
-              <span class="sr-only"><span lang="fr">Filtrer les services</span><span lang="en">Filter services</span></span>
-              <span id="search-ico" style="display:contents"></span>
-              <input id="sq" type="search" autocomplete="off" data-ph-fr="Filtrer les services" data-ph-en="Filter services">
-            </label>
-            <div class="chips" id="svc-filter" role="group" aria-label="Filtre">
-              <button class="chip" type="button" data-f="all" aria-pressed="true"><span lang="fr">Tous</span><span lang="en">All</span></button>
-              <button class="chip" type="button" data-f="issues" aria-pressed="false"><span lang="fr">Incidents</span><span lang="en">Issues</span></button>
-            </div>
-            <a class="btn btn-ghost btn-sm" id="apple-link" target="_blank" rel="noopener"><span lang="fr">Page officielle Apple</span><span lang="en">Official Apple page</span></a>
-          </div>
-          <div class="svc-grid" id="svc-grid"></div>
-        </section>
-      </div>
-    </div>
-  </main>
-
-  <footer id="site-footer"></footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
-  <script src="config.js"></script>
-  <script>
-  AC.ready(() => {
-    const { $, $$, t, bi, esc, icon, pick } = AC;
-    AC.mountChrome('status');
-    $('#search-ico').innerHTML = icon('search', 18);
-    $('#apple-link').href = AC.LINKS.appleStatus;
-    $('#svc-grid').innerHTML = AC.skeleton(12, 'sk-tile');
-
-    const MAX = 40, EVERY = 15000;
-    const TXT = {
-      ok: ['Opérationnel', 'Operational'], warn: ['Dégradé', 'Degraded'], down: ['Hors service', 'Down'], unknown: ['Inconnu', 'Unknown']
-    };
-    const flag = v => (v === undefined || v === null ? undefined : typeof v === 'boolean' ? v : /^(ok|up|healthy|connected|operational|true|online|active)$/i.test(String(v).trim()));
-    const dotCls = s => (s === 'unknown' || s === 'load' ? '' : s);
-
-    /* ------------------------------------------------------------ Composants */
-    function setComp(id, { state, val, hint = '', pct }) {
-      const el = $('#' + id);
-      $('.dot', el).className = 'dot ' + dotCls(state);
-      $('.val', el).innerHTML = val;
-      $('.hint', el).innerHTML = hint;
-      const g = $('.gauge i', el);
-      if (g) {
-        g.style.width = (pct || 0) + '%';
-        g.style.background = state === 'ok' ? 'var(--green)' : state === 'warn' ? 'var(--orange)' : state === 'down' ? 'var(--red)' : 'var(--surface-3)';
-      }
-    }
-    const stateVal = s => bi(...TXT[s]);
-    const boolState = v => (v === undefined ? 'unknown' : v ? 'ok' : 'down');
-
-    function setGlobal(state, names, h) {
-      const g = $('#global');
-      g.dataset.state = state;
-      $('.dot', g).className = 'dot ' + dotCls(state);
-      const title = {
-        ok: bi('Tous les systèmes sont opérationnels', 'All systems operational'),
-        warn: bi('Fonctionnement dégradé', 'Degraded performance'),
-        down: bi('Statut indisponible', 'Status unavailable')
-      }[state];
-      $('h2', g).innerHTML = title;
-      const time = new Date().toLocaleTimeString(AC.loc());
-      let sub = '';
-      if (state === 'down') sub = bi('L’API publique ne répond pas : impossible de vérifier l’état du bot pour le moment.', 'The public API is not responding: the bot’s state cannot be checked right now.');
-      else if (state === 'warn') sub = bi('À vérifier : ', 'Needs attention: ') + esc(names.join(', ')) + '.';
-      else if (h.uptime != null) sub = bi(`En ligne depuis ${AC.fmtUptime(h.uptime)}.`, `Online for ${AC.fmtUptime(h.uptime)}.`);
-      $('#global-sub').innerHTML = `${sub} ${bi('Vérifié à ' + time + '.', 'Checked at ' + time + '.')}`;
-    }
-
-    /* --------------------------------------------------------------- Courbe */
-    let series = [], mode = 'sample';
-    const sampleSeries = () => Array.from({ length: 24 }, (_, i) => ({ t: Date.now() - (24 - i) * EVERY, v: Math.round(46 + Math.sin(i / 3) * 9 + ((i * 7) % 5)) }));
-    function seedFrom(pub) {
-      const raw = pick(pub || {}, 'latency_history', 'ping_history', 'history');
-      if (!Array.isArray(raw) || !raw.length) return null;
-      const list = raw.map((x, i) => {
-        const v = typeof x === 'number' ? x : Number(pick(x, 'ping', 'ping_ms', 'latency_ms', 'gateway_ping_ms', 'value'));
-        const ts = typeof x === 'object' ? Date.parse(pick(x, 'ts', 'time', 'timestamp', 'date')) : NaN;
-        return { t: Number.isFinite(ts) ? ts : Date.now() - (raw.length - i) * EVERY, v };
-      }).filter(s => Number.isFinite(s.v));
-      return list.length ? list.slice(-MAX) : null;
-    }
-    function drawChart() {
-      const labels = series.map(s => new Date(s.t).toLocaleTimeString(AC.loc(), { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-      AC.lineChart($('#lat'), labels, series.map(s => s.v), { unit: 'ms' });
-      $('#chart-note').innerHTML = {
-        sample: bi('Courbe d’exemple : l’API ne répond pas. Les vraies mesures s’afficheront dès qu’elle sera de retour.', 'Sample curve: the API is not responding. Real measurements will appear once it is back.'),
-        api: bi('Historique fourni par l’API, complété toutes les 15 secondes depuis ce navigateur.', 'History provided by the API, extended every 15 seconds from this browser.'),
-        live: bi('Une mesure toutes les 15 secondes depuis ce navigateur : la courbe se remplit tant que la page reste ouverte.', 'One measurement every 15 seconds from this browser: the curve fills in while the page stays open.')
+        api: bi('Historique réel sur 24 heures extrait de la base PostgreSQL, complété en direct toutes les 15 s.', 'Real 24-hour history from PostgreSQL database, extended live every 15 s.'),
+        live: bi('Mesures enregistrées en direct toutes les 15 secondes depuis ce navigateur.', 'Live measurements recorded every 15 seconds from this browser.')
       }[mode];
     }
 

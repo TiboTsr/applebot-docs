@@ -319,7 +319,14 @@
     const ok = truthy(status) ?? (String(status).toLowerCase() === 'healthy');
     const ping = Number(pick(d, 'gateway_ping_ms', 'ping_ms', 'latency_ms'));
     const up = Number(pick(d, 'uptime_seconds', 'uptime'));
-    return { live: true, ok: ok !== false, ping: Number.isFinite(ping) ? ping : null, uptime: Number.isFinite(up) ? up : null, db: truthy(d.database), pallas: truthy(d.pallas_loop_ok) };
+    return {
+      live: true,
+      ok: ok !== false,
+      ping: Number.isFinite(ping) ? ping : null,
+      uptime: Number.isFinite(up) ? up : null,
+      db: truthy(pick(d, 'database', 'database_connected', 'db')),
+      pallas: truthy(pick(d, 'pallas', 'pallas_running', 'pallas_loop_ok'))
+    };
   }
   const healthState = h => (!h.live ? 'down' : (h.ok && h.db !== false && h.pallas !== false) ? 'ok' : 'warn');
   const HEALTH_TXT = {
