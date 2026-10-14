@@ -186,37 +186,45 @@
     const years = (Date.now() - d) / 31557600000;
     return { years, key: years < 5 ? 'supported' : years <= 7 ? 'vintage' : 'obsolete' };
   }
+  const EXCLUDED_DEVICE_TYPES = /^(software|sdk|simulator|virtual machine|credit cards|cases|batteries|power|adapters|beddit|security|accessories|other)$/i;
+  const ACCESSORY_NAME_RE = /\b(cloth|chiffon|dragonne|wrist strap|cushion kit|pocket -|case for|sleeve|cover|leather case|silicone case|clear case)\b/i;
+
+  function osKey2cat(name, type, family) {
+    const s = `${name} ${type || ''} ${family || ''}`.toLowerCase();
+    if (/ipad/.test(s)) return 'iPad';
+    if (/iphone|ipod/.test(s)) return 'iPhone';
+    if (/watch/.test(s)) return 'Watch';
+    if (/airpod|beats|earbud|headphone|headset/.test(s)) return 'AirPods';
+    if (/mac|imac|studio|mini|book|xserve|pro\b/.test(s) && !/ipad|iphone/.test(s)) return 'Mac';
+    if (/tv|homepod|display/.test(s)) return 'Autre';
+    return 'Autre';
+  }
+
   function normDevice(d) {
     const name = String(pick(d, 'name', 'model', 'device') ?? '?');
+    const type = String(pick(d, 'type') ?? '');
+    const family = String(pick(d, 'family', 'category') ?? '');
     const soc = String(pick(d, 'soc', 'chip', 'processor', 'cpu') ?? '—');
-    let cat = pick(d, 'category', 'family', 'type');
-    cat = cat ? osKey2cat(cat) : osKey2cat(name);
+    const cat = osKey2cat(name, type, family);
     const ramRaw = pick(d, 'ram', 'memory', 'ram_gb');
     const aiRaw = pick(d, 'apple_intelligence', 'appleIntelligence', 'ai');
-    let supported = pick(d, 'supported', 'ai_supported');
+    let supported = pick(d, 'supported', 'ai_supported', 'ai_compatible');
     let reason = pick(d, 'reason', 'ai_reason');
-    if (aiRaw && typeof aiRaw === 'object') { supported = pick(aiRaw, 'supported'); reason = pick(aiRaw, 'reason', 'details') ?? reason; }
+    if (aiRaw && typeof aiRaw === 'object') { supported = pick(aiRaw, 'supported', 'compatible'); reason = pick(aiRaw, 'reason', 'details') ?? reason; }
     else if (typeof aiRaw === 'boolean') supported = aiRaw;
+    const isExcluded = EXCLUDED_DEVICE_TYPES.test(type) || (ACCESSORY_NAME_RE.test(name) && !/airpods|beats/i.test(name));
     return {
       id: String(pick(d, 'identifier', 'id', 'device_id', 'key') ?? name),
-      name, soc, cat,
-      arch: String(pick(d, 'arch', 'architecture') ?? (/intel|core i|xeon/i.test(soc) ? 'x86_64' : '—')),
+      name, soc, cat, type, family,
+      arch: String(pick(d, 'arch', 'architecture') ?? (/intel|core i|xeon/i.test(soc) ? 'x86_64' : (soc && soc !== '—' ? 'Apple Silicon' : '—'))),
       ram: ramRaw === undefined ? null : (typeof ramRaw === 'number' ? ramRaw : String(ramRaw)),
       released: pick(d, 'released', 'release_date', 'date', 'introduced'),
       ai: typeof supported === 'boolean' ? supported : null,
-      reason: reason || null
+      reason: reason || null,
+      isExcluded
     };
   }
-  function osKey2cat(raw) {
-    const s = String(raw).toLowerCase();
-    if (/ipad/.test(s)) return 'iPad';
-    if (/iphone/.test(s)) return 'iPhone';
-    if (/watch/.test(s)) return 'Watch';
-    if (/airpod|beats/.test(s)) return 'AirPods';
-    if (/mac|imac|studio|mini|book/.test(s)) return 'Mac';
-    return String(raw);
-  }
-  const CAT_ICON = { iPhone: 'iphone', iPad: 'ipad', Mac: 'mac', Watch: 'watch', AirPods: 'airpods' };
+  const CAT_ICON = { iPhone: 'iphone', iPad: 'ipad', Mac: 'mac', Watch: 'watch', AirPods: 'airpods', Autre: 'tv' };
   const fmtRam = r => (r === null ? '—' : typeof r === 'number' ? `${r} ${t('Go', 'GB')}` : String(r));
   const reasonText = r => (!r ? '' : typeof r === 'string' ? r : (lang === 'fr' ? r.fr : r.en));
 
@@ -359,20 +367,23 @@
     return { list: SERVICES.map(name => ({ name, status: 'unknown' })), live: false, pub: d, apiLive: r.live };
   }
   async function loadReleases({ page = 1, limit = 60 } = {}) {
-    const r = await apiOr(`/api/releases?page=${page}&limit=${limit}`, null);
+    const offset = Math.max(0, (page - 1) * limit);
+    const r = await apiOr(`/api/releases?page=${page}&offset=${offset}&limit=${limit}`, null);
     if (!r.live || !r.data) return { items: sampleReleases(), live: false, more: false };
     const d = r.data;
     const arr = Array.isArray(d) ? d : (d.items || d.releases || d.results || d.data || []);
     const items = arr.map(normRelease);
-    const more = !!(d.next || d.has_more || (d.pages && page < d.pages) || (!Array.isArray(d) && d.total && page * limit < d.total) || items.length >= limit);
-    return { items, live: true, more, total: d.total };
+    const total = Number(d.total || 0);
+    const more = !!(d.next || d.has_more || (total && page * limit < total) || (!total && items.length >= limit));
+    return { items, live: true, more, total };
   }
   async function loadDevices() {
-    const r = await apiOr('/api/devices', null, { timeout: 9000 });
+    const r = await apiOr('/api/devices?limit=2500', null, { timeout: 12000 });
     if (!r.live || !r.data) return { items: sampleDevices(), live: false };
     const d = r.data;
     const arr = Array.isArray(d) ? d : (d.items || d.devices || d.results || d.data || []);
-    return { items: arr.map(normDevice), live: true };
+    const items = arr.map(normDevice).filter(x => !x.isExcluded);
+    return { items, live: true, total: items.length };
   }
   async function loadAnalytics() {
     const r = await apiOr('/api/analytics', null);
@@ -451,28 +462,65 @@
   }
 
   /* ------------------------------------------------------------ Rendu Discord */
-  const md = s => esc(s).replace(/`([^`]+)`/g, '<code class="dc-code">$1</code>').replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+  const md = s => esc(s)
+    .replace(/^> (.*$)/gim, '<blockquote class="dc-quote">$1</blockquote>')
+    .replace(/`([^`]+)`/g, '<code class="dc-code">$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    .replace(/@([\w-]+)/g, '<span class="dc-mention">@$1</span>')
+    .replace(/#([\w-]+)/g, '<span class="dc-channel">#$1</span>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a class="dc-link" href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\n/g, '<br>');
+
   function dcMessage({ cmd, embed, buttons = [], select } = {}) {
     const time = new Date().toLocaleTimeString(loc(), { hour: '2-digit', minute: '2-digit' });
     let h = '<div class="dc">';
     if (cmd) h += `<div class="dc-cmd"><b>${esc(t('Vous', 'You'))}</b> ${esc(t('avez utilisé', 'used'))} <span class="dc-slash">${esc(cmd)}</span></div>`;
-    h += `<div class="dc-msg"><div class="dc-avatar">${logoMark(40)}</div><div class="dc-body"><div class="dc-head"><span class="dc-name">AppleCore</span><span class="dc-tag">BOT</span><span class="dc-time">${esc(t('Aujourd’hui à ', 'Today at ') + time)}</span></div>`;
+    h += `<div class="dc-msg"><div class="dc-avatar"><img src="logo.png" alt="AppleCore" width="40" height="40" style="border-radius:50%;object-fit:cover;"></div><div class="dc-body"><div class="dc-head"><span class="dc-name">AppleCore</span><span class="dc-tag">BOT</span><span class="dc-time">${esc(t('Aujourd’hui à ', 'Today at ') + time)}</span></div>`;
     if (embed) {
       h += `<div class="dc-embed${embed.enter ? ' enter' : ''}" style="--c:${esc(embed.color || '#0a84ff')}">`;
+      if (embed.author) {
+        h += `<div class="dc-author">${embed.author.icon ? `<img class="dc-author-ico" src="${esc(embed.author.icon)}" alt="" width="18" height="18">` : ''}<span>${esc(embed.author.name)}</span></div>`;
+      }
+      h += '<div class="dc-embed-inner">';
+      h += '<div class="dc-embed-content">';
       if (embed.title) h += `<div class="dc-title">${md(embed.title)}</div>`;
       if (embed.desc) h += `<div class="dc-desc" style="--i:0">${md(embed.desc)}</div>`;
       if (embed.fields?.length) {
         h += '<div class="dc-fields">' + embed.fields.map((f, i) =>
           `<div class="dc-field${f.inline ? ' inline' : ''}" style="--i:${i + 1}"><div class="dc-fname">${md(f.name)}</div><div class="dc-fval">${md(f.value)}</div></div>`).join('') + '</div>';
       }
-      if (embed.footer) h += `<div class="dc-foot">${logoMark(16)}<span>${esc(embed.footer)}</span></div>`;
+      h += '</div>';
+      if (embed.thumbnail) {
+        h += `<div class="dc-thumb"><img src="${esc(embed.thumbnail)}" alt="" width="80" height="80"></div>`;
+      }
+      h += '</div>'; // .dc-embed-inner
+      if (embed.footer) {
+        h += `<div class="dc-foot">${logoMark(16)}<span>${esc(embed.footer)}</span></div>`;
+      }
       h += '</div>';
     }
     if (select) {
       h += `<div class="dc-select"><div class="dc-select-head"><span>${esc(select.placeholder)}</span>${icon('chevdown', 16)}</div>` +
-        (select.options || []).map(o => `<div class="dc-select-opt"><i class="${o.on ? 'on' : ''}"></i><span>${esc(o.label)}</span></div>`).join('') + '</div>';
+        `<div class="dc-select-menu">` +
+        (select.options || []).map(o => `
+          <div class="dc-select-opt${o.on ? ' selected' : ''}">
+            <div class="dc-opt-lead">${o.emoji ? `<span class="dc-opt-emoji">${esc(o.emoji)}</span>` : `<i class="${o.on ? 'on' : ''}"></i>`}</div>
+            <div class="dc-opt-text">
+              <span class="dc-opt-title">${esc(o.label)}</span>
+              ${o.desc ? `<span class="dc-opt-desc">${esc(o.desc)}</span>` : ''}
+            </div>
+            ${o.on ? `<span class="dc-opt-check">${icon('check', 14)}</span>` : ''}
+          </div>
+        `).join('') +
+        `</div></div>`;
     }
-    if (buttons.length) h += '<div class="dc-btns">' + buttons.map(b => `<span class="dc-btn${b.primary ? ' primary' : ''}">${esc(b.label)}</span>`).join('') + '</div>';
+    if (buttons.length) {
+      h += '<div class="dc-btns">' + buttons.map(b => {
+        const cls = b.style === 'primary' || b.primary ? 'primary' : b.style === 'success' ? 'success' : b.style === 'danger' ? 'danger' : 'secondary';
+        return `<span class="dc-btn ${cls}">${b.emoji ? `<span class="btn-ico">${esc(b.emoji)}</span>` : ''}${esc(b.label)}${b.url ? icon('external', 12) : ''}</span>`;
+      }).join('') + '</div>';
+    }
     return h + '</div></div></div>';
   }
 

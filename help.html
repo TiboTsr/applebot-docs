@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <script>try{var l=localStorage.getItem('ac_lang')}catch(e){}document.documentElement.dataset.lang=l||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en')</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title data-fr="Documentation — AppleCore" data-en="Documentation — AppleCore">Documentation — AppleCore</title>
-  <meta name="description" content="Toutes les commandes d’AppleCore : syntaxe, exemples, permissions et aperçu du message Discord généré. Guide de démarrage pour les administrateurs.">
+  <title data-fr="Documentation & Commandes — AppleCore" data-en="Documentation & Commands — AppleCore">Documentation & Commandes — AppleCore</title>
+  <meta name="description" content="Toutes les commandes d’AppleCore : syntaxe multilingue (FR, EN, ES, DE), exemples, permissions et rendu Discord ultra-réaliste.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://applecore.tibotsr.dev/help.html">
   <link rel="icon" href="logo.png">
@@ -18,15 +18,15 @@
   <main id="main">
     <div class="wrap">
       <div class="page-head">
-        <h1><span lang="fr">Documentation</span><span lang="en">Documentation</span></h1>
-        <p><span lang="fr">Chaque commande d’AppleCore, avec sa syntaxe, un exemple et l’aperçu du message qu’elle renvoie sur Discord.</span><span lang="en">Every AppleCore command, with its syntax, an example and a preview of the Discord message it returns.</span></p>
+        <h1><span lang="fr">Documentation & Commandes</span><span lang="en">Docs & Commands</span></h1>
+        <p><span lang="fr">Catalogue officiel de toutes les commandes d’AppleCore. Cherchez en français, anglais, espagnol ou allemand pour afficher son équivalent et prévisualiser le message Discord exact.</span><span lang="en">Official catalogue of every AppleCore command. Search in French, English, Spanish or German to view its localized equivalent and preview the real Discord embed.</span></p>
       </div>
 
       <div class="toolbar-unified">
         <label class="search-unified">
           <span class="sr-only"><span lang="fr">Rechercher une commande</span><span lang="en">Search commands</span></span>
           <span id="search-ico"></span>
-          <input id="q" type="search" autocomplete="off" spellcheck="false" data-ph-fr="Rechercher une commande ou un mot-clé  ( / )" data-ph-en="Search a command or keyword  ( / )">
+          <input id="q" type="search" autocomplete="off" spellcheck="false" data-ph-fr="Chercher en FR, EN, ES ou DE (ex: appareil, device, geraet, ayuda...)" data-ph-en="Search in EN, FR, ES or DE (e.g. device, appareil, geraet, ayuda...)">
         </label>
         <div class="chips" id="cats" role="group" aria-label="Catégories"></div>
       </div>
@@ -38,7 +38,7 @@
         <aside class="sim" id="sim" aria-label="Aperçu Discord">
           <div class="sim-box">
             <div class="sim-cap">
-              <span><span lang="fr">Aperçu en direct du message Discord</span><span lang="en">Live Discord message preview</span></span>
+              <span><span lang="fr">Aperçu officiel du message Discord</span><span lang="en">Live Discord message preview</span></span>
               <span class="badge blue"><span lang="fr">Interactif</span><span lang="en">Interactive</span></span>
             </div>
             <div id="sim-msg"></div>
@@ -92,96 +92,777 @@
     $('#search-ico').innerHTML = icon('search', 18);
     $('#search-ico').style.display = 'contents';
 
-    /* ------------------------------------------------------------ Aperçus */
-    const e = (color, title, o = {}) => ({ embed: { color, title, ...o } });
     const foot = () => t('AppleCore • Données officielles Apple', 'AppleCore • Official Apple data');
-    const vint = AC.vintageOf('2020-10-23');
-    const vintYears = Math.floor(vint.years);
 
+    /* ------------------------------------------------------------ Catalogue complet */
     const CMDS = [
-      { id: 'info', cat: 'public', syntax: '/info [os:] [version:] [device:]', ex: '/info os:iOS version:27.0',
-        fr: 'Recherche complète d’une version Apple : builds, audience (bêta développeur, bêta publique, RC, stable), notes officielles traduites en français et appareils compatibles.',
-        en: 'Full lookup of an Apple release: builds, audience (developer beta, public beta, RC, stable), official notes translated into French and compatible devices.',
-        preview: () => ({ cmd: '/info os:iOS version:27.0', ...e('#0a84ff', '🍎 iOS 27.0', { footer: foot(), fields: [
-          { name: t('📝 Notes de version', '📝 Release notes'), value: t('iOS 27 introduit la nouvelle génération d’Apple Intelligence et de Siri avec contexte personnel.', 'iOS 27 introduces the next generation of Apple Intelligence and Siri with personal context.') },
-          { name: '🆔 Build(s)', value: '`24A427`', inline: true }, { name: '📡 Audience', value: '`Public Stable`', inline: true }, { name: '📅 Date', value: AC.fmtDate('2026-09-14', { day: 'numeric', month: 'long', year: 'numeric' }), inline: true },
-          { name: t('📱 Compatibilité', '📱 Compatibility'), value: t('**48 modèles compatibles**', '**48 compatible models**') }] }),
-          buttons: [{ label: t('📱 Appareils compatibles', '📱 Compatible devices') }, { label: t('💾 Télécharger IPSW', '💾 Download IPSW'), primary: true }, { label: t('🔗 Fiche AppleDB', '🔗 AppleDB page') }] }) },
-      { id: 'latest', cat: 'public', syntax: '/latest [os:]', ex: '/latest os:macOS',
-        fr: 'Récapitulatif instantané des dernières versions stables publiques pour chaque système : iOS, iPadOS, macOS, watchOS, tvOS, visionOS, audioOS et AirPods.',
-        en: 'Instant recap of the latest public stable releases for every system: iOS, iPadOS, macOS, watchOS, tvOS, visionOS, audioOS and AirPods.',
-        preview: () => ({ cmd: '/latest', ...e('#30d158', t('📦 Dernières versions stables', '📦 Latest stable releases'), { footer: foot(), fields: ['iOS', 'iPadOS', 'macOS', 'watchOS', 'tvOS', 'visionOS'].map(n => ({ name: n, value: '`27.0`', inline: true })) }) }) },
-      { id: 'compat', cat: 'public', syntax: '/compat [appareil:]', ex: '/compat appareil:iPhone 15 Pro',
-        fr: 'Vérifie la compatibilité d’un modèle avec les versions actuelles et futures des OS Apple, avec un badge de compatibilité Apple Intelligence.',
-        en: 'Checks a model’s compatibility with current and upcoming Apple OS versions, with an Apple Intelligence compatibility badge.',
-        preview: () => ({ cmd: '/compat appareil:iPhone 15 Pro', ...e('#bf5af2', '📱 iPhone 15 Pro', { footer: foot(), fields: [
-          { name: 'iOS 27', value: t('✅ Compatible', '✅ Compatible'), inline: true }, { name: t('Puce', 'Chip'), value: '`A17 Pro`', inline: true }, { name: 'RAM', value: t('`8 Go`', '`8 GB`'), inline: true },
-          { name: '✨ Apple Intelligence', value: t('✅ Compatible — Neural Engine 16 cœurs et 8 Go de mémoire unifiée.', '✅ Compatible — 16-core Neural Engine and 8 GB of unified memory.') }] }) }) },
-      { id: 'ipsw', cat: 'public', syntax: '/ipsw [appareil:]', ex: '/ipsw appareil:iPhone 15 Pro',
-        fr: 'Diagnostic en direct des signatures firmware : versions signées (vert) et non signées (rouge), avec boutons de téléchargement officiels Apple.',
-        en: 'Live firmware signing diagnostic: signed (green) and unsigned (red) versions, with official Apple download buttons.',
-        preview: () => ({ cmd: '/ipsw appareil:iPhone 15 Pro', ...e('#30d158', '🔏 IPSW — iPhone 15 Pro', { footer: foot(), fields: [
-          { name: t('✅ Signées', '✅ Signed'), value: 'iOS 27.0 (`24A427`)' }, { name: t('🔴 Non signées', '🔴 Unsigned'), value: 'iOS 26.x' }] }),
-          buttons: [{ label: t('💾 iOS 27.0 — Apple', '💾 iOS 27.0 — Apple'), primary: true }] }) },
-      { id: 'vintage', cat: 'public', syntax: '/vintage [appareil:]', ex: '/vintage appareil:iPhone 12',
-        fr: 'Statut officiel Apple Hardware Service — Supporté, Vintage ou Obsolète — et éligibilité aux réparations en Apple Store ou centre agréé.',
-        en: 'Official Apple hardware service status — Supported, Vintage or Obsolete — and eligibility for repair at an Apple Store or authorized provider.',
-        preview: () => ({ cmd: '/vintage appareil:iPhone 12', ...e('#ff9f0a', '🟠 iPhone 12', { footer: foot(), fields: [
-          { name: t('Statut', 'Status'), value: '**Vintage**', inline: true }, { name: t('Âge', 'Age'), value: t(`${vintYears} ans`, `${vintYears} years`), inline: true }, { name: t('Lancement', 'Launch'), value: AC.fmtDate('2020-10-23', { month: 'long', year: 'numeric' }), inline: true },
-          { name: t('🔧 Réparation', '🔧 Repair'), value: t('Possible selon la disponibilité des pièces.', 'Possible depending on parts availability.') }] }) }) },
-      { id: 'prediction', cat: 'public', syntax: '/prediction [os:]', ex: '/prediction os:iOS',
-        fr: 'Analyse probabiliste de la date et de l’heure probables de la prochaine sortie, d’après les cycles de diffusion des bêtas d’Apple.',
-        en: 'Probabilistic estimate of the likely date and time of the next release, based on Apple’s beta release cycles.',
-        preview: () => ({ cmd: '/prediction os:iOS', ...e('#5e5ce6', t('🔮 Prochaine sortie : iOS 27.1', '🔮 Next release: iOS 27.1'), { footer: foot(), fields: [
-          { name: t('📅 Jour probable', '📅 Likely day'), value: t('mardi', 'Tuesday'), inline: true }, { name: t('🕐 Heure probable', '🕐 Likely time'), value: t('19:00 (Paris)', '19:00 (Paris)'), inline: true }, { name: t('📊 Confiance', '📊 Confidence'), value: '`71 %`', inline: true }] }) }) },
-      { id: 'apple_status', cat: 'public', syntax: '/apple_status', ex: '/apple_status',
-        fr: 'Statut en direct des 71 services Apple, avec le détail des pannes ou dégradations éventuelles.',
-        en: 'Live status of the 71 Apple services, with details of any outage or degradation.',
-        preview: () => ({ cmd: '/apple_status', ...e('#ff9f0a', '🍏 Apple System Status', { footer: foot(), desc: t('**70 / 71** services opérationnels', '**70 / 71** services operational'), fields: [{ name: t('🟠 Dégradé', '🟠 Degraded'), value: 'iMessage' }, { name: t('🟢 Tout le reste', '🟢 Everything else'), value: 'App Store, iCloud, Apple Music, TestFlight…' }] }) }) },
-      { id: 'roles', cat: 'public', syntax: '/roles', ex: '/roles',
-        fr: 'Menu déroulant interactif : chaque membre s’abonne aux rôles de notification de son choix.',
-        en: 'Interactive dropdown: each member subscribes to the notification roles they want.',
-        preview: () => ({ cmd: '/roles', ...e('#0a84ff', t('🎛️ Vos alertes', '🎛️ Your alerts'), { desc: t('Sélectionnez les systèmes pour lesquels vous souhaitez être notifié.', 'Select the systems you want to be notified about.') }),
-          select: { placeholder: t('Choisissez vos alertes', 'Choose your alerts'), options: [{ label: 'iOS', on: true }, { label: 'iPadOS' }, { label: 'macOS', on: true }, { label: 'watchOS' }, { label: 'visionOS' }, { label: 'AirPods' }] } }) },
-      { id: 'status', cat: 'system', syntax: '/status', ex: '/status',
-        fr: 'Télémétrie du bot : latence de la passerelle Discord, état de PostgreSQL, uptime et surveillance GDMF.',
-        en: 'Bot telemetry: Discord gateway latency, PostgreSQL status, uptime and GDMF monitoring.',
-        preview: () => ({ cmd: '/status', ...e('#30d158', t('⚙️ Télémétrie AppleCore', '⚙️ AppleCore telemetry'), { footer: 'AppleCore', fields: [
-          { name: t('Passerelle Discord', 'Discord gateway'), value: '`42 ms`', inline: true }, { name: 'PostgreSQL', value: t('✅ Connecté', '✅ Connected'), inline: true }, { name: 'Uptime', value: t('12 j 4 h', '12 d 4 h'), inline: true },
-          { name: t('Surveillance GDMF', 'GDMF monitoring'), value: t('✅ Active', '✅ Active') }] }) }) },
-      { id: 'setup', cat: 'admin', syntax: '/setup', ex: '/setup',
-        fr: 'Assistant interactif en 5 étapes pour configurer le bot : salon, rôles par système, filtres et alerte de test.',
-        en: '5-step interactive wizard to configure the bot: channel, per-system roles, filters and a test alert.',
-        preview: () => ({ cmd: '/setup', ...e('#0a84ff', t('⚙️ Configuration d’AppleCore — étape 2/5', '⚙️ AppleCore setup — step 2/5'), { desc: t('Dans quel salon publier les annonces d’Apple ?', 'Which channel should Apple announcements go to?') }),
-          select: { placeholder: t('Choisir un salon', 'Choose a channel'), options: [{ label: '# apple-updates', on: true }, { label: '# general' }, { label: '# tech' }] },
-          buttons: [{ label: t('Précédent', 'Back') }, { label: t('Suivant', 'Next'), primary: true }] }) },
-      { id: 'config_salon', cat: 'admin', syntax: '/config salon [#salon]', ex: '/config salon #apple-updates',
-        fr: 'Définit le salon Discord où sont publiées les annonces officielles d’Apple.',
-        en: 'Sets the Discord channel where official Apple announcements are posted.',
-        preview: () => ({ cmd: '/config salon #apple-updates', ...e('#30d158', t('✅ Salon configuré', '✅ Channel configured'), { desc: t('Les annonces seront publiées dans **#apple-updates**. Permissions vérifiées : messages et embeds.', 'Announcements will be posted in **#apple-updates**. Permissions checked: messages and embeds.') }) }) },
-      { id: 'config_os', cat: 'admin', syntax: '/config os [os:] [role:]', ex: '/config os os:iOS role:@iOS-Notif',
-        fr: 'Associe un rôle à mentionner pour un système précis, par exemple @iOS-Notif pour iOS.',
-        en: 'Maps a role to ping for a specific system, for example @iOS-Notif for iOS.',
-        preview: () => ({ cmd: '/config os os:iOS role:@iOS-Notif', ...e('#30d158', t('✅ Rôle associé', '✅ Role mapped'), { desc: t('Les annonces **iOS** mentionneront désormais **@iOS-Notif**.', '**iOS** announcements will now ping **@iOS-Notif**.') }) }) },
-      { id: 'roles_panel', cat: 'admin', syntax: '/roles_panel', ex: '/roles_panel',
-        fr: 'Déploie dans un salon un menu déroulant persistant : la communauté choisit ses rôles d’alerte en libre-service.',
-        en: 'Deploys a persistent dropdown in a channel: the community picks its alert roles on its own.',
-        preview: () => ({ cmd: '/roles_panel', ...e('#0a84ff', t('🎛️ Choisissez vos notifications', '🎛️ Choose your notifications'), { desc: t('Ouvrez le menu pour activer ou désactiver vos alertes par système.', 'Open the menu to turn alerts on or off per system.') }),
-          select: { placeholder: t('Mes alertes Apple', 'My Apple alerts'), options: [{ label: 'iOS', on: true }, { label: 'macOS' }, { label: 'watchOS' }, { label: 'AirPods', on: true }] } }) },
-      { id: 'test_notification', cat: 'admin', syntax: '/test_notification [type:]', ex: '/test_notification type:iOS',
-        fr: 'Simule et envoie une vraie alerte de test pour valider les permissions et le rendu des embeds.',
-        en: 'Sends a real test alert to validate permissions and embed rendering.',
-        preview: () => ({ cmd: '/test_notification type:iOS', ...e('#ff9f0a', t('🧪 Notification de test', '🧪 Test notification'), { footer: foot(), desc: t('Alerte de test envoyée par un administrateur. Si vous la voyez, les permissions et le rendu sont corrects.', 'Test alert sent by an administrator. If you can see it, permissions and rendering are correct.'), fields: [{ name: 'Type', value: '`iOS`', inline: true }, { name: t('Salon', 'Channel'), value: '#apple-updates', inline: true }] }) }) }
+      {
+        id: 'info',
+        cat: 'public',
+        names: { fr: '/info', en: '/info', es: '/info', de: '/info' },
+        syntax: { fr: '/info os:<nom> [version:<version_ou_build>]', en: '/info os:<name> [version:<version_or_build>]' },
+        ex: { fr: '/info os:iOS version:18.3.1', en: '/info os:iOS version:18.3.1' },
+        fr: 'Recherche complète d’un firmware Apple : builds, statut de signature, changelog officiel traduit en français et liste des appareils compatibles.',
+        en: 'Comprehensive lookup of an Apple firmware: builds, signing status, official release notes, and list of supported devices.',
+        tags: ['firmware', 'update', 'maj', 'ipsw', 'build', 'notes', 'ios', 'macos', 'version', 'actualizacion'],
+        preview: () => ({
+          cmd: t('/info os:iOS version:18.3.1', '/info os:iOS version:18.3.1'),
+          embed: {
+            color: '#0071e3',
+            author: { name: t('AppleCore • Fiche Système', 'AppleCore • System Overview') },
+            title: '🍎 iOS 18.3.1',
+            desc: t(
+              'Cette mise à jour apporte des correctifs de sécurité importants et résout un problème empêchant la synchronisation correcte des contacts dans iCloud. Recommandée à tous les utilisateurs.',
+              'This update provides important security fixes and addresses an issue that could prevent contacts from syncing properly in iCloud. Recommended for all users.'
+            ),
+            fields: [
+              { name: '🆔 Build(s)', value: '`22D72`', inline: true },
+              { name: '📡 Audience', value: '`Public Stable`', inline: true },
+              { name: '📅 ' + t('Date de sortie', 'Release date'), value: '10 février 2026', inline: true },
+              { name: '📱 ' + t('Compatibilité', 'Compatibility'), value: t('**48 modèles compatibles** • Cliquez ci-dessous pour le détail.', '**48 compatible models** • Click below for model breakdown.') }
+            ],
+            footer: foot()
+          },
+          buttons: [
+            { label: t('📱 Appareils compatibles (48)', '📱 Compatible devices (48)') },
+            { label: t('💾 Télécharger IPSW', '💾 Download IPSW'), style: 'primary', emoji: '💾' },
+            { label: '🔗 AppleDB', style: 'secondary', url: 'https://appledb.dev' }
+          ]
+        })
+      },
+      {
+        id: 'device',
+        cat: 'public',
+        names: { fr: '/appareil', en: '/device', es: '/dispositivo', de: '/geraet' },
+        syntax: { fr: '/appareil modele:<nom_ou_id>', en: '/device model:<name_or_id>' },
+        ex: { fr: '/appareil modele:iPhone 16 Pro', en: '/device model:iPhone 16 Pro' },
+        fr: 'Fiche technique complète d’un appareil Apple : puce (SoC), RAM unifiée, architecture, support Apple Intelligence, historique OS, identifiants Axxxx et statut matériel (Actuel, Vintage, Obsolète).',
+        en: 'Complete spec sheet for any Apple device: chip (SoC), unified RAM, architecture, Apple Intelligence readiness, OS lifecycle, Axxxx models and repair status (Supported, Vintage, Obsolete).',
+        tags: ['modele', 'specs', 'fiche', 'soc', 'puce', 'ram', 'hardware', 'vintage', 'obsolete', 'geraet', 'dispositivo', 'prozessor', 'speicher', 'a3101', 'iphone16,1'],
+        preview: () => ({
+          cmd: t('/appareil modele:iPhone 16 Pro', '/device model:iPhone 16 Pro'),
+          embed: {
+            color: '#0071e3',
+            title: '📱 iPhone 16 Pro',
+            desc: '**Type :** iPhone',
+            thumbnail: 'https://raw.githubusercontent.com/littlebyteorg/apple-device-images/gh-pages/device@256/iPhone17,1/Desert%20Titanium.png',
+            fields: [
+              {
+                name: t('⚡ Puce & Architecture', '⚡ Chip & Architecture'),
+                value: '• **' + t('Puce (SoC)', 'Chip (SoC)') + ' :** `A18 Pro`\n• **' + t('Mémoire RAM', 'RAM') + ' :** `8 Go`\n• **Architecture :** `arm64e.x1`\n• **Registres :** CPID: `0x8130` • BDID: `0x00`'
+              },
+              {
+                name: '🧠 Apple Intelligence',
+                value: t('✅ **Pris en charge par Apple Intelligence**', '✅ **Supported by Apple Intelligence**'),
+                inline: true
+              },
+              {
+                name: '🗓️ ' + t('Commercialisation', 'Release Date'),
+                value: '**20 septembre 2024**',
+                inline: true
+              },
+              {
+                name: '📲 OS Lifecycle',
+                value: '• **' + t('Version initiale', 'Initial OS') + ' :** `iOS 18.0`\n• **' + t('Dernière version', 'Latest OS') + ' :** `iOS 18.3.1`'
+              },
+              {
+                name: '🆔 ' + t('Identifiants & Modèles', 'Identifiers & Models'),
+                value: '• **ID :** `iPhone17,1`\n• **Model :** `A3083`, `A3292`, `A3293`, `A3294`\n• **Board :** `D93AP`'
+              },
+              {
+                name: '🎨 ' + t('Coloris disponibles', 'Available Finishes'),
+                value: t('Titane désert, Titane naturel, Titane blanc, Titane noir', 'Desert Titanium, Natural Titanium, White Titanium, Black Titanium')
+              }
+            ],
+            footer: 'Apple Hardware Database • AppleDB'
+          },
+          buttons: [
+            { label: '🌐 ' + t('Fiche AppleDB', 'AppleDB Sheet'), url: 'https://appledb.dev', emoji: '🌐' },
+            { label: '📱 ' + t('Fiche Web', 'Web Details'), url: 'devices.html', emoji: '📱' }
+          ]
+        })
+      },
+      {
+        id: 'apple_status',
+        cat: 'public',
+        names: { fr: '/etat-apple', en: '/apple_status', es: '/estado-apple', de: '/apple-status' },
+        syntax: { fr: '/etat-apple', en: '/apple_status' },
+        ex: { fr: '/etat-apple', en: '/apple_status' },
+        fr: 'Statut officiel en direct des 71 services et serveurs Apple : alertes de pannes immédiates, maintenances programmées et ventilation par domaine.',
+        en: 'Live official status of all 71 Apple services and servers: real-time outage alerts, scheduled maintenances and category breakdowns.',
+        tags: ['panne', 'incident', 'outage', 'status', 'serveur', 'down', 'icloud', 'app store', 'stoerung', 'fallo', 'servidor'],
+        preview: () => ({
+          cmd: t('/etat-apple', '/apple_status'),
+          embed: {
+            color: '#34c759',
+            title: t('🍏 État des Services Apple • En Direct', '🍏 Apple Services Status • Live'),
+            desc: t(
+              '✅ **Tous les systèmes Apple fonctionnent normalement**\n*Surveillance active de 71 services (grand public & développeurs)*',
+              '✅ **All Apple systems are operational**\n*Active monitoring across 71 services (consumer & developer)*'
+            ),
+            fields: [
+              { name: '☁️ iCloud & Sync', value: '`18/18 ' + t('opérationnels', 'operational') + '`', inline: true },
+              { name: '💳 Apple Pay & Cartes', value: '`5/5 ' + t('opérationnels', 'operational') + '`', inline: true },
+              { name: '🎵 Médias (Music, TV+)', value: '`12/12 ' + t('opérationnels', 'operational') + '`', inline: true },
+              { name: '👩‍💻 Espace Développeurs', value: '`16/16 ' + t('opérationnels', 'operational') + '`', inline: true },
+              { name: '📦 App Store & ID', value: '`20/20 ' + t('opérationnels', 'operational') + '`', inline: true }
+            ],
+            footer: t('Apple System Status • Cliquez sur une catégorie pour le détail', 'Apple System Status • Select category below')
+          },
+          select: {
+            placeholder: t('🔍 Choisir une catégorie à inspecter...', '🔍 Select a category to inspect...'),
+            options: [
+              { label: t('Vue d’ensemble', 'Overview'), desc: t('Résumé global et santé générale', 'Global health overview'), emoji: '📊', on: true },
+              { label: 'iCloud & Synchronisation', desc: t('Drive, Photos, Trousseau, Sauvegarde...', 'Drive, Photos, Keychain, Backup...'), emoji: '☁️' },
+              { label: 'Apple Pay & Achats', desc: t('Wallet, Cartes bancaires, Cash...', 'Wallet, Cards, Cash...'), emoji: '💳' },
+              { label: 'Espace Développeurs', desc: t('App Store Connect, Xcode Cloud, APNs...', 'App Store Connect, Xcode Cloud, APNs...'), emoji: '👩‍💻' }
+            ]
+          },
+          buttons: [
+            { label: t('Actualiser', 'Refresh'), emoji: '🔄', style: 'secondary' },
+            { label: t('Page officielle Apple', 'Official Apple Page'), emoji: '🔗', url: 'https://www.apple.com/fr/support/systemstatus/' }
+          ]
+        })
+      },
+      {
+        id: 'ai',
+        cat: 'public',
+        names: { fr: '/ai', en: '/ai', es: '/ai', de: '/ai' },
+        syntax: { fr: '/ai [appareil:<modele>]', en: '/ai [device:<model>]' },
+        ex: { fr: '/ai appareil:iPhone 15 Pro', en: '/ai device:iPhone 15 Pro' },
+        fr: 'Diagnostic d’éligibilité à Apple Intelligence : validation Neural Engine, RAM unifiée requise (8 Go+), fonctionnalités disponibles et calendrier de déploiement en Europe.',
+        en: 'Apple Intelligence readiness check: 16-core Neural Engine validation, minimum 8GB unified memory check, feature lists and EU rollout roadmap.',
+        tags: ['apple intelligence', 'ia', 'siri', 'neural engine', 'ram', 'compatibilite', 'kuestliche intelligenz', 'inteligencia artificial'],
+        preview: () => ({
+          cmd: t('/ai appareil:iPhone 15 Pro', '/ai device:iPhone 15 Pro'),
+          embed: {
+            color: '#bf5af2',
+            title: '🧠 Apple Intelligence — ' + t('Diagnostic d’Éligibilité', 'Eligibility Diagnostic'),
+            desc: t(
+              '> **iPhone 15 Pro : Pleinement éligible à Apple Intelligence**\n\nLe modèle dispose de la puce **A17 Pro** (Neural Engine 16 cœurs) et de **8 Go de mémoire unifiée**, satisfaisant l’ensemble des critères d’exécution locale des modèles Apple Foundation.',
+              '> **iPhone 15 Pro: Fully eligible for Apple Intelligence**\n\nThis model is powered by the **A17 Pro** (16-core Neural Engine) and **8 GB of unified memory**, meeting every requirement to run Apple Foundation models on device.'
+            ),
+            fields: [
+              { name: '⚡ Neural Engine', value: t('`35 TOPS` (16 cœurs)', '`35 TOPS` (16 cores)'), inline: true },
+              { name: '💾 ' + t('Mémoire Unifiée', 'Unified Memory'), value: '`8 Go` (Requis: 8 Go)', inline: true },
+              { name: '🔒 Private Cloud Compute', value: t('`Compatible` (chiffrement de bout en bout)', '`Supported` (end-to-end encrypted)'), inline: true },
+              { name: '✨ ' + t('Fonctionnalités', 'Core Features'), value: t('• Outils d’écriture contextuels\n• Clean Up dans Photos\n• Genmoji & Image Playground\n• Siri avec conscience de l’écran', '• Contextual Writing Tools\n• Clean Up in Photos\n• Genmoji & Image Playground\n• Siri on-screen awareness') }
+            ],
+            footer: 'Apple Intelligence • On-Device & Private Cloud Compute'
+          },
+          select: {
+            placeholder: t('🔍 Choisir une section du guide...', '🔍 Choose a guide section...'),
+            options: [
+              { label: t('Vue d’ensemble & Prérequis', 'Overview & Requirements'), emoji: '🏠', on: true },
+              { label: t('iPhone compatibles', 'Supported iPhones'), emoji: '📱' },
+              { label: t('Mac & iPad compatibles', 'Supported Mac & iPad'), emoji: '💻' },
+              { label: t('Calendrier France / Union Européenne', 'France / European Union Timeline'), emoji: '🇫🇷' }
+            ]
+          },
+          buttons: [
+            { label: t('Guide officiel Apple Intelligence', 'Official Apple Intelligence Page'), url: 'https://www.apple.com/apple-intelligence/', emoji: '🔗' }
+          ]
+        })
+      },
+      {
+        id: 'latest',
+        cat: 'public',
+        names: { fr: '/derniers', en: '/latest', es: '/ultimos', de: '/neueste' },
+        syntax: { fr: '/derniers [os:<nom>]', en: '/latest [os:<name>]' },
+        ex: { fr: '/derniers os:iOS', en: '/latest os:iOS' },
+        fr: 'Affiche en un coup d’œil les dernières versions stables et bêtas officielles pour chaque système : iOS, iPadOS, macOS, watchOS, tvOS, visionOS et AirPods.',
+        en: 'Instant summary of the newest official stable and beta releases for every system: iOS, iPadOS, macOS, watchOS, tvOS, visionOS and AirPods.',
+        tags: ['latest', 'dernier', 'derniere', 'stable', 'actuel', 'neueste', 'ultimos', 'firmware', 'versions'],
+        preview: () => ({
+          cmd: t('/derniers', '/latest'),
+          embed: {
+            color: '#30d158',
+            title: t('📦 Dernières versions officielles Apple', '📦 Latest Official Apple Firmwares'),
+            desc: t('Surveillance continue des catalogues Pallas GDMF et AppleDB.', 'Continuous tracking across Apple Pallas GDMF and AppleDB.'),
+            fields: [
+              { name: '📱 iOS', value: '`18.3.1` (`22D72`)\n*10 févr. 2026*', inline: true },
+              { name: '📟 iPadOS', value: '`18.3.1` (`22D72`)\n*10 févr. 2026*', inline: true },
+              { name: '💻 macOS', value: '`15.3.1` (`24D70`)\n*10 févr. 2026*', inline: true },
+              { name: '⌚ watchOS', value: '`11.3.1` (`22S560`)\n*10 févr. 2026*', inline: true },
+              { name: '📺 tvOS', value: '`18.3` (`22K557`)\n*27 janv. 2026*', inline: true },
+              { name: '👓 visionOS', value: '`2.3` (`22N555`)\n*27 janv. 2026*', inline: true },
+              { name: '🎧 AirPods', value: '`7B21` (OTA)\n*15 févr. 2026*', inline: true }
+            ],
+            footer: foot()
+          }
+        })
+      },
+      {
+        id: 'compat',
+        cat: 'public',
+        names: { fr: '/compatibilite', en: '/compat', es: '/compatibilidad', de: '/kompatibilitaet' },
+        syntax: { fr: '/compatibilite modele:<appareil> [os:<os>] [version:<version>]', en: '/compat model:<device> [os:<os>] [version:<version>]' },
+        ex: { fr: '/compatibilite modele:iPhone 13 os:iOS version:18.0', en: '/compat model:iPhone 13 os:iOS version:18.0' },
+        fr: 'Contrôle précis de la compatibilité entre un appareil Apple et une mise à jour logicielle avec diagnostic des prérequis matériels.',
+        en: 'Accurate compatibility check between an Apple device and an OS release with hardware criteria verification.',
+        tags: ['compatible', 'supporte', 'mise a jour', 'eligibilite', 'kompatibel', 'soporte'],
+        preview: () => ({
+          cmd: t('/compatibilite modele:iPhone 13 os:iOS version:18.0', '/compat model:iPhone 13 os:iOS version:18.0'),
+          embed: {
+            color: '#bf5af2',
+            title: t('✅ Compatibilité — iPhone 13 & iOS 18.0', '✅ Compatibility — iPhone 13 & iOS 18.0'),
+            fields: [
+              { name: '📱 Statut OS', value: t('✅ **Pleinement compatible** avec iOS 18.0', '✅ **Fully compatible** with iOS 18.0'), inline: false },
+              { name: '⚡ Puce & Cœurs', value: '`A15 Bionic` (6 cœurs CPU, 4 cœurs GPU)', inline: true },
+              { name: '💾 RAM', value: '`4 Go`', inline: true },
+              { name: '🧠 Apple Intelligence', value: t('❌ **Non pris en charge** (4 Go de RAM, minimum requis de 8 Go)', '❌ **Unsupported** (4 GB RAM, 8 GB minimum required)'), inline: false }
+            ],
+            footer: foot()
+          }
+        })
+      },
+      {
+        id: 'signatures',
+        cat: 'public',
+        names: { fr: '/signatures', en: '/signatures', es: '/firmas', de: '/signaturen' },
+        syntax: { fr: '/signatures [device:<modele>] [os:<nom>]', en: '/signatures [device:<model>] [os:<name>]' },
+        ex: { fr: '/signatures device:iPhone16,1', en: '/signatures device:iPhone16,1' },
+        fr: 'État des signatures TSS en direct pour restaurations et rétrogradations (downgrade) avec liens IPSW signés officiels.',
+        en: 'Live TSS signing state for device restores and downgrades with verified official IPSW links.',
+        tags: ['tss', 'ipsw', 'signe', 'non signe', 'restore', 'downgrade', 'shsh', 'firmas', 'signaturen'],
+        preview: () => ({
+          cmd: t('/signatures device:iPhone16,1', '/signatures device:iPhone16,1'),
+          embed: {
+            color: '#34c759',
+            title: '✍️ ' + t('Statut des Signatures Apple — iPhone 15 Pro', 'Apple TSS Signing Status — iPhone 15 Pro'),
+            fields: [
+              { name: '🟢 ' + t('Versions signées (Restauration autorisée)', 'Signed (Restore allowed)'), value: '• **iOS 18.3.1** (`22D72`) — ' + t('Diffusée le 10 févr. 2026', 'Released Feb 10, 2026') },
+              { name: '🔴 ' + t('Versions fermées (Non signées)', 'Unsigned (Closed)'), value: '• **iOS 18.3** (`22D63`)\n• **iOS 18.2.1** (`22C161`)\n• **iOS 18.2** (`22C152`)\n• **iOS 18.1.1** (`22B91`)' }
+            ],
+            footer: t('Vérifié via Apple TSS Server en temps réel', 'Checked via Apple TSS Server in real time')
+          },
+          buttons: [
+            { label: t('💾 Télécharger iOS 18.3.1 (IPSW)', '💾 Download iOS 18.3.1 (IPSW)'), style: 'primary' }
+          ]
+        })
+      },
+      {
+        id: 'build',
+        cat: 'public',
+        names: { fr: '/build', en: '/build', es: '/build', de: '/build' },
+        syntax: { fr: '/build build:<build_id>', en: '/build build:<build_id>' },
+        ex: { fr: '/build build:22D72', en: '/build build:22D72' },
+        fr: 'Retrouve instantanément le système, la version commerciale, la date de diffusion et les appareils associés à n’importe quel numéro de build Apple.',
+        en: 'Instantly identifies the OS, public marketing version, release date and devices tied to any Apple build number.',
+        tags: ['buildid', 'numero', 'compilation', 'recherche', 'identifiant'],
+        preview: () => ({
+          cmd: '/build build:22D72',
+          embed: {
+            color: '#0071e3',
+            title: '🆔 ' + t('Fiche Firmware — Build 22D72', 'Firmware Sheet — Build 22D72'),
+            fields: [
+              { name: '🍎 Système(s)', value: '`iOS 18.3.1`, `iPadOS 18.3.1`', inline: true },
+              { name: '📡 Audience', value: '`Public Stable`', inline: true },
+              { name: '📅 Date', value: '10 février 2026', inline: true },
+              { name: '📱 ' + t('Appareils compatibles', 'Supported Devices'), value: t('Tous les iPhone compatibles iOS 18 (iPhone XS à iPhone 16 Pro Max)', 'All iOS 18 compatible iPhones (iPhone XS to iPhone 16 Pro Max)') }
+            ],
+            footer: foot()
+          }
+        })
+      },
+      {
+        id: 'history',
+        cat: 'public',
+        names: { fr: '/historique', en: '/history', es: '/historial', de: '/verlauf' },
+        syntax: { fr: '/historique os:<nom> [limit:<nombre>]', en: '/history os:<name> [limit:<number>]' },
+        ex: { fr: '/historique os:macOS limit:5', en: '/history os:macOS limit:5' },
+        fr: 'Chronologie complète des versions et builds parues pour un système d’exploitation Apple.',
+        en: 'Chronological timeline of all releases and builds published for an Apple OS.',
+        tags: ['historique', 'anciennes versions', 'chronologie', 'verlauf', 'historial'],
+        preview: () => ({
+          cmd: t('/historique os:macOS limit:4', '/history os:macOS limit:4'),
+          embed: {
+            color: '#0071e3',
+            title: '📜 ' + t('Historique des versions macOS', 'macOS Release History'),
+            fields: [
+              { name: 'macOS 15.3.1 (24D70)', value: t('Public Stable • 10 févr. 2026', 'Public Stable • Feb 10, 2026') },
+              { name: 'macOS 15.3 (24D60)', value: t('Public Stable • 27 janv. 2026', 'Public Stable • Jan 27, 2026') },
+              { name: 'macOS 15.2 (24C101)', value: t('Public Stable • 11 déc. 2024', 'Public Stable • Dec 11, 2024') },
+              { name: 'macOS 15.1.1 (24B91)', value: t('Public Stable • 19 nov. 2024', 'Public Stable • Nov 19, 2024') }
+            ],
+            footer: foot()
+          }
+        })
+      },
+      {
+        id: 'compare',
+        cat: 'public',
+        names: { fr: '/comparer', en: '/compare', es: '/comparar', de: '/vergleichen' },
+        syntax: { fr: '/comparer os:<nom> version1:<v1> version2:<v2>', en: '/compare os:<name> version1:<v1> version2:<v2>' },
+        ex: { fr: '/comparer os:iOS version1:18.2 version2:18.3', en: '/compare os:iOS version1:18.2 version2:18.3' },
+        fr: 'Comparaison côte à côte de deux versions : builds, deltas de changelog et changements d’appareils compatibles.',
+        en: 'Side-by-side comparison of two versions: builds, changelog diffs and device support updates.',
+        tags: ['comparaison', 'difference', 'evolution', 'changements', 'vergleichen', 'comparar'],
+        preview: () => ({
+          cmd: t('/comparer os:iOS version1:18.2 version2:18.3', '/compare os:iOS version1:18.2 version2:18.3'),
+          embed: {
+            color: '#bf5af2',
+            title: '⚖️ iOS 18.2 vs iOS 18.3',
+            fields: [
+              { name: 'iOS 18.2', value: '• Build: `22C152`\n• 11 déc. 2024\n• Genmoji & Image Playground', inline: true },
+              { name: 'iOS 18.3', value: '• Build: `22D63`\n• 27 janv. 2026\n• Correctifs de sécurité & ANC', inline: true },
+              { name: '📊 ' + t('Appareils', 'Devices'), value: t('Support identique sur les 48 modèles d’iPhone', 'Identical device support across 48 iPhone models') }
+            ],
+            footer: foot()
+          }
+        })
+      },
+      {
+        id: 'roles',
+        cat: 'members',
+        names: { fr: '/roles', en: '/roles', es: '/roles', de: '/rollen' },
+        syntax: { fr: '/roles', en: '/roles' },
+        ex: { fr: '/roles', en: '/roles' },
+        fr: 'Menu déroulant interactif permettant à chaque membre de choisir en toute autonomie ses rôles de notification par système d’exploitation.',
+        en: 'Interactive dropdown enabling server members to self-assign update notification roles per OS.',
+        tags: ['notifications', 'alertes', 'menu', 'ping', 'rollen', 'notificaciones'],
+        preview: () => ({
+          cmd: '/roles',
+          embed: {
+            color: '#0071e3',
+            title: '🔔 ' + t('Abonnements aux Alertes AppleCore', 'AppleCore Alert Subscriptions'),
+            desc: t(
+              'Sélectionnez ci-dessous les systèmes pour lesquels vous souhaitez être mentionné en cas de nouvelle sortie officielle ou bêta.',
+              'Choose below the systems you wish to be pinged for whenever a new release or beta drops.'
+            )
+          },
+          select: {
+            placeholder: t('Sélectionnez vos rôles de notification...', 'Choose your notification roles...'),
+            options: [
+              { label: 'iOS (@iOS-Notif)', desc: t('iPhone et mises à jour logicielles', 'iPhone & software updates'), emoji: '📱', on: true },
+              { label: 'macOS (@macOS-Notif)', desc: t('MacBook, Mac mini, Mac Studio, iMac', 'MacBook, Mac mini, Mac Studio, iMac'), emoji: '💻', on: true },
+              { label: 'watchOS (@watchOS-Notif)', desc: t('Apple Watch Series, Ultra et SE', 'Apple Watch Series, Ultra, SE'), emoji: '⌚' },
+              { label: 'AirPods (@AirPods-Notif)', desc: t('AirPods 4, Pro 2, Max et firmware boîtier', 'AirPods 4, Pro 2, Max & case firmware'), emoji: '🎧', on: true }
+            ]
+          }
+        })
+      },
+      {
+        id: 'ping',
+        cat: 'members',
+        names: { fr: '/ping', en: '/ping', es: '/ping', de: '/ping' },
+        syntax: { fr: '/ping', en: '/ping' },
+        ex: { fr: '/ping', en: '/ping' },
+        fr: 'Contrôle instantané de la latence WebSocket Discord, du serveur API et de PostgreSQL.',
+        en: 'Instant measurement of Discord WebSocket latency, API response times and PostgreSQL ping.',
+        tags: ['latence', 'ping', 'ms', 'vitesse', 'gateway', 'latencia', 'verzoegerung'],
+        preview: () => ({
+          cmd: '/ping',
+          embed: {
+            color: '#30d158',
+            title: '🏓 ' + t('Latence opérationnelle', 'Operational Latency'),
+            fields: [
+              { name: '📡 Discord Gateway', value: '`38.2 ms` (Nominal)', inline: true },
+              { name: '⚡ API AppleCore', value: '`12.4 ms`', inline: true },
+              { name: '🐘 Base PostgreSQL', value: '`1.8 ms`', inline: true }
+            ],
+            footer: 'AppleCore Telemetry'
+          }
+        })
+      },
+      {
+        id: 'status',
+        cat: 'members',
+        names: { fr: '/statut', en: '/status', es: '/estado', de: '/status' },
+        syntax: { fr: '/statut', en: '/status' },
+        ex: { fr: '/statut', en: '/status' },
+        fr: 'Bilan complet de la télémétrie du bot : passerelle WebSocket, état du pool PostgreSQL, uptime et état du scanneur Pallas.',
+        en: 'Full bot health check: WebSocket connection status, PostgreSQL pool health, uptime and Pallas update scanner loop.',
+        tags: ['telemetrie', 'sante', 'uptime', 'etat', 'pallas', 'postgresql', 'estado', 'betriebsstatus'],
+        preview: () => ({
+          cmd: t('/statut', '/status'),
+          embed: {
+            color: '#30d158',
+            title: '⚡ ' + t('Télémétrie AppleCore en Direct', 'AppleCore Live Telemetry'),
+            fields: [
+              { name: '📡 Discord Gateway', value: '🟢 `38 ms` (Opérationnel)', inline: true },
+              { name: '🛰️ Pallas Watcher', value: '🟢 `60s loop` (Actif)', inline: true },
+              { name: '🐘 PostgreSQL', value: '🟢 `Connecté` (Pool OK)', inline: true },
+              { name: '⏱️ Uptime', value: t('24 jours, 18 heures', '24 days, 18 hours'), inline: true },
+              { name: '🌐 Serveurs', value: '`312 serveurs`', inline: true }
+            ],
+            footer: 'AppleCore Monitoring Service'
+          }
+        })
+      },
+      {
+        id: 'stats',
+        cat: 'members',
+        names: { fr: '/statistiques', en: '/stats', es: '/estadisticas', de: '/statistiken' },
+        syntax: { fr: '/statistiques', en: '/stats' },
+        ex: { fr: '/statistiques', en: '/stats' },
+        fr: 'Statistiques globales du bot : volume de commandes exécutées, requêtes servies, versions indexées et rapidité de diffusion.',
+        en: 'Global bot metrics: executed command volume, served queries, indexed releases and notification dispatch latency.',
+        tags: ['chiffres', 'serveurs', 'commandes', 'utilisation', 'estadisticas', 'statistiken'],
+        preview: () => ({
+          cmd: t('/statistiques', '/stats'),
+          embed: {
+            color: '#0071e3',
+            title: '📊 ' + t('Statistiques Globales d’AppleCore', 'AppleCore Global Analytics'),
+            fields: [
+              { name: '🌐 ' + t('Serveurs surveillés', 'Monitored Servers'), value: '`312`', inline: true },
+              { name: '⚡ ' + t('Commandes traitées', 'Commands Handled'), value: '`128 430`', inline: true },
+              { name: '📦 ' + t('Versions indexées', 'Indexed Firmwares'), value: '`5 228`', inline: true },
+              { name: '⏱️ ' + t('Délai moyen d’alerte', 'Avg. Notification Delay'), value: '`12 s`', inline: true },
+              { name: '🎯 ' + t('Commandes populaires', 'Top Commands'), value: '`/info` (32%) • `/derniers` (24%) • `/appareil` (18%)' }
+            ],
+            footer: 'AppleCore Analytics'
+          }
+        })
+      },
+      {
+        id: 'about',
+        cat: 'members',
+        names: { fr: '/a-propos', en: '/about', es: '/acerca-de', de: '/ueber' },
+        syntax: { fr: '/a-propos', en: '/about' },
+        ex: { fr: '/a-propos', en: '/about' },
+        fr: 'Informations officielles sur AppleCore, son architecture, ses technologies open source et les liens vers GitHub et Discord.',
+        en: 'Official information on AppleCore, architectural design, open source codebase and links to GitHub and Discord.',
+        tags: ['infos', 'bot', 'createur', 'liens', 'a propos', 'acerca de', 'ueber'],
+        preview: () => ({
+          cmd: t('/a-propos', '/about'),
+          embed: {
+            color: '#0071e3',
+            title: '🍏 AppleCore — ' + t('Le Cœur de l’Écosystème Apple', 'The Heart of the Apple Ecosystem'),
+            desc: t(
+              'Le bot communautaire de référence pour la détection instantanée, l’analyse des firmwares et le suivi des pannes de services Apple en temps réel.',
+              'The premier community Discord bot for instant Apple firmware detection, technical spec analysis and real-time service outage alerts.'
+            ),
+            fields: [
+              { name: '✨ ' + t('Fonctionnalités Clés', 'Key Features'), value: t('• Détection en ~60s via Apple Pallas\n• Diagnostic complet Apple Intelligence\n• Suivi des 71 services Apple\n• Support 100% multilingue par serveur (FR, EN, ES, DE)', '• Sub-60s detection via Apple Pallas\n• Comprehensive Apple Intelligence audit\n• Tracking across 71 Apple services\n• 100% multilingual per server (FR, EN, ES, DE)') }
+            ],
+            footer: 'Développé par TiboTsr • Open Source'
+          },
+          buttons: [
+            { label: t('Inviter AppleCore', 'Invite AppleCore'), style: 'primary', url: AC.LINKS.invite },
+            { label: 'GitHub', style: 'secondary', url: AC.LINKS.github },
+            { label: 'Documentation', style: 'secondary', url: 'help.html' }
+          ]
+        })
+      },
+      {
+        id: 'help_cmd',
+        cat: 'members',
+        names: { fr: '/aide', en: '/help', es: '/ayuda', de: '/hilfe' },
+        syntax: { fr: '/aide [commande:<nom>]', en: '/help [command:<name>]' },
+        ex: { fr: '/aide commande:appareil', en: '/help command:device' },
+        fr: 'Centre d’aide interactif Discord avec menus déroulants de navigation par catégorie et fiches détaillées par commande.',
+        en: 'Interactive in-Discord help center with category dropdown menus and deep-dive command reference cards.',
+        tags: ['aide', 'guide', 'commandes', 'help', 'hilfe', 'ayuda'],
+        preview: () => ({
+          cmd: t('/aide', '/help'),
+          embed: {
+            color: '#0071e3',
+            title: '📖 ' + t('Centre d’Aide & Guide AppleCore', 'AppleCore Help Center & Guide'),
+            desc: t(
+              'Bienvenue sur **AppleCore** ! Utilisez les menus ci-dessous pour explorer l’ensemble des fonctionnalités disponibles pour votre communauté.',
+              'Welcome to **AppleCore**! Use the dropdown below to explore all available features for your community.'
+            ),
+            fields: [
+              { name: '🚀 ' + t('Prise en main rapide', 'Quick Start'), value: t('• **Membres** : Consultez `/info`, `/appareil` ou `/etat-apple`.\n• **Notifications** : Choisissez vos alertes avec `/roles`.\n• **Admins** : Configurez le serveur avec `/setup`.', '• **Members**: Check `/info`, `/device` or `/apple_status`.\n• **Alerts**: Self-assign roles with `/roles`.\n• **Admins**: Configure the server with `/setup`.') }
+            ],
+            footer: t('AppleCore • Utilisez les menus déroulants pour naviguer', 'AppleCore • Use menus to browse')
+          },
+          select: {
+            placeholder: t('📂 Choisir une catégorie...', '📂 Choose a category...'),
+            options: [
+              { label: t('📱 Apple & Firmwares (Grand Public)', '📱 Apple & Firmwares (Public)'), emoji: '📱', on: true },
+              { label: t('🔔 Rôles & Informations (Membres)', '🔔 Roles & Info (Members)'), emoji: '🔔' },
+              { label: t('🛡️ Administration & Configuration', '🛡️ Administration & Setup'), emoji: '🛡️' }
+            ]
+          }
+        })
+      },
+      {
+        id: 'setup',
+        cat: 'admin',
+        names: { fr: '/configuration', en: '/setup', es: '/configuracion', de: '/einrichtung' },
+        syntax: { fr: '/configuration', en: '/setup' },
+        ex: { fr: '/configuration', en: '/setup' },
+        fr: 'Assistant interactif en 5 étapes pour configurer AppleCore sur votre serveur : salon d’annonces, rôles par système, filtres de bêtas et alerte de test.',
+        en: 'Interactive 5-step onboarding wizard for your server: announcement channel, per-system roles, beta filters and real test notification.',
+        tags: ['assistant', 'demarrage', 'config', 'installer', 'salon', 'wizard', 'einrichtung', 'configuracion'],
+        preview: () => ({
+          cmd: t('/configuration', '/setup'),
+          embed: {
+            color: '#0071e3',
+            title: '🚀 ' + t('Configuration d’AppleCore — Étape 2/5 : Salon d’Alertes', 'AppleCore Setup — Step 2/5: Announcement Channel'),
+            desc: t(
+              'Dans quel salon de votre serveur souhaitez-vous diffuser les annonces officielles d’Apple ?\n*AppleCore contrôle automatiquement les permissions d’envoi d’embeds.*',
+              'Which server channel should receive official Apple update announcements?\n*AppleCore automatically verifies embed posting permissions.*'
+            ),
+            footer: t('Étape 2 sur 5 • Seul vous pouvez voir ce message', 'Step 2 of 5 • Only you can see this message')
+          },
+          select: {
+            placeholder: t('Sélectionnez le salon d’annonces...', 'Select announcement channel...'),
+            options: [
+              { label: '# alertes-apple', desc: t('Permissions vérifiées : messages et embeds', 'Permissions verified: messages & embeds'), emoji: '📢', on: true },
+              { label: '# general', desc: t('Salon général de discussion', 'General chat channel'), emoji: '💬' },
+              { label: '# tech', desc: t('Salon passionnés de technologie', 'Tech discussion channel'), emoji: '💻' }
+            ]
+          },
+          buttons: [
+            { label: t('Précédent', 'Back'), style: 'secondary' },
+            { label: t('Suivant', 'Next'), style: 'primary' }
+          ]
+        })
+      },
+      {
+        id: 'preview',
+        cat: 'admin',
+        names: { fr: '/apercu', en: '/preview', es: '/preview', de: '/vorschau' },
+        syntax: { fr: '/apercu [os:<nom>] [type:<type>]', en: '/preview [os:<name>] [type:<type>]' },
+        ex: { fr: '/apercu os:iOS type:Public Stable', en: '/preview os:iOS type:Public Stable' },
+        fr: 'Simule et diffuse une véritable alerte de mise à jour dans le salon configuré pour valider le rendu des embeds, les mentions et les permissions.',
+        en: 'Simulates and sends a live test announcement in the configured channel to validate embeds, role pings and permissions.',
+        tags: ['test', 'simulation', 'rendu', 'embed', 'alerte', 'vorschau', 'vista previa'],
+        preview: () => ({
+          cmd: t('/apercu os:iOS', '/preview os:iOS'),
+          embed: {
+            color: '#0071e3',
+            author: { name: 'AppleCore • Notification Système' },
+            title: '🍎 iOS 18.3.1 (22D72) est disponible',
+            desc: '> Une nouvelle mise à jour logicielle officielle d’Apple vient d’être détectée.\n\n@iOS-Notif — Mettez à jour vos appareils via **Réglages** > **Général** > **Mise à jour logicielle**.',
+            fields: [
+              { name: '🆔 Build', value: '`22D72`', inline: true },
+              { name: '📡 Audience', value: '`Public Stable`', inline: true },
+              { name: '📱 Compatibilité', value: t('**48 modèles d’iPhone** compatibles', '**48 iPhone models** supported'), inline: true }
+            ],
+            footer: 'AppleCore • Simulation Réelle d’Alerte'
+          },
+          buttons: [
+            { label: t('📱 Appareils compatibles', '📱 Compatible devices') },
+            { label: t('💾 Télécharger IPSW', '💾 Download IPSW'), style: 'primary' },
+            { label: '🔗 AppleDB', url: 'https://appledb.dev' }
+          ]
+        })
+      },
+      {
+        id: 'roles_panel',
+        cat: 'admin',
+        names: { fr: '/panneau-roles', en: '/roles_panel', es: '/panel-roles', de: '/rollen-panel' },
+        syntax: { fr: '/panneau-roles [salon:<canal>]', en: '/roles_panel [channel:<channel>]' },
+        ex: { fr: '/panneau-roles salon:#roles', en: '/roles_panel channel:#roles' },
+        fr: 'Déploie un panneau interactif persistant dans le salon de votre choix : les membres s’abonnent à leurs alertes en libre-service 24/7.',
+        en: 'Deploys a permanent interactive role assignment panel in any channel: members manage alert subscriptions on their own 24/7.',
+        tags: ['panneau', 'menu persistant', 'libre service', 'panel', 'rollen panel'],
+        preview: () => ({
+          cmd: t('/panneau-roles salon:#roles', '/roles_panel channel:#roles'),
+          embed: {
+            color: '#0071e3',
+            title: '🪧 ' + t('Panneau des Notifications Apple', 'Apple Notification Panel'),
+            desc: t(
+              'Bienvenue dans le salon des rôles ! Cliquez sur le menu ci-dessous pour choisir les annonces de firmwares que vous souhaitez recevoir sur ce serveur.',
+              'Welcome to the role channel! Click the menu below to self-assign which firmware announcements you want to receive on this server.'
+            ),
+            footer: 'AppleCore • Libre-service permanent'
+          },
+          select: {
+            placeholder: t('Mes alertes de mises à jour Apple...', 'My Apple update alerts...'),
+            options: [
+              { label: 'iOS (@iOS-Notif)', emoji: '📱', on: true },
+              { label: 'macOS (@macOS-Notif)', emoji: '💻', on: true },
+              { label: 'watchOS (@watchOS-Notif)', emoji: '⌚' },
+              { label: 'AirPods (@AirPods-Notif)', emoji: '🎧', on: true }
+            ]
+          }
+        })
+      },
+      {
+        id: 'config_channel',
+        cat: 'admin',
+        names: { fr: '/config channel', en: '/config channel', es: '/config channel', de: '/config channel' },
+        syntax: { fr: '/config channel [channel:<salon>] [os:<nom>]', en: '/config channel [channel:<channel>] [os:<name>]' },
+        ex: { fr: '/config channel channel:#alertes-apple', en: '/config channel channel:#apple-updates' },
+        fr: 'Définit le salon Discord principal ou par système où sont diffusées les annonces officielles d’Apple.',
+        en: 'Configures the primary or per-OS Discord channel where official Apple announcements are dispatched.',
+        tags: ['salon', 'canal', 'alertes', 'destination', 'channel', 'kanal'],
+        preview: () => ({
+          cmd: t('/config channel channel:#alertes-apple', '/config channel channel:#apple-updates'),
+          embed: {
+            color: '#34c759',
+            title: '✅ ' + t('Salon de notifications configuré', 'Announcement Channel Configured'),
+            desc: t(
+              'Toutes les annonces officielles seront désormais publiées dans **#alertes-apple**.\n\n*Permissions vérifiées : Envoyer des messages, Insérer des liens, Joindre des fichiers.*',
+              'All official announcements will now be dispatched to **#apple-updates**.\n\n*Permissions verified: Send Messages, Embed Links, Attach Files.*'
+            ),
+            footer: 'Configuration Serveur • AppleCore'
+          }
+        })
+      },
+      {
+        id: 'config_os',
+        cat: 'admin',
+        names: { fr: '/config os', en: '/config os', es: '/config os', de: '/config os' },
+        syntax: { fr: '/config os', en: '/config os' },
+        ex: { fr: '/config os', en: '/config os' },
+        fr: 'Associe un rôle Discord spécifique à chaque système d’exploitation pour éviter de mentionner inutilement toute la communauté.',
+        en: 'Maps a dedicated Discord role to each operating system to target notifications without unwanted server-wide pings.',
+        tags: ['role', 'mention', 'ping', 'associer', 'role mapping'],
+        preview: () => ({
+          cmd: '/config os',
+          embed: {
+            color: '#34c759',
+            title: '🍎 ' + t('Attribution des Rôles par Système', 'Role Assignment per OS'),
+            desc: t('Voici les rôles qui seront mentionnés lors de chaque sortie :', 'Configured roles pinged upon new releases:'),
+            fields: [
+              { name: '📱 iOS', value: '@iOS-Notif', inline: true },
+              { name: '💻 macOS', value: '@macOS-Notif', inline: true },
+              { name: '⌚ watchOS', value: '@watchOS-Notif', inline: true },
+              { name: '🎧 AirPods', value: '@AirPods-Notif', inline: true }
+            ],
+            footer: 'Configuration Serveur • AppleCore'
+          }
+        })
+      },
+      {
+        id: 'config_filter',
+        cat: 'admin',
+        names: { fr: '/config filter', en: '/config filter', es: '/config filter', de: '/config filter' },
+        syntax: { fr: '/config filter', en: '/config filter' },
+        ex: { fr: '/config filter', en: '/config filter' },
+        fr: 'Filtre les alertes selon vos préférences : versions publiques stables uniquement, ou bêtas développeur et bêtas publiques incluses.',
+        en: 'Filters alert notifications: public stable releases only, or developer and public betas included.',
+        tags: ['filtre', 'beta', 'rc', 'stable', 'audience', 'filtro'],
+        preview: () => ({
+          cmd: '/config filter',
+          embed: {
+            color: '#0071e3',
+            title: '🏷️ ' + t('Filtres de Versions Actifs', 'Active Release Filters'),
+            desc: t('Définissez les types de firmwares diffusés sur votre serveur :', 'Set which release audiences are published:'),
+            fields: [
+              { name: '🟢 Public Stable', value: t('`Activé` (Diffusé)', '`Enabled` (Dispatched)'), inline: true },
+              { name: '🟣 Developer Beta', value: t('`Activé` (Diffusé)', '`Enabled` (Dispatched)'), inline: true },
+              { name: '🔵 Public Beta', value: t('`Désactivé` (Ignoré)', '`Disabled` (Ignored)'), inline: true }
+            ],
+            footer: 'Configuration Serveur • AppleCore'
+          }
+        })
+      },
+      {
+        id: 'config_language',
+        cat: 'admin',
+        names: { fr: '/langue', en: '/language', es: '/idioma', de: '/sprache' },
+        syntax: { fr: '/langue', en: '/language' },
+        ex: { fr: '/langue', en: '/language' },
+        fr: 'Définit la langue par défaut du bot pour votre serveur parmi 4 langues supportées : Français, English, Español et Deutsch.',
+        en: 'Configures AppleCore’s server language among 4 fully supported locales: Français, English, Español and Deutsch.',
+        tags: ['langue', 'traduction', 'language', 'idioma', 'sprache', 'i18n', 'multilingue'],
+        preview: () => ({
+          cmd: t('/langue', '/language'),
+          embed: {
+            color: '#0071e3',
+            title: '🌍 ' + t('Configuration de la Langue du Serveur', 'Server Language Configuration'),
+            desc: t(
+              'Langue active actuelle : **🇫🇷 Français**\n\nSélectionnez une nouvelle langue ci-dessous pour adapter l’ensemble des alertes, fiches techniques et commandes de vos membres.',
+              'Current active language: **🇬🇧 English**\n\nSelect a new language below to adapt all release alerts, technical sheets and user commands.'
+            ),
+            footer: 'AppleCore Localization Engine'
+          },
+          select: {
+            placeholder: t('Sélectionnez la langue souhaitée...', 'Select desired language...'),
+            options: [
+              { label: 'Français (France)', desc: 'Notifications et commandes en français', emoji: '🇫🇷', on: true },
+              { label: 'English (US / UK)', desc: 'Full English alerts and commands', emoji: '🇬🇧' },
+              { label: 'Español (España)', desc: 'Alertas y comandos en español', emoji: '🇪🇸' },
+              { label: 'Deutsch (Deutschland)', desc: 'Benachrichtigungen auf Deutsch', emoji: '🇩🇪' }
+            ]
+          }
+        })
+      },
+      {
+        id: 'config_status_alerts',
+        cat: 'admin',
+        names: { fr: '/config status_alerts', en: '/config status_alerts', es: '/config status_alerts', de: '/config status_alerts' },
+        syntax: { fr: '/config status_alerts', en: '/config status_alerts' },
+        ex: { fr: '/config status_alerts', en: '/config status_alerts' },
+        fr: 'Active la publication automatique d’alertes d’incidents en cas de panne majeure sur les services Apple (iCloud, App Store, Apple Pay...).',
+        en: 'Enables automatic incident notifications whenever major outages hit Apple services (iCloud, App Store, Apple Pay...).',
+        tags: ['pannes', 'alertes pannes', 'incidents', 'apple status', 'notifications pannes'],
+        preview: () => ({
+          cmd: '/config status_alerts',
+          embed: {
+            color: '#ff9500',
+            title: '⚠️ ' + t('Alertes Pannes Apple System Status', 'Apple System Status Outage Alerts'),
+            desc: t(
+              '✅ **Alertes automatiques activées dans #alertes-apple**\n\nLe bot publiera un message d’urgence dès qu’une panne affectant les services Apple est détectée par nos sondes, avec mise à jour lors de la résolution.',
+              '✅ **Automatic outage alerts enabled in #apple-updates**\n\nThe bot will post an emergency alert as soon as an outage affecting Apple services is detected, and update upon resolution.'
+            ),
+            footer: 'Configuration Serveur • AppleCore'
+          }
+        })
+      },
+      {
+        id: 'config_show',
+        cat: 'admin',
+        names: { fr: '/config show', en: '/config show', es: '/config show', de: '/config show' },
+        syntax: { fr: '/config show', en: '/config show' },
+        ex: { fr: '/config show', en: '/config show' },
+        fr: 'Affiche un récapitulatif complet de tous les réglages actifs pour votre serveur Discord.',
+        en: 'Displays a comprehensive summary of all active settings for your Discord server.',
+        tags: ['recapitulatif', 'resume', 'parametres', 'vue d ensemble'],
+        preview: () => ({
+          cmd: '/config show',
+          embed: {
+            color: '#0071e3',
+            title: '📋 ' + t('Paramètres Actifs — AppleCore', 'Active Settings — AppleCore'),
+            fields: [
+              { name: '📢 ' + t('Salon d’alertes', 'Alert Channel'), value: '#alertes-apple', inline: true },
+              { name: '🌍 ' + t('Langue', 'Language'), value: '🇫🇷 Français', inline: true },
+              { name: '🏷️ ' + t('Bêtas', 'Betas'), value: t('Incluses', 'Included'), inline: true },
+              { name: '⚠️ ' + t('Alertes pannes', 'Outage alerts'), value: t('Activées', 'Enabled'), inline: true },
+              { name: '🍎 ' + t('Rôles configurés', 'Mapped roles'), value: 'iOS: @iOS-Notif • macOS: @macOS-Notif' }
+            ],
+            footer: 'Configuration Serveur • AppleCore'
+          }
+        })
+      }
     ];
 
     const CATS = [
-      ['all', 'Toutes', 'All'], ['public', 'Publiques', 'Public'], ['admin', 'Admin', 'Admin'], ['system', 'Système', 'System']
+      ['all', 'Toutes', 'All'],
+      ['public', 'Publiques', 'Public'],
+      ['members', 'Membres', 'Members'],
+      ['admin', 'Admin', 'Admin']
     ];
-    const CAT_BADGE = { public: ['blue', 'Publique', 'Public'], admin: ['purple', 'Admin', 'Admin'], system: ['green', 'Système', 'System'] };
+    const CAT_BADGE = {
+      public: ['blue', 'Publique', 'Public'],
+      members: ['green', 'Membres', 'Members'],
+      admin: ['purple', 'Admin', 'Admin']
+    };
 
-    let cat = 'all', query = '', selected = 'info';
+    let cat = 'all', query = '', selected = 'device';
 
     const syntaxHtml = s => esc(s).replace(/\[([^\]]+)\]/g, '<span class="arg">[$1]</span>');
+    const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+
+    function match(c, q) {
+      if (!q) return true;
+      const haystack = norm([
+        c.id,
+        c.names.fr, c.names.en, c.names.es, c.names.de,
+        c.syntax.fr, c.syntax.en,
+        c.ex.fr, c.ex.en,
+        c.fr, c.en,
+        ...(c.tags || [])
+      ].join(' '));
+      return haystack.includes(q);
+    }
+
+    function detectMatchedLocale(c, q) {
+      if (!q) return null;
+      const nq = norm(q);
+      if (norm(c.names.de).includes(nq) || (c.tags && c.tags.some(t => norm(t) === nq && ['geraet', 'hilfe', 'neueste', 'verlauf', 'rollen', 'einrichtung', 'speicher', 'prozessor'].includes(nq)))) return 'de';
+      if (norm(c.names.es).includes(nq) || (c.tags && c.tags.some(t => norm(t) === nq && ['dispositivo', 'ayuda', 'ultimos', 'historial', 'firmas', 'configuracion'].includes(nq)))) return 'es';
+      if (norm(c.names.en).includes(nq)) return 'en';
+      if (norm(c.names.fr).includes(nq)) return 'fr';
+      return null;
+    }
 
     function renderCats() {
       const q = norm(query);
@@ -190,32 +871,56 @@
         return `<button type="button" class="chip" data-cat="${k}" aria-pressed="${k === cat}">${bi(fr, en)} <span class="count">${n}</span></button>`;
       }).join('');
     }
-    const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
-    const match = (c, q) => !q || norm([c.id, c.syntax, c.ex, c.fr, c.en].join(' ')).includes(q);
 
     function renderList() {
       const q = norm(query);
       const list = CMDS.filter(c => (cat === 'all' || c.cat === cat) && match(c, q));
       if (!list.length) {
-        $('#cmd-list').innerHTML = `<div class="empty"><h3>${bi('Aucune commande ne correspond.', 'No command matches.')}</h3><p>${bi('Essayez un autre mot-clé, ou effacez la recherche pour revoir toutes les commandes.', 'Try another keyword, or clear the search to see all commands.')}</p><button class="btn btn-ghost btn-sm" type="button" data-clear>${bi('Effacer la recherche', 'Clear search')}</button></div>`;
+        $('#cmd-list').innerHTML = `<div class="empty"><h3>${bi('Aucune commande ne correspond.', 'No command matches.')}</h3><p>${bi('Essayez un autre mot-clé (ex: appareil, device, geraet, status, info...), ou effacez la recherche.', 'Try another keyword (e.g. device, appareil, geraet, status, info...), or clear the search.')}</p><button class="btn btn-ghost btn-sm" type="button" data-clear>${bi('Effacer la recherche', 'Clear search')}</button></div>`;
         return;
       }
+
       $('#cmd-list').innerHTML = list.map(c => {
-        const b = CAT_BADGE[c.cat];
+        const b = CAT_BADGE[c.cat] || CAT_BADGE.public;
+        const mainSyntax = AC.lang === 'fr' ? c.syntax.fr : c.syntax.en;
+        const mainEx = AC.lang === 'fr' ? c.ex.fr : c.ex.en;
+        const matchedLoc = detectMatchedLocale(c, q);
+
+        let matchHtml = '';
+        if (matchedLoc) {
+          const locNames = { de: 'Allemand (Deutsch)', es: 'Espagnol (Español)', en: 'Anglais (English)', fr: 'Français' };
+          matchHtml = `<div class="cmd-match-notice">✨ ${bi('Correspondance', 'Match')} ${esc(locNames[matchedLoc])} : <code>${esc(c.names[matchedLoc])}</code> &rarr; ${bi('Équivalent', 'Equivalent')} : <code>${esc(c.names[AC.lang === 'fr' ? 'fr' : 'en'])}</code></div>`;
+        }
+
         return `<article class="cmd${c.id === selected ? ' active' : ''}" data-id="${c.id}">
-          <div class="cmd-top"><span class="cmd-syntax">${syntaxHtml(c.syntax)}</span>
-            <button class="btn btn-ghost btn-sm" type="button" aria-pressed="${c.id === selected}">${bi('Aperçu', 'Preview')}</button></div>
+          <div class="cmd-top">
+            <span class="cmd-syntax">${syntaxHtml(mainSyntax)}</span>
+            <button class="btn btn-ghost btn-sm" type="button" aria-pressed="${c.id === selected}">${bi('Aperçu', 'Preview')}</button>
+          </div>
           <p>${bi(esc(c.fr), esc(c.en))}</p>
-          <div class="cmd-meta"><span class="badge ${b[0]}">${bi(b[1], b[2])}</span>
-            <span class="badge">${c.cat === 'admin' ? bi('Réservée aux administrateurs', 'Administrators only') : bi('Ouverte à tous', 'Open to everyone')}</span></div>
-          <div class="cmd-ex">${esc(c.ex)}</div></article>`;
+          ${matchHtml}
+          <div class="cmd-locales">
+            <span class="cmd-loc-item" title="Français">🇫🇷 <code>${esc(c.names.fr)}</code></span>
+            <span class="cmd-loc-item" title="English">🇬🇧 <code>${esc(c.names.en)}</code></span>
+            <span class="cmd-loc-item" title="Español">🇪🇸 <code>${esc(c.names.es)}</code></span>
+            <span class="cmd-loc-item" title="Deutsch">🇩🇪 <code>${esc(c.names.de)}</code></span>
+          </div>
+          <div class="cmd-meta">
+            <span class="badge ${b[0]}">${bi(b[1], b[2])}</span>
+            <span class="badge">${c.cat === 'admin' ? bi('Réservée aux administrateurs', 'Administrators only') : bi('Ouverte à tous', 'Open to everyone')}</span>
+          </div>
+          <div class="cmd-ex">
+            <span>${esc(mainEx)}</span>
+          </div>
+        </article>`;
       }).join('');
     }
 
     function renderSim(animate) {
-      const c = CMDS.find(x => x.id === selected); if (!c) return;
+      const c = CMDS.find(x => x.id === selected) || CMDS[0];
+      if (!c) return;
       const p = c.preview();
-      p.embed.enter = animate;
+      if (p.embed) p.embed.enter = animate;
       $('#sim-msg').innerHTML = AC.dcMessage(p);
     }
 
@@ -224,31 +929,63 @@
       $$('.cmd').forEach(el => {
         const on = el.dataset.id === id;
         el.classList.toggle('active', on);
-        $('.cmd-top button', el).setAttribute('aria-pressed', String(on));
+        $('.cmd-top button', el)?.setAttribute('aria-pressed', String(on));
       });
       renderSim(!AC.reduced);
-      if (fromUser && matchMedia('(max-width: 1040px)').matches) $('#sim').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (fromUser && matchMedia('(max-width: 1040px)').matches) {
+        $('#sim').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
 
-    function refresh() { renderCats(); renderList(); }
+    function refresh() {
+      renderCats();
+      renderList();
+    }
 
     $('#cmd-list').addEventListener('click', ev => {
-      if (ev.target.closest('[data-clear]')) { $('#q').value = ''; query = ''; refresh(); return; }
-      const card = ev.target.closest('.cmd'); if (card) select(card.dataset.id, true);
+      if (ev.target.closest('[data-clear]')) {
+        $('#q').value = '';
+        query = '';
+        refresh();
+        return;
+      }
+      const card = ev.target.closest('.cmd');
+      if (card) select(card.dataset.id, true);
     });
+
     $('#cats').addEventListener('click', ev => {
-      const b = ev.target.closest('[data-cat]'); if (!b) return;
-      cat = b.dataset.cat; refresh();
+      const b = ev.target.closest('[data-cat]');
+      if (!b) return;
+      cat = b.dataset.cat;
+      refresh();
     });
-    $('#q').addEventListener('input', AC.debounce(ev => { query = ev.target.value; refresh(); }, 100));
+
+    $('#q').addEventListener('input', AC.debounce(ev => {
+      query = ev.target.value;
+      refresh();
+      // Si la recherche isole une commande pertinente, la sélectionner
+      const matches = CMDS.filter(c => match(c, norm(query)));
+      if (matches.length > 0 && !matches.some(c => c.id === selected)) {
+        select(matches[0].id, false);
+      }
+    }, 100));
+
     addEventListener('keydown', ev => {
-      if (ev.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { ev.preventDefault(); $('#q').focus(); }
+      if (ev.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) {
+        ev.preventDefault();
+        $('#q').focus();
+      }
     });
-    document.addEventListener('langchange', () => { renderSim(false); });
+
+    document.addEventListener('langchange', () => {
+      refresh();
+      renderSim(false);
+    });
 
     const hash = location.hash.replace('#cmd-', '');
     if (CMDS.some(c => c.id === hash)) selected = hash;
-    refresh(); renderSim(false);
+    refresh();
+    renderSim(false);
   });
   </script>
 </body>

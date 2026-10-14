@@ -75,6 +75,8 @@
     const aiBadge = d => d.ai === true ? `<span class="badge purple">${icon('sparkle', 12)}Apple Intelligence</span>`
       : d.ai === false ? `<span class="badge">${bi('Sans Apple Intelligence', 'No Apple Intelligence')}</span>` : '';
 
+    let visibleLimit = 72;
+
     function filtered() {
       const q = norm(f.q);
       return all.filter(d => {
@@ -82,7 +84,7 @@
         return (f.cat === 'all' || d.cat === f.cat)
           && (!f.ai || d.ai === true)
           && (!f.old || v === 'vintage' || v === 'obsolete')
-          && (!q || norm(`${d.name}${d.soc}${d.cat}`).includes(q));
+          && (!q || norm(`${d.name} ${d.soc} ${d.cat} ${d.id} ${d.arch}`).includes(q));
       }).sort((a, b) => (+new Date(b.released) || 0) - (+new Date(a.released) || 0));
     }
 
@@ -92,8 +94,15 @@
         return `<button type="button" class="chip" data-cat="${k}" aria-pressed="${f.cat === k}">${AC.CAT_ICON[k] ? icon(AC.CAT_ICON[k], 15) : ''}${bi(fr, en)} <span class="count">${n}</span></button>`;
       }).join('');
       const list = filtered();
-      $('#count').innerHTML = bi(`${list.length} appareil${list.length > 1 ? 's' : ''}`, `${list.length} device${list.length === 1 ? '' : 's'}`);
-      $('#grid').innerHTML = list.length ? list.map(d => {
+      const currentList = f.q ? list : list.slice(0, visibleLimit);
+      const showingMore = !f.q && list.length > visibleLimit;
+
+      $('#count').innerHTML = bi(
+        `${list.length} appareil${list.length > 1 ? 's' : ''}${showingMore ? ` (${visibleLimit} affichés)` : ''}`,
+        `${list.length} device${list.length === 1 ? '' : 's'}${showingMore ? ` (${visibleLimit} shown)` : ''}`
+      );
+
+      let gridHtml = currentList.map(d => {
         const v = AC.vintageOf(d.released);
         return `<button class="dev" type="button" data-id="${esc(d.id)}">
           <div class="dev-top">
@@ -108,7 +117,20 @@
             <span>${esc(fmtDate(d.released, { year: 'numeric' }))}</span>
           </div>
           <span class="dev-badges">${vBadge(v?.key)}</span></button>`;
-      }).join('') : `<div class="empty" style="grid-column:1/-1"><h3>${bi('Aucun appareil ne correspond.', 'No device matches.')}</h3><p>${bi('Retirez un filtre ou essayez un autre nom de modèle.', 'Remove a filter or try another model name.')}</p><button class="btn btn-ghost btn-sm" type="button" data-reset>${bi('Réinitialiser les filtres', 'Reset filters')}</button></div>`;
+      }).join('');
+
+      if (showingMore) {
+        gridHtml += `<div style="grid-column:1/-1;text-align:center;padding:24px 0">
+          <button class="btn btn-ghost" type="button" id="load-more-devs">${bi(`Afficher plus d’appareils (+72)`, `Show more devices (+72)`)}</button>
+        </div>`;
+      }
+
+      $('#grid').innerHTML = list.length ? gridHtml : `<div class="empty" style="grid-column:1/-1"><h3>${bi('Aucun appareil ne correspond.', 'No device matches.')}</h3><p>${bi('Retirez un filtre ou essayez un autre nom de modèle (ex: iPhone 15, M2, A17).', 'Remove a filter or try another model name (e.g. iPhone 15, M2, A17).')}</p><button class="btn btn-ghost btn-sm" type="button" data-reset>${bi('Réinitialiser les filtres', 'Reset filters')}</button></div>`;
+
+      $('#load-more-devs')?.addEventListener('click', () => {
+        visibleLimit += 72;
+        render();
+      });
     }
 
     /* ------------------------------------------------------------- Fiche */
@@ -134,10 +156,14 @@
           <dt>${bi('Architecture', 'Architecture')}</dt><dd class="mono">${esc(d.arch)}</dd>
           <dt>${bi('Mémoire', 'Memory')}</dt><dd>${esc(AC.fmtRam(d.ram))}</dd>
           <dt>${bi('Commercialisation', 'Launch')}</dt><dd>${esc(fmtDate(d.released, { month: 'long', year: 'numeric' }))}<small>${esc(relTime(d.released))}</small></dd>
+          <dt>${bi('Identifiant', 'Identifier')}</dt><dd class="mono">${esc(d.id)}</dd>
           <dt>${bi('Statut matériel', 'Hardware status')}</dt><dd id="vint-cell">${vintCell(v?.key, v?.years)}</dd>
           <dt>Apple Intelligence</dt><dd>${aiCell}</dd>
         </dl>
-        <p class="muted" style="font-size:13px;margin-top:18px">${bi('Statut calculé d’après l’âge de l’appareil. Apple se base sur la date de fin de commercialisation.', 'Status computed from the device’s age. Apple uses the date sales ended.')}</p>
+        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn btn-ghost btn-sm" href="https://appledb.dev/device/${encodeURIComponent(d.id)}.html" target="_blank" rel="noopener">AppleDB${icon('external', 13)}</a>
+        </div>
+        <p class="muted" style="font-size:13px;margin-top:14px">${bi('Statut calculé d’après l’âge de l’appareil. Apple se base sur la date de fin de commercialisation.', 'Status computed from the device’s age. Apple uses the date sales ended.')}</p>
       </div>`;
       AC.applyLang();
       $('#modal').showModal();

@@ -19,7 +19,7 @@
     <div class="wrap">
       <div class="page-head">
         <h1><span lang="fr">Firmwares Apple</span><span lang="en">Apple firmwares</span></h1>
-        <p><span lang="fr">Les dernières versions détectées par AppleCore. Cherchez un numéro de version ou un build, comme <code>22B83</code>.</span><span lang="en">The latest builds detected by AppleCore. Search by version number or build, like <code>22B83</code>.</span></p>
+        <p><span lang="fr">Les dernières versions détectées par AppleCore : liens IPSW officiels pour iOS, iPadOS, macOS et visionOS, et suivi OTA pour watchOS et AirPods.</span><span lang="en">Latest builds detected by AppleCore: official IPSW restore links for iOS, iPadOS, macOS and visionOS, plus OTA tracking for watchOS and AirPods.</span></p>
       </div>
 
       <div class="page-body" id="root">
@@ -93,13 +93,23 @@
         : r.signed ? `<span class="badge green">${icon('check', 12)}${bi('Signée', 'Signed')}</span>`
           : `<span class="badge red">${icon('x', 12)}${bi('Non signée', 'Unsigned')}</span>`;
       const isDirectIpsw = r.url && (r.url.toLowerCase().endsWith('.ipsw') || r.url.includes('cdn-apple.com') || r.url.includes('updates.apple.com'));
-      const ipswLink = isDirectIpsw ? r.url : (['iOS', 'iPadOS', 'macOS'].includes(r.os) ? `https://ipsw.me/` : null);
+      const isOtaOnly = ['watchOS', 'AirPods'].includes(r.os);
+
+      let ipswButton = '';
+      if (isDirectIpsw) {
+        ipswButton = `<a class="btn btn-ghost btn-sm" href="${esc(r.url)}" target="_blank" rel="noopener">${icon('download', 15)}${bi('IPSW Direct', 'Direct IPSW')}</a>`;
+      } else if (!isOtaOnly && ['iOS', 'iPadOS', 'macOS', 'visionOS'].includes(r.os)) {
+        ipswButton = `<a class="btn btn-ghost btn-sm" href="${esc(dbUrl)}" target="_blank" rel="noopener" title="${esc(t('Fichiers de restauration IPSW par modèle sur AppleDB', 'Restore IPSW files per model on AppleDB'))}">${icon('download', 15)}${bi('IPSW (Fiche)', 'IPSW (Files)')}</a>`;
+      } else if (isOtaOnly) {
+        ipswButton = `<span class="badge" title="${esc(t('Mise à jour sans fil diffusée par Apple (sans fichier IPSW public)', 'Over-the-air update pushed by Apple (no public IPSW file)'))}">${bi('OTA Auto', 'OTA Only')}</span>`;
+      }
+
       return `<article class="rel">
         <div class="rel-main">${AC.osIcon(r.os)}<div><div class="rel-title">${esc(r.os)} ${esc(r.version)}</div><div class="rel-build">${esc(r.build) || '—'}</div></div></div>
         <div class="rel-badges">${AC.typeBadge(r.type)}${signed}${r.sample ? `<span class="badge">${bi('Exemple', 'Sample')}</span>` : ''}</div>
         <div class="rel-date">${fmtDate(r.date)}<small>${esc(relTime(r.date))}</small></div>
         <div class="rel-actions">
-          ${isDirectIpsw ? `<a class="btn btn-ghost btn-sm" href="${esc(r.url)}" target="_blank" rel="noopener">${icon('download', 15)}IPSW</a>` : ''}
+          ${ipswButton}
           <a class="btn btn-ghost btn-sm" href="${esc(dbUrl)}" target="_blank" rel="noopener">AppleDB${icon('external', 13)}</a>
         </div></article>`;
     }
