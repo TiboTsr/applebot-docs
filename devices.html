@@ -235,11 +235,11 @@
               </div>
               <div class="modal-spec-card">
                 <span class="modal-spec-k">${icon('terminal', 13)} ${bi('Architecture', 'Architecture')}</span>
-                <span class="modal-spec-v">${esc(d.arch)}</span>
+                <span class="modal-spec-v">${esc(d.arch)}<small id="m-cpid">${d.cpid ? 'CPID : ' + esc(d.cpid) : ''}</small></span>
               </div>
               <div class="modal-spec-card">
-                <span class="modal-spec-k">${icon('database', 13)} ${bi('Mémoire', 'Memory')}</span>
-                <span class="modal-spec-v">${esc(AC.fmtRam(d.ram))}</span>
+                <span class="modal-spec-k">${icon('database', 13)} ${bi('Mémoire vive', 'Unified Memory (RAM)')}</span>
+                <span class="modal-spec-v" id="m-ram">${esc(AC.fmtRam(d.ram))}</span>
               </div>
               <div class="modal-spec-card">
                 <span class="modal-spec-k">${icon('clock', 13)} ${bi('Commercialisation', 'Launch')}</span>
@@ -249,6 +249,10 @@
                 </span>
               </div>
               <div class="modal-spec-card">
+                <span class="modal-spec-k">${icon('cpu', 13)} ${bi('Carte mère (Board)', 'Logic Board')}</span>
+                <span class="modal-spec-v" id="m-board">${d.board && d.board.length ? esc(d.board.join(', ')) : '—'}<small id="m-bdid">${d.bdid ? 'BDID : ' + esc(d.bdid) : ''}</small></span>
+              </div>
+              <div class="modal-spec-card">
                 <span class="modal-spec-k">${icon(AC.CAT_ICON[d.cat] || 'iphone', 13)} ${bi('Système OS', 'OS Support')}</span>
                 <span class="modal-spec-v" id="m-os-support">
                   ${d.os_support?.latest_os ? esc(d.os_support.latest_os) : bi('Compatible OS actuel', 'Compatible with latest OS')}
@@ -256,12 +260,18 @@
                 </span>
               </div>
               <div class="modal-spec-card">
-                <span class="modal-spec-k">${icon('tag', 13)} ${bi('Identifiant & Modèle', 'Identifier & Model')}</span>
-                <span class="modal-spec-v">
-                  ${esc(d.id)}
-                  <small id="m-model-num">${esc(d.model ? (Array.isArray(d.model) ? d.model.join(', ') : d.model) : '')}</small>
-                </span>
+                <span class="modal-spec-k">${icon('tag', 13)} ${bi('Identifiant matériel', 'Device Identifier')}</span>
+                <span class="modal-spec-v">${esc(d.id)}</span>
               </div>
+              <div class="modal-spec-card">
+                <span class="modal-spec-k">${icon('shield', 13)} ${bi('Modèle(s) Axxxx', 'Regulatory Model(s)')}</span>
+                <span class="modal-spec-v" id="m-model-num">${d.model && d.model.length ? esc(d.model.join(', ')) : '—'}</span>
+              </div>
+            </div>
+
+            <div id="m-extra-specs" class="modal-extra-specs" style="display:none">
+              <div class="modal-extra-title">${icon('activity', 13)} ${bi('Spécifications détaillées (AppleDB)', 'Hardware details (AppleDB)')}</div>
+              <div id="m-extra-pills" class="modal-extra-pills"></div>
             </div>
 
             <div class="modal-vint-banner" id="m-vint-banner">
@@ -291,8 +301,30 @@
           const imageKey = devData.imageKey || devData.key || d.id;
           const colors = Array.isArray(devData.colors) ? devData.colors : [];
 
+          if (devData.cpid && !d.cpid) {
+            d.cpid = devData.cpid;
+            const cpidEl = $('#m-cpid');
+            if (cpidEl) cpidEl.textContent = 'CPID : ' + devData.cpid;
+          }
+          if (devData.bdid && !d.bdid) {
+            d.bdid = devData.bdid;
+            const bdidEl = $('#m-bdid');
+            if (bdidEl) bdidEl.textContent = 'BDID : ' + devData.bdid;
+          }
+          if (devData.board && (!d.board || !d.board.length)) {
+            d.board = Array.isArray(devData.board) ? devData.board : [devData.board];
+            const bEl = $('#m-board');
+            if (bEl) {
+              const bdidStr = (devData.bdid || d.bdid) ? `<small id="m-bdid">BDID : ${esc(devData.bdid || d.bdid)}</small>` : '';
+              bEl.innerHTML = `${esc(d.board.join(', '))}${bdidStr}`;
+            }
+          }
           if (devData.model && modelNumEl) {
-            modelNumEl.textContent = Array.isArray(devData.model) ? devData.model.join(', ') : devData.model;
+            const mArr = Array.isArray(devData.model) ? devData.model : [devData.model];
+            if (mArr.length) {
+              d.model = mArr;
+              modelNumEl.textContent = mArr.join(', ');
+            }
           }
 
           if (devData.discontinued && !d.discontinued) {
@@ -300,6 +332,43 @@
             const updatedV = AC.vintageOf(d);
             const banner = $('#m-vint-banner');
             if (banner) banner.innerHTML = vintBannerHtml(updatedV);
+          }
+
+          if (Array.isArray(devData.info) && devData.info.length) {
+            const pills = [];
+            for (const item of devData.info) {
+              if (item.type === 'Display' && item.Screen_Size) {
+                const res = item.Resolution ? ` (${item.Resolution.x}×${item.Resolution.y})` : '';
+                const hz = item.Refresh_Rate ? ` · ${item.Refresh_Rate}` : '';
+                pills.push(`<span>${icon('mac', 13)} <strong>${bi('Écran', 'Display')} :</strong> ${esc(item.Screen_Size)}${res}${hz}</span>`);
+              }
+              if (item.type === 'Memory' && item.Storage) {
+                const stor = Array.isArray(item.Storage) ? item.Storage.join(', ') : item.Storage;
+                pills.push(`<span>${icon('database', 13)} <strong>${bi('Stockage', 'Storage')} :</strong> ${esc(stor)}</span>`);
+              }
+              if (item.type === 'Memory' && item.RAM && (!d.ram || d.ram === '—')) {
+                d.ram = Array.isArray(item.RAM) ? item.RAM.join(' / ') : item.RAM;
+                const ramEl = $('#m-ram');
+                if (ramEl) ramEl.textContent = esc(AC.fmtRam(d.ram));
+              }
+              if (item.type === 'Cores' && (item.CPU_Core_Count || item.GPU_Core_Count)) {
+                const cpu = item.CPU_Core_Count ? `${item.CPU_Core_Count} CPU` : '';
+                const gpu = item.GPU_Core_Count ? `${Array.isArray(item.GPU_Core_Count) ? item.GPU_Core_Count.join('/') : item.GPU_Core_Count} GPU` : '';
+                const ane = item.Neural_Engine_Core_Count ? `${item.Neural_Engine_Core_Count} NPU` : '';
+                pills.push(`<span>${icon('cpu', 13)} <strong>${bi('Cœurs', 'Cores')} :</strong> ${[cpu, gpu, ane].filter(Boolean).join(' · ')}</span>`);
+              }
+              if (item.type === 'Power' && item.Battery_Life) {
+                pills.push(`<span>${icon('bolt', 13)} <strong>${bi('Autonomie', 'Battery')} :</strong> ${esc(item.Battery_Life)}</span>`);
+              }
+            }
+            if (pills.length) {
+              const extraWrap = $('#m-extra-specs');
+              const extraPills = $('#m-extra-pills');
+              if (extraWrap && extraPills) {
+                extraPills.innerHTML = pills.map(p => `<div class="modal-extra-pill">${p}</div>`).join('');
+                extraWrap.style.display = 'flex';
+              }
+            }
           }
 
           if (colors.length) {

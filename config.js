@@ -237,17 +237,70 @@
     const family = String(pick(d, 'family', 'category') ?? '');
     const soc = String(pick(d, 'soc', 'chip', 'processor', 'cpu') ?? '—');
     const cat = osKey2cat(name, type, family);
-    const ramRaw = pick(d, 'ram', 'memory', 'ram_gb');
     const aiRaw = pick(d, 'apple_intelligence', 'appleIntelligence', 'ai');
+    let aiInfo = pick(d, 'ai_info', 'aiInfo');
     let supported = pick(d, 'supported', 'ai_supported', 'ai_compatible');
     let reason = pick(d, 'reason', 'ai_reason');
-    if (aiRaw && typeof aiRaw === 'object') { supported = pick(aiRaw, 'supported', 'compatible'); reason = pick(aiRaw, 'reason', 'details') ?? reason; }
-    else if (typeof aiRaw === 'boolean') supported = aiRaw;
+    if (aiRaw && typeof aiRaw === 'object') {
+      supported = pick(aiRaw, 'supported', 'compatible');
+      reason = pick(aiRaw, 'reason', 'details') ?? reason;
+      if (!aiInfo) aiInfo = aiRaw;
+    } else if (typeof aiRaw === 'boolean') {
+      supported = aiRaw;
+    }
+
+    let ramRaw = pick(d, 'ram', 'memory', 'ram_gb');
+    if (!ramRaw && aiInfo) {
+      ramRaw = pick(aiInfo, 'ram', 'memory');
+    }
+    // Si la RAM n'est pas explicite, estimation par puce et génération
+    if (!ramRaw) {
+      const sUpper = soc.toUpperCase();
+      const aMatch = sUpper.match(/A(\d+)\s*(PRO)?/);
+      if (aMatch) {
+        const num = parseInt(aMatch[1], 10);
+        const isPro = !!aMatch[2] || /PRO|DUO/i.test(name);
+        if (num >= 20) ramRaw = '12 Go';
+        else if (num === 19) ramRaw = isPro ? '12 Go' : '8 Go';
+        else if (num === 18) ramRaw = '8 Go';
+        else if (num === 17) ramRaw = isPro ? '8 Go' : '6 Go';
+        else if (num === 16) ramRaw = '6 Go';
+        else if (num === 15) ramRaw = isPro ? '6 Go' : (name.includes('Plus') || name.includes('14') ? '6 Go' : '4 Go');
+        else if (num === 14) ramRaw = isPro ? '6 Go' : '4 Go';
+        else if (num === 13) ramRaw = '4 Go';
+        else if (num <= 12 && num >= 10) ramRaw = '3 Go';
+        else if (num < 10) ramRaw = '2 Go';
+      } else if (/M4|M5|M6/i.test(sUpper)) {
+        ramRaw = /MAX|ULTRA/i.test(sUpper) ? '36 Go à 128 Go' : (/PRO/i.test(sUpper) ? '18 Go à 48 Go' : '16 Go');
+      } else if (/M3/i.test(sUpper)) {
+        ramRaw = /MAX/i.test(sUpper) ? '36 Go à 128 Go' : (/PRO/i.test(sUpper) ? '18 Go' : '8 Go à 24 Go');
+      } else if (/M2/i.test(sUpper)) {
+        ramRaw = /MAX/i.test(sUpper) ? '32 Go à 96 Go' : (/PRO/i.test(sUpper) ? '16 Go' : '8 Go à 24 Go');
+      } else if (/M1/i.test(sUpper)) {
+        ramRaw = /MAX/i.test(sUpper) ? '32 Go à 64 Go' : (/PRO/i.test(sUpper) ? '16 Go' : '8 Go à 16 Go');
+      } else if (/S10|S11/i.test(sUpper)) {
+        ramRaw = '2 Go';
+      } else if (/S9|S8|S7|S6/i.test(sUpper)) {
+        ramRaw = '1 Go';
+      }
+    }
+
+    const cpid = String(pick(d, 'cpid') ?? '');
+    const bdid = String(pick(d, 'bdid') ?? '');
+    const board = pick(d, 'board');
+    const boardList = Array.isArray(board) ? board : (board ? [String(board)] : []);
+    const model = pick(d, 'model');
+    const modelList = Array.isArray(model) ? model : (model ? [String(model)] : []);
+
     const isExcluded = EXCLUDED_DEVICE_TYPES.test(type) || ACCESSORY_NAME_RE.test(name);
     return {
       id: String(pick(d, 'identifier', 'id', 'device_id', 'key') ?? name),
       name, soc, cat, type, family,
       arch: String(pick(d, 'arch', 'architecture') ?? (/intel|core i|xeon/i.test(soc) ? 'x86_64' : (soc && soc !== '—' ? 'Apple Silicon' : '—'))),
+      cpid: cpid || null,
+      bdid: bdid || null,
+      board: boardList,
+      model: modelList,
       ram: ramRaw === undefined ? null : (typeof ramRaw === 'number' ? ramRaw : String(ramRaw)),
       released: pick(d, 'released', 'release_date', 'date', 'introduced'),
       discontinued: pick(d, 'discontinued', 'end_date', 'discontinued_date'),
@@ -259,7 +312,7 @@
     };
   }
   const CAT_ICON = { iPhone: 'iphone', iPad: 'ipad', Mac: 'mac', Watch: 'watch', AirPods: 'airpods', Autre: 'tv' };
-  const fmtRam = r => (r === null ? '—' : typeof r === 'number' ? `${r} ${t('Go', 'GB')}` : String(r));
+  const fmtRam = r => (!r || r === '—' ? '—' : typeof r === 'number' ? `${r} ${t('Go', 'GB')}` : (lang === 'en' ? String(r).replace(/Go/g, 'GB') : String(r)));
   const reasonText = r => (!r ? '' : typeof r === 'string' ? r : (lang === 'fr' ? r.fr : r.en));
 
   function normAnalytics(d) {
