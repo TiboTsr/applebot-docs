@@ -190,7 +190,7 @@
     return { years, key: years < 5 ? 'supported' : years <= 7 ? 'vintage' : 'obsolete' };
   }
   const EXCLUDED_DEVICE_TYPES = /^(software|sdk|simulator|virtual machine|credit cards|cases|batteries|power|adapters|beddit|security|accessories|other)$/i;
-  const ACCESSORY_NAME_RE = /\b(cloth|chiffon|dragonne|wrist strap|cushion kit|pocket -|case for|sleeve|cover|leather case|silicone case|clear case)\b/i;
+  const ACCESSORY_NAME_RE = /\b(cloth|chiffon|dragonne|wrist strap|cushion kit|pocket -|case for|sleeve|cover|leather case|silicone case|clear case|charging case|wireless charging case|magsafe case|ear tip)\b|\((left|right)\)/i;
 
   function osKey2cat(name, type, family) {
     const s = `${name} ${type || ''} ${family || ''}`.toLowerCase();
@@ -215,7 +215,7 @@
     let reason = pick(d, 'reason', 'ai_reason');
     if (aiRaw && typeof aiRaw === 'object') { supported = pick(aiRaw, 'supported', 'compatible'); reason = pick(aiRaw, 'reason', 'details') ?? reason; }
     else if (typeof aiRaw === 'boolean') supported = aiRaw;
-    const isExcluded = EXCLUDED_DEVICE_TYPES.test(type) || (ACCESSORY_NAME_RE.test(name) && !/airpods|beats/i.test(name));
+    const isExcluded = EXCLUDED_DEVICE_TYPES.test(type) || ACCESSORY_NAME_RE.test(name);
     return {
       id: String(pick(d, 'identifier', 'id', 'device_id', 'key') ?? name),
       name, soc, cat, type, family,
@@ -383,10 +383,23 @@
     return { items, live: true, more, total };
   }
   async function loadDevices() {
-    const r = await apiOr('/api/devices?limit=2500', null, { timeout: 12000 });
+    const r = await apiOr('/api/devices?limit=2000', null, { timeout: 15000 });
     if (!r.live || !r.data) return { items: sampleDevices(), live: false };
     const d = r.data;
-    const arr = Array.isArray(d) ? d : (d.items || d.devices || d.results || d.data || []);
+    let arr = Array.isArray(d) ? d : (d.items || d.devices || d.results || d.data || []);
+    const total = Number(d.total || arr.length);
+    if (total > arr.length && arr.length > 0) {
+      let offset = arr.length;
+      while (offset < total && offset < 5000) {
+        const nextLimit = Math.min(2000, total - offset);
+        const nextR = await apiOr(`/api/devices?limit=${nextLimit}&offset=${offset}`, null, { timeout: 12000 });
+        if (!nextR.live || !nextR.data) break;
+        const nextArr = Array.isArray(nextR.data) ? nextR.data : (nextR.data.items || nextR.data.devices || nextR.data.results || []);
+        if (!nextArr.length) break;
+        arr = arr.concat(nextArr);
+        offset += nextArr.length;
+      }
+    }
     const items = arr.map(normDevice).filter(x => !x.isExcluded);
     return { items, live: true, total: items.length };
   }
