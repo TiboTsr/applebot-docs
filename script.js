@@ -1,9 +1,9 @@
-// AppleCore Marketing Site - Real-Time Interactivity & Showcase
+// Pallas Radar Marketing Site - Real-Time Interactivity & Showcase
 
 // --- LANGUAGE TOGGLE & PERSISTENCE ---
 const langButtons = document.querySelectorAll('[data-lang-toggle]');
 const root = document.documentElement;
-const savedLang = localStorage.getItem('applecore_lang') || 'fr';
+const savedLang = localStorage.getItem('pallas_lang') || localStorage.getItem('applecore_lang') || 'fr';
 setLanguage(savedLang);
 
 langButtons.forEach((btn) => {
@@ -15,7 +15,7 @@ langButtons.forEach((btn) => {
 
 function setLanguage(lang) {
   root.setAttribute('data-lang', lang);
-  localStorage.setItem('applecore_lang', lang);
+  localStorage.setItem('pallas_lang', lang);
   langButtons.forEach((b) => {
     b.setAttribute('aria-pressed', String(b.getAttribute('data-lang-toggle') === lang));
   });

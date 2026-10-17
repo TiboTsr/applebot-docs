@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <script>try{var l=localStorage.getItem('ac_lang')}catch(e){}document.documentElement.dataset.lang=l||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en')</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title data-fr="Documentation & Commandes — AppleCore" data-en="Documentation & Commands — AppleCore">Documentation & Commandes — AppleCore</title>
-  <meta name="description" content="Toutes les commandes d’AppleCore : syntaxe multilingue (FR, EN, ES, DE), exemples, permissions et rendu Discord ultra-réaliste.">
+  <title data-fr="Documentation & Commandes — Pallas Radar" data-en="Documentation & Commands — Pallas Radar">Documentation & Commandes — Pallas Radar</title>
+  <meta name="description" content="Toutes les commandes d’Pallas Radar : syntaxe multilingue (FR, EN, ES, DE), exemples, permissions et rendu Discord ultra-réaliste.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://applecore.tibotsr.dev/help.html">
   <link rel="icon" href="logo.png">
@@ -14,19 +14,19 @@
   <link rel="alternate" hreflang="x-default" href="https://applecore.tibotsr.dev/help.html">
 
   <!-- Open Graph -->
-  <meta property="og:site_name" content="AppleCore">
+  <meta property="og:site_name" content="Pallas Radar">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:locale:alternate" content="en_US">
   <meta property="og:url" content="https://applecore.tibotsr.dev/help.html">
-  <meta property="og:title" content="Documentation & Commandes — AppleCore">
-  <meta property="og:description" content="Toutes les commandes d’AppleCore : syntaxe multilingue (FR, EN, ES, DE), exemples, permissions et simulateur Discord interactif.">
+  <meta property="og:title" content="Documentation & Commandes — Pallas Radar">
+  <meta property="og:description" content="Toutes les commandes d’Pallas Radar : syntaxe multilingue (FR, EN, ES, DE), exemples, permissions et simulateur Discord interactif.">
   <meta property="og:image" content="https://applecore.tibotsr.dev/logo.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Documentation & Commandes — AppleCore">
-  <meta name="twitter:description" content="Toutes les commandes d’AppleCore : syntaxe multilingue (FR, EN, ES, DE), exemples et simulateur Discord interactif.">
+  <meta name="twitter:title" content="Documentation & Commandes — Pallas Radar">
+  <meta name="twitter:description" content="Toutes les commandes d’Pallas Radar : syntaxe multilingue (FR, EN, ES, DE), exemples et simulateur Discord interactif.">
   <meta name="twitter:image" content="https://applecore.tibotsr.dev/logo.png">
 
   <link rel="stylesheet" href="style.css">
@@ -39,7 +39,7 @@
     <div class="wrap">
       <div class="page-head">
         <h1><span lang="fr">Documentation & Commandes</span><span lang="en">Docs & Commands</span></h1>
-        <p><span lang="fr">Catalogue officiel de toutes les commandes d’AppleCore. Cherchez en français, anglais, espagnol ou allemand pour afficher son équivalent et prévisualiser le message Discord exact.</span><span lang="en">Official catalogue of every AppleCore command. Search in French, English, Spanish or German to view its localized equivalent and preview the real Discord embed.</span></p>
+        <p><span lang="fr">Catalogue officiel de toutes les commandes d’Pallas Radar. Cherchez en français, anglais, espagnol ou allemand pour afficher son équivalent et prévisualiser le message Discord exact.</span><span lang="en">Official catalogue of every Pallas Radar command. Search in French, English, Spanish or German to view its localized equivalent and preview the real Discord embed.</span></p>
       </div>
 
       <div class="toolbar-unified">
@@ -69,7 +69,7 @@
       <section id="quickstart" class="page-body" style="padding-top:0">
         <div class="section-head">
           <h2><span lang="fr">Démarrage rapide pour les administrateurs</span><span lang="en">Quick start for server admins</span></h2>
-          <p><span lang="fr">L’assistant <code>/setup</code> configure AppleCore pas à pas. Il suffit d’être administrateur du serveur.</span><span lang="en">The <code>/setup</code> wizard configures AppleCore step by step. You just need to be a server administrator.</span></p>
+          <p><span lang="fr">L’assistant <code>/setup</code> configure Pallas Radar pas à pas. Il suffit d’être administrateur du serveur.</span><span lang="en">The <code>/setup</code> wizard configures Pallas Radar step by step. You just need to be a server administrator.</span></p>
         </div>
         <div class="steps-grid">
           <div class="step-card">
@@ -80,7 +80,7 @@
           <div class="step-card">
             <div class="step-num">2</div>
             <h3><span lang="fr">Salon d’annonces</span><span lang="en">Channel</span></h3>
-            <p><span lang="fr">Sélectionnez le salon dans un menu natif. AppleCore contrôle immédiatement qu’il peut y envoyer des messages et des embeds.</span><span lang="en">Pick the channel from a native menu. AppleCore immediately checks it can send messages and embeds there.</span></p>
+            <p><span lang="fr">Sélectionnez le salon dans un menu natif. Pallas Radar contrôle immédiatement qu’il peut y envoyer des messages et des embeds.</span><span lang="en">Pick the channel from a native menu. Pallas Radar immediately checks it can send messages and embeds there.</span></p>
           </div>
           <div class="step-card">
             <div class="step-num">3</div>
@@ -112,7 +112,7 @@
     $('#search-ico').innerHTML = icon('search', 18);
     $('#search-ico').style.display = 'contents';
 
-    const foot = () => t('AppleCore • Données officielles Apple', 'AppleCore • Official Apple data');
+    const foot = () => t('Pallas Radar • Données officielles Apple', 'Pallas Radar • Official Apple data');
 
     /* ------------------------------------------------------------ Catalogue complet */
     const CMDS = [
@@ -129,7 +129,7 @@
           cmd: t('/info os:iOS version:18.3.1', '/info os:iOS version:18.3.1'),
           embed: {
             color: '#0071e3',
-            author: { name: t('AppleCore • Fiche Système', 'AppleCore • System Overview') },
+            author: { name: t('Pallas Radar • Fiche Système', 'Pallas Radar • System Overview') },
             title: '🍎 iOS 18.3.1',
             desc: t(
               'Cette mise à jour apporte des correctifs de sécurité importants et résout un problème empêchant la synchronisation correcte des contacts dans iCloud. Recommandée à tous les utilisateurs.',
@@ -445,7 +445,7 @@
           cmd: '/roles',
           embed: {
             color: '#0071e3',
-            title: '🔔 ' + t('Abonnements aux Alertes AppleCore', 'AppleCore Alert Subscriptions'),
+            title: '🔔 ' + t('Abonnements aux Alertes Pallas Radar', 'Pallas Radar Alert Subscriptions'),
             desc: t(
               'Sélectionnez ci-dessous les systèmes pour lesquels vous souhaitez être mentionné en cas de nouvelle sortie officielle ou bêta.',
               'Choose below the systems you wish to be pinged for whenever a new release or beta drops.'
@@ -478,10 +478,10 @@
             title: '🏓 ' + t('Latence opérationnelle', 'Operational Latency'),
             fields: [
               { name: '📡 Discord Gateway', value: '`38.2 ms` (Nominal)', inline: true },
-              { name: '⚡ API AppleCore', value: '`12.4 ms`', inline: true },
+              { name: '⚡ API Pallas Radar', value: '`12.4 ms`', inline: true },
               { name: '🐘 Base PostgreSQL', value: '`1.8 ms`', inline: true }
             ],
-            footer: 'AppleCore Telemetry'
+            footer: 'Pallas Radar Telemetry'
           }
         })
       },
@@ -498,7 +498,7 @@
           cmd: t('/statut', '/status'),
           embed: {
             color: '#30d158',
-            title: '⚡ ' + t('Télémétrie AppleCore en Direct', 'AppleCore Live Telemetry'),
+            title: '⚡ ' + t('Télémétrie Pallas Radar en Direct', 'Pallas Radar Live Telemetry'),
             fields: [
               { name: '📡 Discord Gateway', value: '🟢 `38 ms` (Opérationnel)', inline: true },
               { name: '🛰️ Pallas Watcher', value: '🟢 `60s loop` (Actif)', inline: true },
@@ -506,7 +506,7 @@
               { name: '⏱️ Uptime', value: t('24 jours, 18 heures', '24 days, 18 hours'), inline: true },
               { name: '🌐 Serveurs', value: '`312 serveurs`', inline: true }
             ],
-            footer: 'AppleCore Monitoring Service'
+            footer: 'Pallas Radar Monitoring Service'
           }
         })
       },
@@ -523,7 +523,7 @@
           cmd: t('/statistiques', '/stats'),
           embed: {
             color: '#0071e3',
-            title: '📊 ' + t('Statistiques Globales d’AppleCore', 'AppleCore Global Analytics'),
+            title: '📊 ' + t('Statistiques Globales d’Pallas Radar', 'Pallas Radar Global Analytics'),
             fields: [
               { name: '🌐 ' + t('Serveurs surveillés', 'Monitored Servers'), value: '`312`', inline: true },
               { name: '⚡ ' + t('Commandes traitées', 'Commands Handled'), value: '`128 430`', inline: true },
@@ -531,7 +531,7 @@
               { name: '⏱️ ' + t('Délai moyen d’alerte', 'Avg. Notification Delay'), value: '`12 s`', inline: true },
               { name: '🎯 ' + t('Commandes populaires', 'Top Commands'), value: '`/info` (32%) • `/derniers` (24%) • `/appareil` (18%)' }
             ],
-            footer: 'AppleCore Analytics'
+            footer: 'Pallas Radar Analytics'
           }
         })
       },
@@ -541,14 +541,14 @@
         names: { fr: '/a-propos', en: '/about', es: '/acerca-de', de: '/ueber' },
         syntax: { fr: '/a-propos', en: '/about' },
         ex: { fr: '/a-propos', en: '/about' },
-        fr: 'Informations officielles sur AppleCore, son architecture, ses technologies open source et les liens vers GitHub et Discord.',
-        en: 'Official information on AppleCore, architectural design, open source codebase and links to GitHub and Discord.',
+        fr: 'Informations officielles sur Pallas Radar, son architecture, ses technologies open source et les liens vers GitHub et Discord.',
+        en: 'Official information on Pallas Radar, architectural design, open source codebase and links to GitHub and Discord.',
         tags: ['infos', 'bot', 'createur', 'liens', 'a propos', 'acerca de', 'ueber'],
         preview: () => ({
           cmd: t('/a-propos', '/about'),
           embed: {
             color: '#0071e3',
-            title: '🍏 AppleCore — ' + t('Le Cœur de l’Écosystème Apple', 'The Heart of the Apple Ecosystem'),
+            title: '🍏 Pallas Radar — ' + t('Le Cœur de l’Écosystème Apple', 'The Heart of the Apple Ecosystem'),
             desc: t(
               'Le bot communautaire de référence pour la détection instantanée, l’analyse des firmwares et le suivi des pannes de services Apple en temps réel.',
               'The premier community Discord bot for instant Apple firmware detection, technical spec analysis and real-time service outage alerts.'
@@ -559,7 +559,7 @@
             footer: 'Développé par TiboTsr • Open Source'
           },
           buttons: [
-            { label: t('Inviter AppleCore', 'Invite AppleCore'), style: 'primary', url: AC.LINKS.invite },
+            { label: t('Inviter Pallas Radar', 'Invite Pallas Radar'), style: 'primary', url: AC.LINKS.invite },
             { label: 'GitHub', style: 'secondary', url: AC.LINKS.github },
             { label: 'Documentation', style: 'secondary', url: 'help.html' }
           ]
@@ -578,15 +578,15 @@
           cmd: t('/aide', '/help'),
           embed: {
             color: '#0071e3',
-            title: '📖 ' + t('Centre d’Aide & Guide AppleCore', 'AppleCore Help Center & Guide'),
+            title: '📖 ' + t('Centre d’Aide & Guide Pallas Radar', 'Pallas Radar Help Center & Guide'),
             desc: t(
-              'Bienvenue sur **AppleCore** ! Utilisez les menus ci-dessous pour explorer l’ensemble des fonctionnalités disponibles pour votre communauté.',
-              'Welcome to **AppleCore**! Use the dropdown below to explore all available features for your community.'
+              'Bienvenue sur **Pallas Radar** ! Utilisez les menus ci-dessous pour explorer l’ensemble des fonctionnalités disponibles pour votre communauté.',
+              'Welcome to **Pallas Radar**! Use the dropdown below to explore all available features for your community.'
             ),
             fields: [
               { name: '🚀 ' + t('Prise en main rapide', 'Quick Start'), value: t('• **Membres** : Consultez `/info`, `/appareil` ou `/etat-apple`.\n• **Notifications** : Choisissez vos alertes avec `/roles`.\n• **Admins** : Configurez le serveur avec `/setup`.', '• **Members**: Check `/info`, `/device` or `/apple_status`.\n• **Alerts**: Self-assign roles with `/roles`.\n• **Admins**: Configure the server with `/setup`.') }
             ],
-            footer: t('AppleCore • Utilisez les menus déroulants pour naviguer', 'AppleCore • Use menus to browse')
+            footer: t('Pallas Radar • Utilisez les menus déroulants pour naviguer', 'Pallas Radar • Use menus to browse')
           },
           select: {
             placeholder: t('📂 Choisir une catégorie...', '📂 Choose a category...'),
@@ -604,17 +604,17 @@
         names: { fr: '/configuration', en: '/setup', es: '/configuracion', de: '/einrichtung' },
         syntax: { fr: '/configuration', en: '/setup' },
         ex: { fr: '/configuration', en: '/setup' },
-        fr: 'Assistant interactif en 5 étapes pour configurer AppleCore sur votre serveur : salon d’annonces, rôles par système, filtres de bêtas et alerte de test.',
+        fr: 'Assistant interactif en 5 étapes pour configurer Pallas Radar sur votre serveur : salon d’annonces, rôles par système, filtres de bêtas et alerte de test.',
         en: 'Interactive 5-step onboarding wizard for your server: announcement channel, per-system roles, beta filters and real test notification.',
         tags: ['assistant', 'demarrage', 'config', 'installer', 'salon', 'wizard', 'einrichtung', 'configuracion'],
         preview: () => ({
           cmd: t('/configuration', '/setup'),
           embed: {
             color: '#0071e3',
-            title: '🚀 ' + t('Configuration d’AppleCore — Étape 2/5 : Salon d’Alertes', 'AppleCore Setup — Step 2/5: Announcement Channel'),
+            title: '🚀 ' + t('Configuration d’Pallas Radar — Étape 2/5 : Salon d’Alertes', 'Pallas Radar Setup — Step 2/5: Announcement Channel'),
             desc: t(
-              'Dans quel salon de votre serveur souhaitez-vous diffuser les annonces officielles d’Apple ?\n*AppleCore contrôle automatiquement les permissions d’envoi d’embeds.*',
-              'Which server channel should receive official Apple update announcements?\n*AppleCore automatically verifies embed posting permissions.*'
+              'Dans quel salon de votre serveur souhaitez-vous diffuser les annonces officielles d’Apple ?\n*Pallas Radar contrôle automatiquement les permissions d’envoi d’embeds.*',
+              'Which server channel should receive official Apple update announcements?\n*Pallas Radar automatically verifies embed posting permissions.*'
             ),
             footer: t('Étape 2 sur 5 • Seul vous pouvez voir ce message', 'Step 2 of 5 • Only you can see this message')
           },
@@ -645,7 +645,7 @@
           cmd: t('/apercu os:iOS', '/preview os:iOS'),
           embed: {
             color: '#0071e3',
-            author: { name: 'AppleCore • Notification Système' },
+            author: { name: 'Pallas Radar • Notification Système' },
             title: '🍎 iOS 18.3.1 (22D72) est disponible',
             desc: '> Une nouvelle mise à jour logicielle officielle d’Apple vient d’être détectée.\n\n@iOS-Notif — Mettez à jour vos appareils via **Réglages** > **Général** > **Mise à jour logicielle**.',
             fields: [
@@ -653,7 +653,7 @@
               { name: '📡 Audience', value: '`Public Stable`', inline: true },
               { name: '📱 Compatibilité', value: t('**48 modèles d’iPhone** compatibles', '**48 iPhone models** supported'), inline: true }
             ],
-            footer: 'AppleCore • Simulation Réelle d’Alerte'
+            footer: 'Pallas Radar • Simulation Réelle d’Alerte'
           },
           buttons: [
             { label: t('📱 Appareils compatibles', '📱 Compatible devices') },
@@ -680,7 +680,7 @@
               'Bienvenue dans le salon des rôles ! Cliquez sur le menu ci-dessous pour choisir les annonces de firmwares que vous souhaitez recevoir sur ce serveur.',
               'Welcome to the role channel! Click the menu below to self-assign which firmware announcements you want to receive on this server.'
             ),
-            footer: 'AppleCore • Libre-service permanent'
+            footer: 'Pallas Radar • Libre-service permanent'
           },
           select: {
             placeholder: t('Mes alertes de mises à jour Apple...', 'My Apple update alerts...'),
@@ -711,7 +711,7 @@
               'Toutes les annonces officielles seront désormais publiées dans **#alertes-apple**.\n\n*Permissions vérifiées : Envoyer des messages, Insérer des liens, Joindre des fichiers.*',
               'All official announcements will now be dispatched to **#apple-updates**.\n\n*Permissions verified: Send Messages, Embed Links, Attach Files.*'
             ),
-            footer: 'Configuration Serveur • AppleCore'
+            footer: 'Configuration Serveur • Pallas Radar'
           }
         })
       },
@@ -736,7 +736,7 @@
               { name: '⌚ watchOS', value: '@watchOS-Notif', inline: true },
               { name: '🎧 AirPods', value: '@AirPods-Notif', inline: true }
             ],
-            footer: 'Configuration Serveur • AppleCore'
+            footer: 'Configuration Serveur • Pallas Radar'
           }
         })
       },
@@ -760,7 +760,7 @@
               { name: '🟣 Developer Beta', value: t('`Activé` (Diffusé)', '`Enabled` (Dispatched)'), inline: true },
               { name: '🔵 Public Beta', value: t('`Désactivé` (Ignoré)', '`Disabled` (Ignored)'), inline: true }
             ],
-            footer: 'Configuration Serveur • AppleCore'
+            footer: 'Configuration Serveur • Pallas Radar'
           }
         })
       },
@@ -771,7 +771,7 @@
         syntax: { fr: '/langue', en: '/language' },
         ex: { fr: '/langue', en: '/language' },
         fr: 'Définit la langue par défaut du bot pour votre serveur parmi 4 langues supportées : Français, English, Español et Deutsch.',
-        en: 'Configures AppleCore’s server language among 4 fully supported locales: Français, English, Español and Deutsch.',
+        en: 'Configures Pallas Radar’s server language among 4 fully supported locales: Français, English, Español and Deutsch.',
         tags: ['langue', 'traduction', 'language', 'idioma', 'sprache', 'i18n', 'multilingue'],
         preview: () => ({
           cmd: t('/langue', '/language'),
@@ -782,7 +782,7 @@
               'Langue active actuelle : **🇫🇷 Français**\n\nSélectionnez une nouvelle langue ci-dessous pour adapter l’ensemble des alertes, fiches techniques et commandes de vos membres.',
               'Current active language: **🇬🇧 English**\n\nSelect a new language below to adapt all release alerts, technical sheets and user commands.'
             ),
-            footer: 'AppleCore Localization Engine'
+            footer: 'Pallas Radar Localization Engine'
           },
           select: {
             placeholder: t('Sélectionnez la langue souhaitée...', 'Select desired language...'),
@@ -813,7 +813,7 @@
               '✅ **Alertes automatiques activées dans #alertes-apple**\n\nLe bot publiera un message d’urgence dès qu’une panne affectant les services Apple est détectée par nos sondes, avec mise à jour lors de la résolution.',
               '✅ **Automatic outage alerts enabled in #apple-updates**\n\nThe bot will post an emergency alert as soon as an outage affecting Apple services is detected, and update upon resolution.'
             ),
-            footer: 'Configuration Serveur • AppleCore'
+            footer: 'Configuration Serveur • Pallas Radar'
           }
         })
       },
@@ -830,7 +830,7 @@
           cmd: '/config show',
           embed: {
             color: '#0071e3',
-            title: '📋 ' + t('Paramètres Actifs — AppleCore', 'Active Settings — AppleCore'),
+            title: '📋 ' + t('Paramètres Actifs — Pallas Radar', 'Active Settings — Pallas Radar'),
             fields: [
               { name: '📢 ' + t('Salon d’alertes', 'Alert Channel'), value: '#alertes-apple', inline: true },
               { name: '🌍 ' + t('Langue', 'Language'), value: '🇫🇷 Français', inline: true },
@@ -838,7 +838,7 @@
               { name: '⚠️ ' + t('Alertes pannes', 'Outage alerts'), value: t('Activées', 'Enabled'), inline: true },
               { name: '🍎 ' + t('Rôles configurés', 'Mapped roles'), value: 'iOS: @iOS-Notif • macOS: @macOS-Notif' }
             ],
-            footer: 'Configuration Serveur • AppleCore'
+            footer: 'Configuration Serveur • Pallas Radar'
           }
         })
       }

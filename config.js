@@ -1,4 +1,4 @@
-/*! AppleCore — config.js
+/*! Pallas Radar — config.js
  *  Socle commun à toutes les pages : API_BASE, requêtes résilientes, i18n FR/EN,
  *  icônes SVG inline, rendu des embeds Discord, header/footer, données d'exemple.
  *
@@ -123,7 +123,7 @@
     `<svg class="ico ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
 
   const logoMark = (s = 28) =>
-    `<img class="logo-mark" src="logo.png" alt="AppleCore" width="${s}" height="${s}" style="width:${s}px;height:${s}px;border-radius:22%;object-fit:cover;display:block;flex-shrink:0;" loading="eager" decoding="async">`;
+    `<img class="logo-mark" src="logo.png" alt="Pallas Radar" width="${s}" height="${s}" style="width:${s}px;height:${s}px;border-radius:22%;object-fit:cover;display:block;flex-shrink:0;" loading="eager" decoding="async">`;
 
   /* ------------------------------------------------- Métadonnées OS / types */
   const OS_LIST = ['iOS', 'iPadOS', 'macOS', 'watchOS', 'tvOS', 'visionOS', 'AirPods'];
@@ -676,7 +676,7 @@
     const time = new Date().toLocaleTimeString(loc(), { hour: '2-digit', minute: '2-digit' });
     let h = '<div class="dc">';
     if (cmd) h += `<div class="dc-cmd"><b>${esc(t('Vous', 'You'))}</b> ${esc(t('avez utilisé', 'used'))} <span class="dc-slash">${esc(cmd)}</span></div>`;
-    h += `<div class="dc-msg"><div class="dc-avatar"><img src="logo.png" alt="AppleCore" width="40" height="40" style="border-radius:50%;object-fit:cover;"></div><div class="dc-body"><div class="dc-head"><span class="dc-name">AppleCore</span><span class="dc-tag">BOT</span><span class="dc-time">${esc(t('Aujourd’hui à ', 'Today at ') + time)}</span></div>`;
+    h += `<div class="dc-msg"><div class="dc-avatar"><img src="logo.png" alt="Pallas Radar" width="40" height="40" style="border-radius:50%;object-fit:cover;"></div><div class="dc-body"><div class="dc-head"><span class="dc-name">Pallas Radar</span><span class="dc-tag">BOT</span><span class="dc-time">${esc(t('Aujourd’hui à ', 'Today at ') + time)}</span></div>`;
     if (embed) {
       h += `<div class="dc-embed${embed.enter ? ' enter' : ''}" style="--c:${esc(embed.color || '#0a84ff')}">`;
       if (embed.author) {
@@ -737,7 +737,7 @@
     if (header) {
       header.className = 'site-header';
       header.innerHTML = `<div class="wrap hdr">
-        <a class="brand" href="index.html" aria-label="AppleCore">${logoMark(28)}<span>AppleCore</span></a>
+        <a class="brand" href="index.html" aria-label="Pallas Radar">${logoMark(28)}<span>Pallas Radar</span></a>
         <nav class="nav" id="nav" aria-label="Navigation principale">
           ${NAV.map(([k, href, fr, en]) => `<a href="${href}"${k === active ? ' aria-current="page"' : ''}>${bi(fr, en)}</a>`).join('')}
           <a class="nav-invite" href="${LINKS.invite}" target="_blank" rel="noopener">${bi('Inviter le bot', 'Add to Discord')}</a>
@@ -758,7 +758,7 @@
       footer.className = 'site-footer';
       footer.innerHTML = `<div class="wrap">
         <div class="ftr">
-          <div><a class="brand" href="index.html">${logoMark(26)}<span>AppleCore</span></a>
+          <div><a class="brand" href="index.html">${logoMark(26)}<span>Pallas Radar</span></a>
             <p>${bi('La sentinelle des mises à jour Apple pour Discord : firmwares, signatures et statut des services, en temps réel.', 'The Apple update sentinel for Discord: firmwares, signing status and service health, in real time.')}</p></div>
           <div><h4>${bi('Explorer', 'Explore')}</h4>
             <a href="releases.html">${bi('Firmwares Apple', 'Apple firmwares')}</a>
@@ -772,7 +772,7 @@
             <a href="${LINKS.github}" target="_blank" rel="noopener">GitHub</a>
             ${LINKS.support ? `<a href="${LINKS.support}" target="_blank" rel="noopener">${bi('Support Discord', 'Discord support')}</a>` : ''}</div>
         </div>
-        <p class="legal">© ${new Date().getFullYear()} AppleCore — ${bi('Développé par TiboTsr. Non affilié, sponsorisé ni approuvé par Apple Inc. Apple, iPhone, iPad, Mac, Apple Watch, Apple TV, Apple Vision Pro, AirPods, iOS, iPadOS, macOS, watchOS, tvOS, visionOS et Apple Intelligence sont des marques déposées d’Apple Inc.', 'Built by TiboTsr. Not affiliated with, sponsored or endorsed by Apple Inc. Apple, iPhone, iPad, Mac, Apple Watch, Apple TV, Apple Vision Pro, AirPods, iOS, iPadOS, macOS, watchOS, tvOS, visionOS and Apple Intelligence are registered trademarks of Apple Inc.')}</p></div>`;
+        <p class="legal">© ${new Date().getFullYear()} Pallas Radar — ${bi('Développé par TiboTsr. Non affilié, sponsorisé ni approuvé par Apple Inc. Apple, iPhone, iPad, Mac, Apple Watch, Apple TV, Apple Vision Pro, AirPods, iOS, iPadOS, macOS, watchOS, tvOS, visionOS et Apple Intelligence sont des marques déposées d’Apple Inc.', 'Built by TiboTsr. Not affiliated with, sponsored or endorsed by Apple Inc. Apple, iPhone, iPad, Mac, Apple Watch, Apple TV, Apple Vision Pro, AirPods, iOS, iPadOS, macOS, watchOS, tvOS, visionOS and Apple Intelligence are registered trademarks of Apple Inc.')}</p></div>`;
     }
     applyLang();
   }
