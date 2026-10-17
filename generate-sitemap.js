@@ -5,12 +5,14 @@ const path = require('path');
 const DOMAIN = 'https://applecore.tibotsr.dev';
 const OUTPUT_FILE = 'sitemap.xml';
 
-// Pages à inclure avec leurs priorités et fréquences de mise à jour
 const pages = [
   { url: '/', priority: '1.0', changefreq: 'daily' },
+  { url: '/releases.html', priority: '0.9', changefreq: 'daily' },
+  { url: '/devices.html', priority: '0.9', changefreq: 'weekly' },
+  { url: '/status_public.html', priority: '0.9', changefreq: 'hourly' },
   { url: '/help.html', priority: '0.9', changefreq: 'weekly' },
-  { url: '/privacy.html', priority: '0.5', changefreq: 'monthly' },
-  { url: '/terms.html', priority: '0.5', changefreq: 'monthly' }
+  { url: '/privacy.html', priority: '0.6', changefreq: 'monthly' },
+  { url: '/terms.html', priority: '0.6', changefreq: 'monthly' }
 ];
 
 // Date du jour au format ISO

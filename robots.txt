@@ -1,13 +1,11 @@
-# Robots. txt pour AppleCore Documentation
-# Site mis à jour fréquemment
-
+# Robots.txt — AppleCore
 User-agent: *
 Allow: /
 
-# Fichiers à ne pas indexer
-Disallow:  /CNAME
+# Pages privées ou internes
+Disallow: /CNAME
+Disallow: /analytics_dashboard.html
+Disallow: /404.html
 
 # Sitemap
 Sitemap: https://applecore.tibotsr.dev/sitemap.xml
-
-Crawl-delay: 1

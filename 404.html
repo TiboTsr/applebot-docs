@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+  <meta charset="utf-8">
+  <script>try{var l=localStorage.getItem('ac_lang')}catch(e){}document.documentElement.dataset.lang=l||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en')</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title data-fr="Page introuvable — AppleCore" data-en="Page Not Found — AppleCore">Page introuvable — AppleCore</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .not-found-wrap {
+      min-height: 55vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .not-found-num {
+      font-size: clamp(4.5rem, 10vw, 8rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .not-found-desc {
+      color: var(--text-2);
+      font-size: 18px;
+      max-width: 52ch;
+      margin: 12px auto 32px;
+      line-height: 1.5;
+    }
+    .not-found-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main"><span lang="fr">Aller au contenu</span><span lang="en">Skip to content</span></a>
+  <header id="site-header"></header>
+
+  <main id="main">
+    <div class="wrap not-found-wrap">
+      <span class="badge blue"><span lang="fr">Erreur 404</span><span lang="en">Error 404</span></span>
+      <div class="not-found-num">404</div>
+      <h1>
+        <span lang="fr">Cette page n’existe pas ou a été déplacée.</span>
+        <span lang="en">This page does not exist or has been moved.</span>
+      </h1>
+      <p class="not-found-desc">
+        <span lang="fr">Le lien que vous avez suivi est peut-être erroné ou la ressource a été renommée. Utilisez les boutons ci-dessous pour reprendre votre navigation.</span>
+        <span lang="en">The link you followed may be incorrect or the page has been moved. Use the options below to resume browsing.</span>
+      </p>
+      <div class="not-found-actions">
+        <a class="btn btn-primary btn-lg" href="index.html">
+          <span lang="fr">Retour à l’accueil</span>
+          <span lang="en">Back to home</span>
+        </a>
+        <a class="btn btn-ghost btn-lg" href="releases.html">
+          <span lang="fr">Firmwares Apple</span>
+          <span lang="en">Apple firmwares</span>
+        </a>
+        <a class="btn btn-ghost btn-lg" href="status_public.html">
+          <span lang="fr">Statut du bot</span>
+          <span lang="en">Bot status</span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="config.js"></script>
+  <script>
+  AC.ready(() => {
+    AC.mountChrome('404');
+  });
+  </script>
+</body>
+</html>

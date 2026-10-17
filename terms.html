@@ -1,153 +1,108 @@
 <!DOCTYPE html>
 <html lang="fr" data-lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AppleCore — Conditions d'utilisation</title>
-  <meta name="description" content="Conditions générales d'utilisation du bot Discord AppleCore.">
+  <meta charset="utf-8">
+  <script>try{var l=localStorage.getItem('ac_lang')}catch(e){}document.documentElement.dataset.lang=l||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en')</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title data-fr="Conditions d’utilisation — AppleCore" data-en="Terms of Service — AppleCore">Conditions d’utilisation — AppleCore</title>
+  <meta name="description" content="Conditions générales d’utilisation du bot Discord AppleCore : usage acceptable, exactitude des données et non-affiliation avec Apple Inc.">
+  <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://applecore.tibotsr.dev/terms.html">
-  <link rel="icon" type="image/png" href="logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="logo.png">
+  <link rel="alternate" hreflang="fr" href="https://applecore.tibotsr.dev/terms.html">
+  <link rel="alternate" hreflang="en" href="https://applecore.tibotsr.dev/terms.html">
+  <link rel="alternate" hreflang="x-default" href="https://applecore.tibotsr.dev/terms.html">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="AppleCore">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:url" content="https://applecore.tibotsr.dev/terms.html">
+  <meta property="og:title" content="Conditions d’utilisation — AppleCore">
+  <meta property="og:description" content="Conditions d’utilisation d’AppleCore sur Discord : portée du service, usage acceptable et mentions de marques.">
+  <meta property="og:image" content="https://applecore.tibotsr.dev/logo.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Conditions d’utilisation — AppleCore">
+  <meta name="twitter:description" content="Conditions générales d’utilisation du bot Discord AppleCore.">
+  <meta name="twitter:image" content="https://applecore.tibotsr.dev/logo.png">
+
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="bg-glow bg-glow-1"></div>
-  <div class="bg-glow bg-glow-2"></div>
-  <div class="grid-pattern"></div>
+  <a class="skip" href="#main"><span lang="fr">Aller au contenu</span><span lang="en">Skip to content</span></a>
+  <header id="site-header"></header>
 
-  <header class="site-header">
-    <nav class="nav container" aria-label="Navigation principale">
-      <a class="brand" href="index.html" aria-label="AppleCore — Accueil">
-        <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="34" height="34">
-        <span class="brand-name">AppleCore</span>
-      </a>
-
-      <div class="nav-links">
-        <a href="index.html" class="nav-link"><span class="lang inline" data-lang="fr">Accueil</span><span class="lang inline" data-lang="en">Home</span></a>
-        <a href="help.html" class="nav-link"><span class="lang inline" data-lang="fr">Documentation</span><span class="lang inline" data-lang="en">Docs</span></a>
-        <a href="privacy.html" class="nav-link"><span class="lang inline" data-lang="fr">Confidentialité</span><span class="lang inline" data-lang="en">Privacy</span></a>
-        <a href="terms.html" class="nav-link"><span class="lang inline" data-lang="fr">Conditions</span><span class="lang inline" data-lang="en">Terms</span></a>
+  <main id="main">
+    <div class="wrap">
+      <div class="page-head">
+        <h1><span lang="fr">Conditions d’utilisation</span><span lang="en">Terms of Service</span></h1>
+        <p><span lang="fr">En invitant ou en utilisant AppleCore sur un serveur Discord, vous acceptez pleinement les présentes conditions d’utilisation.</span><span lang="en">By inviting or interacting with AppleCore on Discord, you agree to these Terms of Service.</span></p>
       </div>
 
-      <div class="nav-actions">
-        <div class="lang-toggle" role="group" aria-label="Langue">
-          <button type="button" data-lang-toggle="fr" aria-pressed="true">FR</button>
-          <button type="button" data-lang-toggle="en" aria-pressed="false">EN</button>
+      <div class="page-body legal-layout">
+        <aside class="legal-toc" aria-label="Sommaire">
+          <h3><span lang="fr">Sommaire</span><span lang="en">Contents</span></h3>
+          <a href="#scope"><span lang="fr">1. Portée du service</span><span lang="en">1. Service scope</span></a>
+          <a href="#usage"><span lang="fr">2. Usage acceptable</span><span lang="en">2. Acceptable use</span></a>
+          <a href="#accuracy"><span lang="fr">3. Sources & exactitude</span><span lang="en">3. Sources & accuracy</span></a>
+          <a href="#availability"><span lang="fr">4. Disponibilité</span><span lang="en">4. Availability</span></a>
+          <a href="#intellectual"><span lang="fr">5. Propriété & marques</span><span lang="en">5. Trademarks</span></a>
+          <a href="#contact"><span lang="fr">6. Contact</span><span lang="en">6. Contact</span></a>
+        </aside>
+
+        <div>
+          <section id="scope" class="legal-card">
+            <h2><span lang="fr">1. Portée du service</span><span lang="en">1. Service scope</span></h2>
+            <p><span lang="fr">AppleCore est un bot Discord communautaire automatisé ayant pour vocation d’informer les passionnés et les administrateurs de la sortie des firmwares et mises à jour logicielles de l’écosystème Apple (iOS, iPadOS, macOS, watchOS, tvOS, visionOS, AirPods).</span><span lang="en">AppleCore is an automated community Discord bot that informs enthusiasts and server admins of firmware releases and software updates across Apple platforms (iOS, iPadOS, macOS, watchOS, tvOS, visionOS, AirPods).</span></p>
+          </section>
+
+          <section id="usage" class="legal-card">
+            <h2><span lang="fr">2. Usage acceptable</span><span lang="en">2. Acceptable use</span></h2>
+            <p><span lang="fr">Les utilisateurs et administrateurs s’engagent à respecter les Conditions d’Utilisation et la Charte de la communauté Discord. Sont formellement interdits :</span><span lang="en">Users and moderators agree to abide by Discord’s Terms of Service and Community Guidelines. The following are strictly prohibited:</span></p>
+            <ul>
+              <li><span lang="fr">Toute tentative d’exploitation, de surcharge ou d’attaque par déni de service visant les API du bot.</span><span lang="en">Any attempt to exploit, spam, overload or launch denial-of-service attacks against the bot’s infrastructure.</span></li>
+              <li><span lang="fr">L’utilisation du bot à des fins malveillantes, de spam ou de harcèlement via des mentions répétées abusives.</span><span lang="en">Using the bot for harassment, abusive mass pings, or unsolicited spam.</span></li>
+              <li><span lang="fr">Le contournement des mécanismes de limitation de débit (rate limiting) intégrés.</span><span lang="en">Circumventing built-in command rate limiting mechanisms.</span></li>
+            </ul>
+          </section>
+
+          <section id="accuracy" class="legal-card">
+            <h2><span lang="fr">3. Sources des données & exactitude</span><span lang="en">3. Data sources & accuracy</span></h2>
+            <p><span lang="fr">Les informations diffusées par AppleCore proviennent des serveurs Over-The-Air d’Apple (Pallas) et de bases de données communautaires ouvertes (notamment AppleDB). Bien que nous mettions tout en œuvre pour assurer une exactitude maximale en temps réel, les données sont fournies « en l’état » sans garantie expresse en cas de délai de propagation ou d’erreur dans les catalogues d’origine.</span><span lang="en">Information broadcast by AppleCore originates from Apple’s Over-The-Air asset servers (Pallas) and open repositories (such as AppleDB). While every effort is made to maintain top-tier accuracy in real time, data is provided "as is" without warranty in case of third-party catalog discrepancies.</span></p>
+          </section>
+
+          <section id="availability" class="legal-card">
+            <h2><span lang="fr">4. Disponibilité du service</span><span lang="en">4. Service availability</span></h2>
+            <p><span lang="fr">AppleCore s’efforce d’assurer une haute disponibilité continue (24h/24, 7j/7). Des interruptions ponctuelles pour maintenance préventive, mises à niveau de sécurité ou pannes réseau indépendantes de notre volonté peuvent survenir sans préavis.</span><span lang="en">AppleCore aims for continuous 24/7 availability. Occasional interruptions for maintenance, security upgrades, or network issues may occur without prior notice.</span></p>
+          </section>
+
+          <section id="intellectual" class="legal-card">
+            <h2><span lang="fr">5. Propriété intellectuelle & mention des marques</span><span lang="en">5. Intellectual property & trademark disclaimer</span></h2>
+            <p><span lang="fr"><strong>AppleCore est un projet communautaire indépendant développé par TiboTsr. Il n’est en aucun cas affilié, sponsorisé, soutenu ni approuvé par Apple Inc.</strong></span><span lang="en"><strong>AppleCore is an independent community project created by TiboTsr. It is in no way affiliated with, sponsored by, or endorsed by Apple Inc.</strong></span></p>
+            <p><span lang="fr">Apple, iPhone, iPad, Mac, MacBook, Apple Watch, Apple TV, Apple Vision Pro, AirPods, iOS, iPadOS, macOS, watchOS, tvOS, visionOS et Apple Intelligence sont des marques déposées d’Apple Inc. aux États-Unis et dans d’autres pays.</span><span lang="en">Apple, iPhone, iPad, Mac, MacBook, Apple Watch, Apple TV, Apple Vision Pro, AirPods, iOS, iPadOS, macOS, watchOS, tvOS, visionOS and Apple Intelligence are registered trademarks of Apple Inc. in the U.S. and other countries.</span></p>
+          </section>
+
+          <section id="contact" class="legal-card">
+            <h2><span lang="fr">6. Contact & support</span><span lang="en">6. Contact & support</span></h2>
+            <p><span lang="fr">Pour toute question relative aux présentes conditions ou au fonctionnement du bot :</span><span lang="en">For questions regarding these Terms or the bot’s operation:</span></p>
+            <p>📧 Email : <a href="mailto:tibo.tsr@icloud.com">tibo.tsr@icloud.com</a></p>
+            <p>🐙 GitHub : <a href="https://github.com/TiboTsr/AppleBot" target="_blank" rel="noopener">github.com/TiboTsr/AppleBot</a></p>
+          </section>
         </div>
-        <a href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener" class="btn btn-primary btn-nav">
-          <span class="lang inline" data-lang="fr">Ajouter</span><span class="lang inline" data-lang="en">Add</span>
-        </a>
       </div>
-
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Menu">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-      </button>
-    </nav>
-
-    <div id="nav-menu" class="mobile-menu">
-      <a href="index.html">Accueil</a>
-      <a href="help.html">Documentation</a>
-      <a href="privacy.html">Confidentialité</a>
-      <a href="terms.html">Conditions</a>
-    </div>
-  </header>
-
-  <section class="docs-hero">
-    <span class="eyebrow">Conditions du service</span>
-    <h1 class="lang" data-lang="fr">Conditions d'utilisation</h1>
-    <h1 class="lang" data-lang="en">Terms of service</h1>
-    <p class="lang" data-lang="fr">En invitant ou utilisant AppleCore sur un serveur Discord, vous acceptez pleinement les présentes conditions d'utilisation.</p>
-    <p class="lang" data-lang="en">By inviting or interacting with AppleCore on Discord, you agree to these Terms of Service.</p>
-  </section>
-
-  <main class="docs-layout container">
-    <aside class="toc glass" aria-label="Table des matières">
-      <h3>Sommaire</h3>
-      <a href="#scope">Portée du service</a>
-      <a href="#usage">Usage acceptable</a>
-      <a href="#accuracy">Sources et exactitude</a>
-      <a href="#availability">Disponibilité</a>
-      <a href="#intellectual">Propriété & marques</a>
-      <a href="#contact">Contact</a>
-    </aside>
-
-    <div>
-      <section id="scope" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">1. Portée du service</h2>
-        <h2 class="lang" data-lang="en">1. Service scope</h2>
-        <p class="lang" data-lang="fr">AppleCore est un bot Discord automatisé ayant pour vocation d'informer les passionnés et administrateurs de la sortie des firmwares et mises à jour logicielles de l'écosystème Apple (iOS, iPadOS, macOS, watchOS, visionOS, AirPods, tvOS...).</p>
-        <p class="lang" data-lang="en">AppleCore is an automated Discord bot providing community alerts for Apple software releases and updates across all platforms.</p>
-      </section>
-
-      <section id="usage" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">2. Usage acceptable</h2>
-        <h2 class="lang" data-lang="en">2. Acceptable use</h2>
-        <p class="lang" data-lang="fr">Les utilisateurs et administrateurs s'engagent à respecter les Conditions d'Utilisation de Discord. Sont formellement interdits :</p>
-        <p class="lang" data-lang="en">Users and server moderators must follow Discord Terms of Service. The following are prohibited:</p>
-        <ul>
-          <li>Toute tentative d'exploitation, de spam ou d'attaque par déni de service visant les API du bot.</li>
-          <li>L'utilisation du bot à des fins malveillantes ou de harcèlement via des mentions abusives.</li>
-          <li>Le contournement des systèmes de rate-limiting intégrés.</li>
-        </ul>
-      </section>
-
-      <section id="accuracy" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">3. Sources et exactitude</h2>
-        <h2 class="lang" data-lang="en">3. Sources & accuracy</h2>
-        <p class="lang" data-lang="fr">Les informations diffusées par AppleCore proviennent de bases tierces publiques (notamment AppleDB) et des serveurs de mise à jour Over-The-Air d'Apple (Pallas). Bien que nous mettions tout en œuvre pour garantir une précision absolue, aucune garantie n'est fournie en cas d'erreur dans les numéros de build ou les notes de version publiées par les constructeurs.</p>
-        <p class="lang" data-lang="en">Release data is sourced directly from Apple update servers and open repositories. While we strive for maximum accuracy, data is provided as-is without warranty.</p>
-      </section>
-
-      <section id="availability" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">4. Disponibilité du service</h2>
-        <h2 class="lang" data-lang="en">4. Service availability</h2>
-        <p class="lang" data-lang="fr">Le bot est maintenu pour offrir une haute disponibilité (99.9%). Des interruptions ponctuelles pour maintenance ou mise à niveau technique peuvent survenir sans préavis.</p>
-        <p class="lang" data-lang="en">We target 99.9% uptime. Temporary interruptions for updates and maintenance may occur.</p>
-      </section>
-
-      <section id="intellectual" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">5. Propriété intellectuelle & marques</h2>
-        <h2 class="lang" data-lang="en">5. Intellectual property & trademarks</h2>
-        <p class="lang" data-lang="fr">AppleCore est un projet indépendant créé par TiboTsr. Il n'est en aucun cas affilié, soutenu, ou sponsorisé par Apple Inc. Les dénominations Apple, iPhone, iPad, Mac, iOS, macOS, watchOS, tvOS, visionOS et AirPods sont des marques déposées d'Apple Inc.</p>
-        <p class="lang" data-lang="en">AppleCore is an independent community project by TiboTsr, not affiliated with or endorsed by Apple Inc. Apple and related trademarks are registered trademarks of Apple Inc.</p>
-      </section>
-
-      <section id="contact" class="doc-section glass">
-        <h2 class="lang" data-lang="fr">6. Contact</h2>
-        <h2 class="lang" data-lang="en">6. Contact</h2>
-        <p class="lang" data-lang="fr">Pour toute question relative aux présentes conditions :</p>
-        <p class="lang" data-lang="en">For questions regarding these Terms:</p>
-        <p>📧 Email : <a href="mailto:tibo.tsr@icloud.com" style="color:var(--blue-light);">tibo.tsr@icloud.com</a></p>
-      </section>
     </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-top">
-        <div class="footer-brand">
-          <div class="brand">
-            <img src="logo.png" alt="AppleCore Logo" class="brand-logo" width="32" height="32">
-            <span class="brand-name" style="font-size:18px;">AppleCore</span>
-          </div>
-          <p style="font-size:13px; color:var(--text-muted); margin-top:8px;">Sentinelle en temps réel des micrologiciels et mises à jour Apple pour Discord.</p>
-        </div>
-        <div class="footer-nav">
-          <a href="index.html">Accueil</a>
-          <a href="help.html">Docs & Commandes</a>
-          <a href="privacy.html">Confidentialité</a>
-          <a href="https://github.com/TiboTsr/AppleBot" target="_blank" rel="noopener">GitHub</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2026 AppleCore • Développé par TiboTsr. Non affilié à Apple Inc.</p>
-      </div>
-    </div>
-  </footer>
+  <footer id="site-footer"></footer>
 
-  <script src="script.js"></script>
+  <script src="config.js"></script>
+  <script>
+  AC.ready(() => {
+    AC.mountChrome('terms');
+  });
+  </script>
 </body>
 </html>

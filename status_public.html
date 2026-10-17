@@ -5,10 +5,30 @@
   <script>try{var l=localStorage.getItem('ac_lang')}catch(e){}document.documentElement.dataset.lang=l||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en')</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title data-fr="Statut du système — AppleCore" data-en="System status — AppleCore">Statut du système — AppleCore</title>
-  <meta name="description" content="État en temps réel d’AppleCore : passerelle Discord, base PostgreSQL, boucle de veille Pallas, API AppleDB et services Apple.">
+  <meta name="description" content="État en temps réel d’AppleCore : passerelle Discord, base PostgreSQL, boucle de veille Pallas OTA, API AppleDB et services Apple.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://applecore.tibotsr.dev/status_public.html">
   <link rel="icon" href="logo.png">
+  <link rel="alternate" hreflang="fr" href="https://applecore.tibotsr.dev/status_public.html">
+  <link rel="alternate" hreflang="en" href="https://applecore.tibotsr.dev/status_public.html">
+  <link rel="alternate" hreflang="x-default" href="https://applecore.tibotsr.dev/status_public.html">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="AppleCore">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:url" content="https://applecore.tibotsr.dev/status_public.html">
+  <meta property="og:title" content="Statut du système — AppleCore">
+  <meta property="og:description" content="État en temps réel d’AppleCore : passerelle Discord, base PostgreSQL, boucle de veille Pallas OTA, API AppleDB et services Apple.">
+  <meta property="og:image" content="https://applecore.tibotsr.dev/logo.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Statut du système — AppleCore">
+  <meta name="twitter:description" content="État en temps réel d’AppleCore : passerelle Discord, base PostgreSQL, veille Pallas OTA et services Apple.">
+  <meta name="twitter:image" content="https://applecore.tibotsr.dev/logo.png">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -72,14 +92,14 @@
         <!-- Services Apple -->
         <section style="margin-top:32px">
           <div class="section-head" style="margin-bottom:20px">
-            <h2 style="font-size:clamp(1.6rem,3vw,2.2rem)"><span lang="fr">Statut des 71 Services Apple</span><span lang="en">71 Apple Services Status</span></h2>
+            <h2 style="font-size:clamp(1.6rem,3vw,2.2rem)"><span lang="fr">Statut des services Apple</span><span lang="en">Apple Services Status</span></h2>
             <p id="svc-summary" style="font-size:16px"></p>
           </div>
           <div class="toolbar-unified">
             <label class="search-unified" style="max-width:360px">
               <span class="sr-only"><span lang="fr">Filtrer les services</span><span lang="en">Filter services</span></span>
               <span id="search-ico"></span>
-              <input id="sq" type="search" autocomplete="off" data-ph-fr="Filtrer les 71 services Apple" data-ph-en="Filter the 71 Apple services">
+              <input id="sq" type="search" autocomplete="off" data-ph-fr="Filtrer les services Apple" data-ph-en="Filter Apple services">
             </label>
             <div class="chips" id="svc-filter" role="group" aria-label="Filtre">
               <button class="chip" type="button" data-f="all" aria-pressed="true"><span lang="fr">Tous</span><span lang="en">All</span></button>

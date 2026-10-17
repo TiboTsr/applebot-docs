@@ -5,16 +5,30 @@
   <script>try{var l=localStorage.getItem('ac_lang')}catch(e){}document.documentElement.dataset.lang=l||((navigator.language||'fr').slice(0,2)==='fr'?'fr':'en')</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title data-fr="AppleCore — Les mises à jour Apple, annoncées sur Discord" data-en="AppleCore — Apple updates, announced on Discord">AppleCore — Les mises à jour Apple, annoncées sur Discord</title>
-  <meta name="description" content="Le bot Discord qui suit les mises à jour Apple en temps réel : firmwares OTA, signatures IPSW, changelogs en français, statut des 71 services Apple et alertes par rôle.">
+  <meta name="description" content="Le bot Discord qui suit les mises à jour Apple en temps réel : firmwares OTA, signatures IPSW, notes de version traduites, statut des services officiels Apple et alertes par rôle.">
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://applecore.tibotsr.dev/">
   <link rel="icon" href="logo.png">
+  <link rel="alternate" hreflang="fr" href="https://applecore.tibotsr.dev/">
+  <link rel="alternate" hreflang="en" href="https://applecore.tibotsr.dev/">
+  <link rel="alternate" hreflang="x-default" href="https://applecore.tibotsr.dev/">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="AppleCore">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="en_US">
   <meta property="og:url" content="https://applecore.tibotsr.dev/">
   <meta property="og:title" content="AppleCore — Les mises à jour Apple, annoncées sur Discord">
-  <meta property="og:description" content="Détection des firmwares Apple, changelogs en français, signatures IPSW et alertes par rôle.">
+  <meta property="og:description" content="Détection des firmwares Apple, notes de version traduites, signatures IPSW et alertes ciblées par rôle sur Discord.">
   <meta property="og:image" content="https://applecore.tibotsr.dev/logo.png">
-  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Twitter Card (summary pour logo carré) -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AppleCore — Les mises à jour Apple, annoncées sur Discord">
+  <meta name="twitter:description" content="Détection des firmwares Apple, notes de version traduites, signatures IPSW et alertes par rôle.">
+  <meta name="twitter:image" content="https://applecore.tibotsr.dev/logo.png">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -32,23 +46,23 @@
             <span lang="en">Every Apple update.<span class="dim">On your Discord the moment it ships.</span></span>
           </h1>
           <p class="lead">
-            <span lang="fr">AppleCore sonde les serveurs Over-The-Air d’Apple toutes les 60 secondes, traduit les notes de version en français et alerte automatiquement vos membres selon leurs appareils.</span>
-            <span lang="en">AppleCore polls Apple’s Over-The-Air update servers every 60 seconds, translates release notes into French and pings your members based on the devices they own.</span>
+            <span lang="fr">AppleCore sonde les serveurs Over-The-Air d’Apple toutes les 60 secondes, traduit les notes de version en français et notifie vos membres selon les rôles d’OS qu’ils ont choisis.</span>
+            <span lang="en">AppleCore polls Apple’s Over-The-Air update servers every 60 seconds, translates release notes into French and notifies your members based on the OS notification roles they chose.</span>
           </p>
           <div class="hero-cta">
-            <a class="btn btn-primary btn-lg" href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener"><span lang="fr">Inviter AppleCore</span><span lang="en">Add AppleCore</span></a>
+            <a class="btn btn-primary btn-lg" href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025901632&scope=bot%20applications.commands" target="_blank" rel="noopener"><span lang="fr">Inviter AppleCore</span><span lang="en">Add AppleCore</span></a>
             <a class="btn btn-ghost btn-lg" href="help.html"><span lang="fr">Explorer les commandes</span><span lang="en">Browse commands</span></a>
           </div>
           <p class="hero-note"><span lang="fr">Gratuit · Sans configuration complexe · Prêt en 1 minute.</span><span lang="en">Free · Zero complex config · Ready in 1 minute.</span></p>
 
-          <div class="hero-pulse-bar" role="img" aria-label="Cycle de sondage Pallas de 60 secondes">
+          <div class="hero-pulse-bar" id="pulse-bar" role="img" aria-label="Cycle de sondage Pallas de 60 secondes">
             <svg width="24" height="24" viewBox="0 0 36 36" fill="none" stroke-width="3.5">
               <circle class="track" cx="18" cy="18" r="15.5"/>
               <circle class="arc" cx="18" cy="18" r="15.5"/>
             </svg>
-            <span>
-              <span lang="fr">Veille GDMF / Pallas active · Scan dans <b id="poll-s">60</b> s</span>
-              <span lang="en">GDMF / Pallas OTA scan active · In <b id="poll-s-en">60</b> s</span>
+            <span id="pulse-text">
+              <span lang="fr">Veille OTA Pallas (Apple) active · Scan dans <b id="poll-s">60</b> s</span>
+              <span lang="en">Pallas OTA live watcher · Scan in <b id="poll-s-en">60</b> s</span>
             </span>
           </div>
         </div>
@@ -75,14 +89,14 @@
       </div>
     </section>
 
-    <!-- Chiffres Clés Bento -->
+    <!-- Chiffres clés -->
     <section class="wrap" aria-label="Chiffres clés">
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon" id="stat-icon-rel"></div>
           <strong id="st-releases">—</strong>
           <span class="stat-label"><span lang="fr">Mises à jour Apple indexées</span><span lang="en">Apple builds indexed</span></span>
-          <span class="stat-sub"><span lang="fr">Depuis iOS 1.0 jusqu'aux dernières bêtas OTA</span><span lang="en">From iOS 1.0 to latest OTA betas</span></span>
+          <span class="stat-sub"><span lang="fr">Depuis iOS 1.0 jusqu’aux dernières bêtas OTA</span><span lang="en">From iOS 1.0 to latest OTA betas</span></span>
         </div>
         <div class="stat-card">
           <div class="stat-icon" id="stat-icon-srv"></div>
@@ -94,17 +108,17 @@
           <div class="stat-icon" id="stat-icon-spd"></div>
           <strong id="st-time">—</strong>
           <span class="stat-label"><span lang="fr">Délai moyen de détection</span><span lang="en">Average detection time</span></span>
-          <span class="stat-sub"><span lang="fr">Sondage Pallas haute fréquence toutes les 60s</span><span lang="en">High-frequency Pallas OTA cycle</span></span>
+          <span class="stat-sub"><span lang="fr">Sondage Pallas haute fréquence toutes les 60 s</span><span lang="en">High-frequency Pallas OTA cycle</span></span>
         </div>
       </div>
     </section>
 
-    <!-- Bento des Fonctionnalités -->
+    <!-- Bento des fonctionnalités -->
     <section class="section" id="features">
       <div class="wrap">
         <div class="section-head">
-          <h2><span lang="fr">L'ingénierie AppleCore au service de votre communauté.</span><span lang="en">AppleCore engineering powering your community.</span></h2>
-          <p><span lang="fr">Huit moteurs spécialisés surveillent les serveurs Apple 24h/24 pour vous livrer l'information la plus rapide et la plus fiable.</span><span lang="en">Eight specialized engines monitor Apple servers 24/7 to deliver the fastest, most accurate intel.</span></p>
+          <h2><span lang="fr">L’ingénierie AppleCore au service de votre communauté</span><span lang="en">AppleCore engineering powering your community</span></h2>
+          <p><span lang="fr">Des moteurs spécialisés surveillent les serveurs Apple 24h/24 pour vous livrer l’information la plus rapide et la plus fiable.</span><span lang="en">Specialized engines monitor Apple servers 24/7 to deliver the fastest, most accurate intel.</span></p>
         </div>
 
         <div class="bento">
@@ -113,16 +127,16 @@
             <div class="tile-head">
               <div class="ico-wrap" id="i-bolt"></div>
               <div>
-                <h3><span lang="fr">Surveillance OTA Pallas Zéro-Délai</span><span lang="en">Zero-Delay Pallas OTA Monitoring</span></h3>
+                <h3><span lang="fr">Surveillance OTA Pallas en direct</span><span lang="en">Live Pallas OTA monitoring</span></h3>
                 <span class="badge blue"><span lang="fr">Cycle 60 secondes</span><span lang="en">60-second cycle</span></span>
               </div>
             </div>
-            <p><span lang="fr">Interroge directement les catalogues de ressources Over-The-Air d’Apple. Les bêtas, Release Candidates et versions publiques sont détectées avant même la parution des pages web de support Apple.</span><span lang="en">Queries Apple's Over-The-Air asset catalogs directly. Betas, Release Candidates and public builds are detected even before Apple's support pages update.</span></p>
+            <p><span lang="fr">Interroge directement les catalogues de ressources Over-The-Air d’Apple. Les bêtas, Release Candidates et versions publiques sont détectées en moins d’une minute, bien avant la mise à jour des pages web de support.</span><span lang="en">Queries Apple’s Over-The-Air asset catalogs directly. Betas, Release Candidates and public builds are detected in under a minute, long before support web pages update.</span></p>
             <div class="viz pallas-pipeline">
               <div class="pallas-step">
                 <span class="step-tag">Phase 1</span>
                 <strong>MobileAsset</strong>
-                <small><span lang="fr">Scan Pallas toutes les 60s</span><span lang="en">Scan Pallas every 60s</span></small>
+                <small><span lang="fr">Scan Pallas toutes les 60 s</span><span lang="en">Scan Pallas every 60s</span></small>
               </div>
               <div class="pallas-step">
                 <span class="step-tag">Phase 2</span>
@@ -131,8 +145,8 @@
               </div>
               <div class="pallas-step">
                 <span class="step-tag">Phase 3</span>
-                <strong>Discord Webhook</strong>
-                <small><span lang="fr">Rôle ciblé par OS</span><span lang="en">Targeted role per OS</span></small>
+                <strong><span lang="fr">Publication Discord</span><span lang="en">Discord Broadcast</span></strong>
+                <small><span lang="fr">Envoi ciblé & pings par rôle</span><span lang="en">Targeted dispatch & role pings</span></small>
               </div>
             </div>
           </article>
@@ -142,26 +156,26 @@
             <div class="tile-head">
               <div class="ico-wrap purple" id="i-db"></div>
               <div>
-                <h3><span lang="fr">Base de Données AppleDB</span><span lang="en">AppleDB Knowledge Base</span></h3>
-                <span class="badge purple"><span lang="fr">Registre Matériel</span><span lang="en">Hardware Registry</span></span>
+                <h3><span lang="fr">Base de données AppleDB</span><span lang="en">AppleDB knowledge base</span></h3>
+                <span class="badge purple"><span lang="fr">Registre matériel</span><span lang="en">Hardware registry</span></span>
               </div>
             </div>
-            <p><span lang="fr">Corrélation instantanée des signatures SHA1, MD5, identifiants processeurs et cartes mères.</span><span lang="en">Instant correlation of SHA1, MD5 hashes, chip registers and board identifiers.</span></p>
+            <p><span lang="fr">Corrélation instantanée des signatures SHA-256, identifiants processeurs et cartes mères pour chaque build.</span><span lang="en">Instant correlation of SHA-256 hashes, chip registers and board identifiers for every build.</span></p>
             <div class="viz chip-inspector">
-              <div class="chip-row"><span>CPID</span><b>0x8130</b></div>
-              <div class="chip-row"><span>BDID</span><b>0x06</b></div>
+              <div class="chip-row"><span>Modèle</span><b>iPhone 15 Pro</b></div>
+              <div class="chip-row"><span>CPID / BDID</span><b>0x8130 · 0x06</b></div>
               <div class="chip-row"><span>Board</span><b>D83AP</b></div>
-              <div class="chip-row"><span>SHA1</span><b>4f8b92…</b></div>
+              <div class="chip-row"><span>SHA-256</span><b>a8f3b20c9e…</b></div>
             </div>
           </article>
 
-          <!-- Notes Traduites -->
+          <!-- Notes traduites -->
           <article class="tile">
             <div class="tile-head">
               <div class="ico-wrap green" id="i-translate"></div>
               <div>
-                <h3><span lang="fr">Notes Traduites</span><span lang="en">Translated Notes</span></h3>
-                <span class="badge green">IA Contextuelle</span>
+                <h3><span lang="fr">Notes traduites</span><span lang="en">Translated notes</span></h3>
+                <span class="badge green"><span lang="fr">IA contextuelle</span><span lang="en">Contextual AI</span></span>
               </div>
             </div>
             <p><span lang="fr">Traduction automatique fidèle en français avec conservation stricte du vocabulaire technique Apple.</span><span lang="en">Automatic French translation with strict preservation of Apple technical terminology.</span></p>
@@ -176,14 +190,14 @@
             <div class="tile-head">
               <div class="ico-wrap orange" id="i-lock"></div>
               <div>
-                <h3><span lang="fr">Signatures IPSW</span><span lang="en">IPSW Signatures</span></h3>
+                <h3><span lang="fr">Signatures IPSW</span><span lang="en">IPSW signatures</span></h3>
                 <span class="badge orange">TSS / SHSH2</span>
               </div>
             </div>
-            <p><span lang="fr">Surveillance des tickets d'autorisation Apple TSS. Dès qu'un firmware cesse d'être signé, une alerte est déclenchée.</span><span lang="en">Apple TSS signing ticket monitoring. The moment a firmware loses signing status, an alert triggers.</span></p>
+            <p><span lang="fr">Surveillance des tickets d’autorisation Apple TSS. Dès qu’un firmware cesse d’être signé, une alerte est déclenchée.</span><span lang="en">Apple TSS signing ticket monitoring. The moment a firmware loses signing status, an alert triggers.</span></p>
             <div class="viz trans-diff">
-              <div class="trans-box" style="display:flex;justify-content:space-between;align-items:center"><span>iOS 18.3</span><span class="badge green">Signée</span></div>
-              <div class="trans-box fr" style="display:flex;justify-content:space-between;align-items:center;border-left-color:var(--red);background:rgba(255,69,58,.08);color:#ff9e99"><span>iOS 18.2.1</span><span class="badge red">Non signée</span></div>
+              <div class="trans-box" style="display:flex;justify-content:space-between;align-items:center"><span>iOS 27.0.1</span><span class="badge green"><span lang="fr">Signée</span><span lang="en">Signed</span></span></div>
+              <div class="trans-box fr" style="display:flex;justify-content:space-between;align-items:center;border-left-color:var(--red);background:rgba(255,69,58,.08);color:#ff9e99"><span>iOS 27.0</span><span class="badge red"><span lang="fr">Non signée</span><span lang="en">Unsigned</span></span></div>
             </div>
           </article>
 
@@ -192,29 +206,29 @@
             <div class="tile-head">
               <div class="ico-wrap teal" id="i-server"></div>
               <div>
-                <h3><span lang="fr">71 Services Apple</span><span lang="en">71 Apple Services</span></h3>
-                <span class="badge teal">Surveillance 24/7</span>
+                <h3><span lang="fr"><span id="bento-svc-count">70+</span> services Apple</span><span lang="en"><span id="bento-svc-count-en">70+</span> Apple services</span></h3>
+                <span class="badge teal"><span lang="fr">Surveillance 24/7</span><span lang="en">24/7 monitoring</span></span>
               </div>
             </div>
-            <p><span lang="fr">Suivi temps réel de l'état des services officiels : App Store, iCloud, Apple Music, Notarisation des apps...</span><span lang="en">Live monitoring of Apple official services: App Store, iCloud, Apple Music, Notarization...</span></p>
+            <p><span lang="fr">Suivi temps réel de l’état des services officiels : App Store, iCloud, Apple Music, Notarisation des apps…</span><span lang="en">Live monitoring of Apple official services: App Store, iCloud, Apple Music, Notarization...</span></p>
             <div class="viz dotgrid" id="dotgrid" aria-hidden="true"></div>
           </article>
 
-          <!-- Moteur Prédictif -->
+          <!-- Moteur prédictif -->
           <article class="tile s5">
             <div class="tile-head">
               <div class="ico-wrap" id="i-trend"></div>
               <div>
-                <h3><span lang="fr">Moteur Prédictif</span><span lang="en">Prediction Engine</span></h3>
+                <h3><span lang="fr">Moteur prédictif</span><span lang="en">Prediction engine</span></h3>
                 <span class="badge blue">/prediction</span>
               </div>
             </div>
-            <p><span lang="fr">Modélisation statistique calculant le créneau probable de sortie de la prochaine version selon les cadences habituelles de Cupertino.</span><span lang="en">Statistical modeling estimating the likely release window of upcoming builds based on Cupertino cadence.</span></p>
+            <p><span lang="fr">Modélisation statistique estimant le créneau probable de sortie de la prochaine version selon les cadences habituelles d’Apple.</span><span lang="en">Statistical modeling estimating the likely release window of upcoming builds based on Apple’s release cadence.</span></p>
             <div class="viz chip-inspector">
-              <div class="chip-row"><span>Jour habituel</span><b>Mardi / Mercredi</b></div>
-              <div class="chip-row"><span>Heure type</span><b>19:00 CET</b></div>
-              <div class="chip-row"><span>Intervalle bêta</span><b>7 à 14 jours</b></div>
-              <div class="chip-row"><span>Précision</span><b>94.2%</b></div>
+              <div class="chip-row"><span><span lang="fr">Jours habituels</span><span lang="en">Usual days</span></span><b><span lang="fr">Mardi / Mercredi</span><span lang="en">Tuesday / Wednesday</span></b></div>
+              <div class="chip-row"><span><span lang="fr">Heure type</span><span lang="en">Typical time</span></span><b>19h (heure de Paris) · 10:00 PT</b></div>
+              <div class="chip-row"><span><span lang="fr">Intervalle bêta</span><span lang="en">Beta cadence</span></span><b>7 à 14 jours</b></div>
+              <div class="chip-row"><span><span lang="fr">Modèle</span><span lang="en">Model</span></span><b><span lang="fr">Historique des cycles Apple</span><span lang="en">Apple historical cycles</span></b></div>
             </div>
           </article>
 
@@ -223,52 +237,52 @@
             <div class="tile-head">
               <div class="ico-wrap purple" id="i-sparkle"></div>
               <div>
-                <h3><span lang="fr">Matrice Apple Intelligence</span><span lang="en">Apple Intelligence Matrix</span></h3>
-                <span class="badge purple">On-Device AI</span>
+                <h3><span lang="fr">Matrice Apple Intelligence</span><span lang="en">Apple Intelligence matrix</span></h3>
+                <span class="badge purple">On-Device & Cloud</span>
               </div>
             </div>
-            <p><span lang="fr">Diagnostic d'éligibilité pour l'exécution locale des modèles Apple Foundation : comparaison automatique du SoC, du Neural Engine et de la RAM unifiée.</span><span lang="en">Eligibility diagnosis for running Apple Foundation models on device: automatic comparison of SoC, Neural Engine and unified RAM.</span></p>
+            <p><span lang="fr">Diagnostic d’éligibilité pour les modèles Apple Foundation : comparaison automatique du SoC Apple Silicon (A17 Pro, M1 ou supérieur) et de la mémoire unifiée requise (8 Go minimum).</span><span lang="en">Eligibility diagnosis for Apple Foundation models: automatic check of Apple Silicon SoC (A17 Pro, M1 or higher) and unified memory criteria (8 GB minimum).</span></p>
             <div class="viz pallas-pipeline">
               <div class="pallas-step">
-                <span class="step-tag">Neural Engine</span>
-                <strong>16 Cœurs Mini</strong>
-                <small>≥ 35 TOPS (A17 Pro / M1+)</small>
+                <span class="step-tag">Puce & NPU</span>
+                <strong>A17 Pro / M1+</strong>
+                <small><span lang="fr">Neural Engine Apple Silicon</span><span lang="en">Apple Silicon Neural Engine</span></small>
               </div>
               <div class="pallas-step">
-                <span class="step-tag">Mémoire Unifiée</span>
-                <strong>8 Go Minimum</strong>
-                <small><span lang="fr">Stockage pondérations</span><span lang="en">Weights storage</span></small>
+                <span class="step-tag"><span lang="fr">Mémoire unifiée</span><span lang="en">Unified memory</span></span>
+                <strong><span lang="fr">8 Go minimum</span><span lang="en">8 GB minimum</span></strong>
+                <small><span lang="fr">Pondérations en mémoire vive</span><span lang="en">Weights in memory</span></small>
               </div>
               <div class="pallas-step">
-                <span class="step-tag">Statut</span>
-                <strong style="color:var(--green)">100% Local</strong>
-                <small><span lang="fr">Private Cloud Compute</span><span lang="en">Private Cloud Compute</span></small>
+                <span class="step-tag"><span lang="fr">Architecture</span><span lang="en">Architecture</span></span>
+                <strong style="color:var(--green)"><span lang="fr">Hybride On-Device</span><span lang="en">Hybrid On-Device</span></strong>
+                <small><span lang="fr">Traitement local en priorité · Private Cloud Compute si requis</span><span lang="en">On-device first · Private Cloud Compute for heavy tasks</span></small>
               </div>
             </div>
           </article>
 
-          <!-- Cycle de Vie Matériel -->
+          <!-- Cycle de vie matériel -->
           <article class="tile s12">
             <div class="tile-head">
               <div class="ico-wrap orange" id="i-clock"></div>
               <div>
-                <h3><span lang="fr">Cycle de Vie & Statut Matériel Apple (/vintage)</span><span lang="en">Apple Hardware Lifecycle (/vintage)</span></h3>
+                <h3><span lang="fr">Cycle de vie et statut matériel Apple (/vintage)</span><span lang="en">Apple hardware lifecycle (/vintage)</span></h3>
                 <span class="badge orange">Apple Hardware Guidelines</span>
               </div>
             </div>
-            <p><span lang="fr">Connaître en un clin d’œil si Apple et les centres agréés assurent encore la fourniture de pièces détachées et les réparations de votre appareil.</span><span lang="en">Instantly know if Apple and authorized providers still supply repair parts and service for your device.</span></p>
+            <p><span lang="fr">Vérifiez le statut de réparation de votre appareil selon les critères officiels d’Apple (calculés à compter de la fin de commercialisation par Apple, et non de la sortie).</span><span lang="en">Check your device repair status based on Apple’s official guidelines (calculated from when Apple stopped distributing the model for sale, not release date).</span></p>
             <div class="viz life-continuum">
               <div class="life-card sup">
-                <strong><span lang="fr">🟢 Supporté (< 5 ans)</span><span lang="en">🟢 Supported (< 5 yrs)</span></strong>
-                <span><span lang="fr">Pièces d'origine et réparations matérielles pleinement garanties par Apple Store.</span><span lang="en">Original parts and repairs fully guaranteed by Apple Stores.</span></span>
+                <strong><span lang="fr">🟢 Actif / Supporté (&lt; 5 ans)</span><span lang="en">🟢 Active / Supported (&lt; 5 yrs)</span></strong>
+                <span><span lang="fr">Classification AppleCore : fin de commercialisation depuis moins de 5 ans. Pièces d’origine et réparations matérielles disponibles en Apple Store et centres agréés (AASP).</span><span lang="en">AppleCore classification: discontinued under 5 years ago. Original parts and repairs available at Apple Stores and authorized providers (AASP).</span></span>
               </div>
               <div class="life-card vin">
-                <strong><span lang="fr">🟠 Vintage (5 à 7 ans)</span><span lang="en">🟠 Vintage (5 to 7 yrs)</span></strong>
-                <span><span lang="fr">Réparations acceptées sous réserve des stocks de pièces détachées disponibles.</span><span lang="en">Repairs accepted subject to available parts inventory.</span></span>
+                <strong><span lang="fr">🟠 Vintage / Ancien (5 à 7 ans)</span><span lang="en">🟠 Vintage (5 to 7 yrs)</span></strong>
+                <span><span lang="fr">Critère officiel Apple : fin de distribution entre 5 et 7 ans. Réparations et pièces possibles selon les disponibilités de stock chez Apple et réparateurs agréés.</span><span lang="en">Official Apple guideline: discontinued between 5 and 7 years ago. Repairs and parts subject to inventory availability.</span></span>
               </div>
               <div class="life-card obs">
-                <strong><span lang="fr">🔴 Obsolète (> 7 ans)</span><span lang="en">🔴 Obsolete (> 7 yrs)</span></strong>
-                <span><span lang="fr">Arrêt définitif de toutes les réparations matérielles et de la fourniture de pièces.</span><span lang="en">All hardware service and parts supply discontinued.</span></span>
+                <strong><span lang="fr">🔴 Obsolète (&gt; 7 ans)</span><span lang="en">🔴 Obsolete (&gt; 7 yrs)</span></strong>
+                <span><span lang="fr">Critère officiel Apple : fin de distribution depuis plus de 7 ans. Interruption définitive du service matériel et de la fourniture de pièces détachées par Apple.</span><span lang="en">Official Apple guideline: discontinued over 7 years ago. All hardware service and parts supply discontinued by Apple.</span></span>
               </div>
             </div>
           </article>
@@ -280,7 +294,7 @@
     <section class="section" style="padding-top:0">
       <div class="wrap">
         <div class="section-head">
-          <h2><span lang="fr">Déployé sur votre Discord en 1 minute.</span><span lang="en">Deployed on your Discord in 1 minute.</span></h2>
+          <h2><span lang="fr">Déployé sur votre Discord en 1 minute</span><span lang="en">Deployed on your Discord in 1 minute</span></h2>
           <p><span lang="fr">Tout se configure de façon interactive directement dans Discord sans le moindre fichier texte.</span><span lang="en">Configured interactively inside Discord without a single text file.</span></p>
         </div>
         <div class="steps-grid">
@@ -291,18 +305,18 @@
           </div>
           <div class="step-card">
             <div class="step-num">2</div>
-            <h3><span lang="fr">Salon d'annonces</span><span lang="en">Channel</span></h3>
+            <h3><span lang="fr">Salon d’annonces</span><span lang="en">Channel</span></h3>
             <p><span lang="fr">Sélectionnez le salon cible avec contrôle automatique des permissions.</span><span lang="en">Pick your announcement channel with auto-permission check.</span></p>
           </div>
           <div class="step-card">
             <div class="step-num">3</div>
             <h3><span lang="fr">Rôles par OS</span><span lang="en">Roles per OS</span></h3>
-            <p><span lang="fr">Attribuez un rôle spécifique pour iOS, macOS, watchOS, AirPods.</span><span lang="en">Map notification roles for iOS, macOS, watchOS, AirPods.</span></p>
+            <p><span lang="fr">Attribuez un rôle spécifique pour iOS, iPadOS, macOS, watchOS, tvOS, visionOS, AirPods / HomePod.</span><span lang="en">Map notification roles for iOS, iPadOS, macOS, watchOS, tvOS, visionOS, AirPods / HomePod.</span></p>
           </div>
           <div class="step-card">
             <div class="step-num">4</div>
             <h3><span lang="fr">Filtres de versions</span><span lang="en">Filters</span></h3>
-            <p><span lang="fr">Choisissez d'inclure ou non les bêtas et Release Candidates.</span><span lang="en">Choose whether to include developer & public betas.</span></p>
+            <p><span lang="fr">Choisissez d’inclure ou non les bêtas développeur, bêtas publiques et Release Candidates.</span><span lang="en">Choose whether to include developer betas, public betas, and Release Candidates.</span></p>
           </div>
           <div class="step-card">
             <div class="step-num">5</div>
@@ -318,8 +332,8 @@
       <div class="wrap">
         <div class="cta">
           <h2><span lang="fr">Prêt à moderniser votre serveur ?</span><span lang="en">Ready to upgrade your server?</span></h2>
-          <p><span lang="fr">Rejoignez des centaines de passionnés Apple et donnez à votre communauté le meilleur bot d'actualités Apple existant.</span><span lang="en">Join Apple enthusiasts and give your community the ultimate Apple updates bot.</span></p>
-          <a class="btn btn-primary btn-lg" href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands" target="_blank" rel="noopener"><span lang="fr">Ajouter AppleCore à Discord</span><span lang="en">Add AppleCore to Discord</span></a>
+          <p><span lang="fr">Rejoignez les communautés passionnées et donnez à votre serveur le meilleur bot d’actualités Apple existant.</span><span lang="en">Join passionate Apple communities and give your server the ultimate Apple updates bot.</span></p>
+          <a class="btn btn-primary btn-lg" href="https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025901632&scope=bot%20applications.commands" target="_blank" rel="noopener"><span lang="fr">Ajouter AppleCore à Discord</span><span lang="en">Add AppleCore to Discord</span></a>
         </div>
       </div>
     </section>
@@ -330,7 +344,7 @@
   <script src="config.js"></script>
   <script>
   AC.ready(() => {
-    const { $, $$, t, icon } = AC;
+    const { $, $$, t, bi, icon } = AC;
     AC.mountChrome('index');
 
     /* Icônes des tuiles et stats */
@@ -341,13 +355,25 @@
     $('#stat-icon-srv').innerHTML = icon('users', 20);
     $('#stat-icon-spd').innerHTML = icon('bolt', 20);
 
-    /* Statut du bot */
-    AC.healthPill($('#health-pill'));
-
-    /* Cycle de sondage Pallas : synchronisé sur l'horloge */
+    /* Statut du bot et veille Pallas */
     const pulseArc = $('.hero-pulse-bar .arc');
     if (pulseArc) pulseArc.style.animationDelay = `-${Date.now() % 60000}ms`;
-    const tick = () => { const s = 60 - Math.floor((Date.now() % 60000) / 1000); $('#poll-s').textContent = s; $('#poll-s-en').textContent = s; };
+
+    AC.healthPill($('#health-pill')).then(h => {
+      if (!h.live || h.pallas === false) {
+        const pt = $('#pulse-text');
+        if (pt) pt.innerHTML = bi('Veille temporairement hors ligne (reconnexion…)', 'Watcher temporarily offline (reconnecting…)');
+        if (pulseArc) pulseArc.style.animationPlayState = 'paused';
+      }
+    });
+
+    /* Cycle de sondage Pallas : synchronisé sur l’horloge */
+    const tick = () => {
+      const s = 60 - Math.floor((Date.now() % 60000) / 1000);
+      const pFr = $('#poll-s'), pEn = $('#poll-s-en');
+      if (pFr) pFr.textContent = s;
+      if (pEn) pEn.textContent = s;
+    };
     tick(); setInterval(tick, 500);
 
     /* Démo Discord */
@@ -370,7 +396,7 @@
     function renderDemo(animate) {
       const r = latest[current]; if (!r) return;
       const m = OS[current];
-      const ios27 = current === 'iOS' && r.version === '27.0';
+      const ios27 = current === 'iOS' && (r.version === '27.0' || r.version?.startsWith('27'));
       const desc = ios27
         ? t('iOS 27 introduit la nouvelle génération d’Apple Intelligence et de Siri avec contexte personnel, ainsi que des améliorations du contrôle parental, de la confidentialité et de la réactivité du système.',
             'iOS 27 introduces the next generation of Apple Intelligence and Siri with personal context, plus improvements to parental controls, privacy and overall responsiveness.')
@@ -379,7 +405,7 @@
       const fields = [
         { name: t('📝 Notes de version', '📝 Release notes'), value: desc },
         { name: '🆔 Build(s)', value: '`' + (r.build || '—') + '`', inline: true },
-        { name: '📡 Audience', value: '`' + AUD[r.type] + '`', inline: true },
+        { name: '📡 Audience', value: '`' + (AUD[r.type] || r.type) + '`', inline: true },
         { name: '📅 Date', value: AC.fmtDate(r.date, { day: 'numeric', month: 'long', year: 'numeric' }), inline: true }
       ];
       if (r.compat) fields.push({ name: t('📱 Compatibilité', '📱 Compatibility'), value: t(`**${r.compat} modèles compatibles**`, `**${r.compat} compatible models**`) });
@@ -407,10 +433,13 @@
     /* Grille des services Apple */
     AC.loadServices().then(s => {
       $('#dotgrid').innerHTML = s.list.map(x => `<i class="${x.status === 'ok' ? '' : x.status}" title="${AC.esc(x.name)}"></i>`).join('');
-      $('#svc-count').textContent = s.list.length;
+      const count = s.list.length;
+      const bFr = $('#bento-svc-count'), bEn = $('#bento-svc-count-en');
+      if (bFr) bFr.textContent = count;
+      if (bEn) bEn.textContent = count;
     });
 
-    /* Compteurs : valeurs réelles si l'API répond, sinon repères prudents */
+    /* Compteurs : valeurs réelles si l’API répond, sinon repères prudents */
     AC.loadAnalytics().then(a => {
       const live = a.live;
       AC.countUp($('#st-releases'), live ? a.releases : 3800, { suffix: '+' });

@@ -9,6 +9,26 @@
   <meta name="theme-color" content="#000000">
   <link rel="canonical" href="https://applecore.tibotsr.dev/help.html">
   <link rel="icon" href="logo.png">
+  <link rel="alternate" hreflang="fr" href="https://applecore.tibotsr.dev/help.html">
+  <link rel="alternate" hreflang="en" href="https://applecore.tibotsr.dev/help.html">
+  <link rel="alternate" hreflang="x-default" href="https://applecore.tibotsr.dev/help.html">
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="AppleCore">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta property="og:url" content="https://applecore.tibotsr.dev/help.html">
+  <meta property="og:title" content="Documentation & Commandes — AppleCore">
+  <meta property="og:description" content="Toutes les commandes d’AppleCore : syntaxe multilingue (FR, EN, ES, DE), exemples, permissions et simulateur Discord interactif.">
+  <meta property="og:image" content="https://applecore.tibotsr.dev/logo.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Documentation & Commandes — AppleCore">
+  <meta name="twitter:description" content="Toutes les commandes d’AppleCore : syntaxe multilingue (FR, EN, ES, DE), exemples et simulateur Discord interactif.">
+  <meta name="twitter:image" content="https://applecore.tibotsr.dev/logo.png">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -188,8 +208,8 @@
         names: { fr: '/etat-apple', en: '/apple_status', es: '/estado-apple', de: '/apple-status' },
         syntax: { fr: '/etat-apple', en: '/apple_status' },
         ex: { fr: '/etat-apple', en: '/apple_status' },
-        fr: 'Statut officiel en direct des 71 services et serveurs Apple : alertes de pannes immédiates, maintenances programmées et ventilation par domaine.',
-        en: 'Live official status of all 71 Apple services and servers: real-time outage alerts, scheduled maintenances and category breakdowns.',
+        fr: 'Statut officiel en direct de l’ensemble des services et serveurs Apple : alertes d’incidents immédiates, maintenances programmées et ventilation par domaine.',
+        en: 'Live official status of Apple services and servers: real-time incident alerts, scheduled maintenances and category breakdowns.',
         tags: ['panne', 'incident', 'outage', 'status', 'serveur', 'down', 'icloud', 'app store', 'stoerung', 'fallo', 'servidor'],
         preview: () => ({
           cmd: t('/etat-apple', '/apple_status'),
@@ -197,8 +217,8 @@
             color: '#34c759',
             title: t('🍏 État des Services Apple • En Direct', '🍏 Apple Services Status • Live'),
             desc: t(
-              '✅ **Tous les systèmes Apple fonctionnent normalement**\n*Surveillance active de 71 services (grand public & développeurs)*',
-              '✅ **All Apple systems are operational**\n*Active monitoring across 71 services (consumer & developer)*'
+              '✅ **Tous les systèmes Apple fonctionnent normalement**\n*Surveillance active de l’ensemble des services officiels Apple*',
+              '✅ **All Apple systems are operational**\n*Active monitoring across all official Apple services*'
             ),
             fields: [
               { name: '☁️ iCloud & Sync', value: '`18/18 ' + t('opérationnels', 'operational') + '`', inline: true },
@@ -534,7 +554,7 @@
               'The premier community Discord bot for instant Apple firmware detection, technical spec analysis and real-time service outage alerts.'
             ),
             fields: [
-              { name: '✨ ' + t('Fonctionnalités Clés', 'Key Features'), value: t('• Détection en ~60s via Apple Pallas\n• Diagnostic complet Apple Intelligence\n• Suivi des 71 services Apple\n• Support 100% multilingue par serveur (FR, EN, ES, DE)', '• Sub-60s detection via Apple Pallas\n• Comprehensive Apple Intelligence audit\n• Tracking across 71 Apple services\n• 100% multilingual per server (FR, EN, ES, DE)') }
+              { name: '✨ ' + t('Fonctionnalités Clés', 'Key Features'), value: t('• Détection en ~60s via Apple Pallas\n• Diagnostic complet Apple Intelligence\n• Suivi des services Apple en direct\n• Support 100% multilingue par serveur (FR, EN, ES, DE)', '• Sub-60s detection via Apple Pallas\n• Comprehensive Apple Intelligence audit\n• Live tracking of Apple services\n• 100% multilingual per server (FR, EN, ES, DE)') }
             ],
             footer: 'Développé par TiboTsr • Open Source'
           },

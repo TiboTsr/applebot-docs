@@ -10,7 +10,7 @@
 
   /* ------------------------------------------------------------------ Liens */
   const LINKS = {
-    invite: 'https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025778752&scope=bot%20applications.commands',
+    invite: 'https://discord.com/oauth2/authorize?client_id=1434945148789456896&permissions=277025901632&scope=bot%20applications.commands',
     github: 'https://github.com/TiboTsr/AppleBot',
     support: '', // Invite support discord quand il sera crée 
     appleStatus: 'https://www.apple.com/fr/support/systemstatus/',
@@ -55,6 +55,9 @@
     $$('.lang-switch button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
     const ti = $('title[data-fr]');
     if (ti) ti.textContent = lang === 'fr' ? ti.dataset.fr : ti.dataset.en;
+    // Screen reader accessibility: hide inactive language elements
+    $$('[lang="fr"]').forEach(e => { if (lang === 'fr') e.removeAttribute('aria-hidden'); else e.setAttribute('aria-hidden', 'true'); });
+    $$('[lang="en"]').forEach(e => { if (lang === 'en') e.removeAttribute('aria-hidden'); else e.setAttribute('aria-hidden', 'true'); });
   }
   function setLang(l) {
     if (l === lang) return;
@@ -572,7 +575,7 @@
             <a href="${LINKS.github}" target="_blank" rel="noopener">GitHub</a>
             ${LINKS.support ? `<a href="${LINKS.support}" target="_blank" rel="noopener">${bi('Support Discord', 'Discord support')}</a>` : ''}</div>
         </div>
-        <p class="legal">© ${new Date().getFullYear()} AppleCore — ${bi('Développé par TiboTsr. Non affilié à Apple Inc. Apple, iOS, iPadOS, macOS, watchOS, visionOS et AirPods sont des marques déposées d’Apple Inc.', 'Built by TiboTsr. Not affiliated with Apple Inc. Apple, iOS, iPadOS, macOS, watchOS, visionOS and AirPods are trademarks of Apple Inc.')}</p></div>`;
+        <p class="legal">© ${new Date().getFullYear()} AppleCore — ${bi('Développé par TiboTsr. Non affilié, sponsorisé ni approuvé par Apple Inc. Apple, iPhone, iPad, Mac, Apple Watch, Apple TV, Apple Vision Pro, AirPods, iOS, iPadOS, macOS, watchOS, tvOS, visionOS et Apple Intelligence sont des marques déposées d’Apple Inc.', 'Built by TiboTsr. Not affiliated with, sponsored or endorsed by Apple Inc. Apple, iPhone, iPad, Mac, Apple Watch, Apple TV, Apple Vision Pro, AirPods, iOS, iPadOS, macOS, watchOS, tvOS, visionOS and Apple Intelligence are registered trademarks of Apple Inc.')}</p></div>`;
     }
     applyLang();
   }
