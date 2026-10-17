@@ -8,4 +8,4 @@ Disallow: /analytics_dashboard.html
 Disallow: /404.html
 
 # Sitemap
-Sitemap: https://applecore.tibotsr.dev/sitemap.xml
+Sitemap: https://pallasradar.tibotsr.dev/sitemap.xml

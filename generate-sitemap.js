@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const DOMAIN = 'https://applecore.tibotsr.dev';
+const DOMAIN = 'https://pallasradar.tibotsr.dev';
 const OUTPUT_FILE = 'sitemap.xml';
 
 const pages = [

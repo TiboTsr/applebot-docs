@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://applecore.tibotsr.dev/</loc>
+    <loc>https://pallasradar.tibotsr.dev/</loc>
     <lastmod>2026-10-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://applecore.tibotsr.dev/releases.html</loc>
+    <loc>https://pallasradar.tibotsr.dev/releases.html</loc>
     <lastmod>2026-10-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://applecore.tibotsr.dev/devices.html</loc>
+    <loc>https://pallasradar.tibotsr.dev/devices.html</loc>
     <lastmod>2026-10-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://applecore.tibotsr.dev/status_public.html</loc>
+    <loc>https://pallasradar.tibotsr.dev/status_public.html</loc>
     <lastmod>2026-10-17</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://applecore.tibotsr.dev/help.html</loc>
+    <loc>https://pallasradar.tibotsr.dev/help.html</loc>
     <lastmod>2026-10-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://applecore.tibotsr.dev/privacy.html</loc>
+    <loc>https://pallasradar.tibotsr.dev/privacy.html</loc>
     <lastmod>2026-10-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://applecore.tibotsr.dev/terms.html</loc>
+    <loc>https://pallasradar.tibotsr.dev/terms.html</loc>
     <lastmod>2026-10-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
