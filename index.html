@@ -443,7 +443,11 @@
     AC.loadAnalytics().then(a => {
       const live = a.live;
       AC.countUp($('#st-releases'), live ? a.releases : 3800, { suffix: '+' });
-      if (live) AC.countUp($('#st-servers'), a.servers); else $('#st-servers').textContent = '—';
+      if (live && a.servers !== null && a.servers !== undefined && Number.isFinite(+a.servers)) {
+        AC.countUp($('#st-servers'), a.servers);
+      } else {
+        $('#st-servers').textContent = '—';
+      }
       if (live) AC.countUp($('#st-time'), a.avgDetect, { suffix: ' s' }); else $('#st-time').textContent = t('< 60 s', '< 60 s');
     });
   });

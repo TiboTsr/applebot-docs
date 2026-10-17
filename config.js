@@ -301,7 +301,7 @@
     dev('AirPods Max', 'AirPods', 'H1', null, '2020-12-15', null, null)
   ];
   const sampleAnalytics = () => ({
-    commands: 128430, servers: 312, avgResponse: 184, avgDetect: 12, releases: 3842,
+    commands: 128430, servers: null, avgResponse: 184, avgDetect: 12, releases: 3842,
     top: [['/info', 41200], ['/latest', 27800], ['/ipsw', 19600], ['/compat', 15900], ['/apple_status', 9800], ['/prediction', 7400], ['/vintage', 4300], ['/roles', 2430]].map(([name, count]) => ({ name, count })),
     daily: [8200, 9100, 8700, 9600, 10400, 9900, 11800, 12600, 10200, 9800, 10700, 11500, 12900, 13400].map((value, i, a) => ({ label: `J-${a.length - 1 - i}`, value })),
     delays: [['iOS', 9], ['iPadOS', 11], ['macOS', 14], ['watchOS', 17], ['visionOS', 16], ['AirPods', 31]].map(([name, value]) => ({ name, value }))
@@ -324,17 +324,19 @@
 
   async function health() {
     const r = await apiOr('/health', null, { timeout: 5000 });
-    if (!r.live || !r.data) return { live: false, ok: false };
+    if (!r.live || !r.data) return { live: false, ok: false, servers: null };
     const d = r.data;
     const status = d.status;
     const ok = truthy(status) ?? (String(status).toLowerCase() === 'healthy');
     const ping = Number(pick(d, 'gateway_ping_ms', 'ping_ms', 'latency_ms'));
     const up = Number(pick(d, 'uptime_seconds', 'uptime'));
+    const guildCount = Number(pick(d, 'guild_count', 'servers', 'guilds', 'active_servers'));
     return {
       live: true,
       ok: ok !== false,
       ping: Number.isFinite(ping) ? ping : null,
       uptime: Number.isFinite(up) ? up : null,
+      servers: Number.isFinite(guildCount) ? guildCount : null,
       db: truthy(pick(d, 'database', 'database_connected', 'db')),
       pallas: truthy(pick(d, 'pallas', 'pallas_running', 'pallas_loop_ok'))
     };
@@ -389,14 +391,22 @@
     return { items, live: true, total: items.length };
   }
   async function loadAnalytics() {
-    const r = await apiOr('/api/analytics', null);
+    const [r, h] = await Promise.all([
+      apiOr('/api/analytics', null),
+      health()
+    ]);
     const base = sampleAnalytics();
-    if (!r.live || !r.data) return { ...base, live: false };
+    if (!r.live || !r.data) {
+      return { ...base, servers: h.servers ?? null, live: h.live };
+    }
     const n = normAnalytics(r.data);
     const out = { live: true };
     for (const k of Object.keys(base)) {
       const v = n[k];
       out[k] = (v === undefined || v === null || (Array.isArray(v) && !v.length)) ? base[k] : v;
+    }
+    if (out.servers === null || out.servers === undefined) {
+      out.servers = h.servers ?? null;
     }
     return out;
   }
