@@ -734,29 +734,266 @@ html[data-lang="en"] [lang="fr"] { display: none !important; }
 }
 .dev-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
 
-/* Modal Spectaculaire */
+/* Modal Spectaculaire avec Photo et Nuancier */
 .modal {
-  position: fixed; width: min(560px, calc(100% - 32px));
+  position: fixed; width: min(780px, calc(100% - 32px));
   max-height: calc(100dvh - 48px); padding: 0; overflow: auto;
-  color: var(--text); background: rgba(22, 22, 26, 0.94);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-  backdrop-filter: blur(30px) saturate(180%);
+  color: var(--text); background: rgba(20, 20, 26, 0.96);
+  -webkit-backdrop-filter: blur(36px) saturate(190%);
+  backdrop-filter: blur(36px) saturate(190%);
   border: 1px solid var(--line-strong); border-radius: var(--r-xl);
-  box-shadow: var(--shadow);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
-.modal::backdrop { background: rgba(0, 0, 0, 0.65); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.modal-body { padding: 32px; }
+.modal::backdrop { background: rgba(0, 0, 0, 0.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.modal-body { padding: 32px; position: relative; }
 .modal-close {
-  position: absolute; top: 16px; right: 16px;
+  position: absolute; top: 18px; right: 18px; z-index: 10;
   display: grid; place-items: center; width: 34px; height: 34px;
   border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.1);
-  color: var(--text); transition: background 0.15s;
+  color: var(--text); cursor: pointer; transition: background 0.15s, transform 0.15s;
 }
-.modal-close:hover { background: rgba(255, 255, 255, 0.2); }
-.spec { display: grid; grid-template-columns: auto 1fr; margin: 24px 0 0; }
-.spec dt, .spec dd { margin: 0; padding: 12px 0; border-top: 1px solid var(--line); }
-.spec dt { color: var(--text-2); font-size: 14px; padding-right: 20px; }
-.spec dd { text-align: right; font-weight: 500; font-family: var(--mono); font-size: 14px; }
+.modal-close:hover { background: rgba(255, 255, 255, 0.22); transform: scale(1.05); }
+
+.modal-dev-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+.modal-dev-info {
+  min-width: 0;
+}
+.modal-dev-showcase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 75%), var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 24px 16px 16px;
+  position: relative;
+  overflow: hidden;
+}
+.modal-dev-img-wrap {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.modal-dev-img {
+  max-width: 100%;
+  max-height: 190px;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.5));
+  transition: transform 0.25s var(--ease), opacity 0.2s ease;
+}
+.modal-dev-img:hover {
+  transform: scale(1.05);
+}
+.modal-dev-fallback-ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--surface-3);
+  color: var(--text-2);
+}
+.modal-dev-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  width: 100%;
+}
+.swatch-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  padding: 0;
+  cursor: pointer;
+  background: var(--swatch-c);
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.swatch-btn:hover {
+  transform: scale(1.2);
+  border-color: #fff;
+}
+.swatch-btn.active {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px var(--blue);
+  transform: scale(1.15);
+}
+.modal-dev-color-name {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 8px;
+  text-align: center;
+  min-height: 16px;
+}
+.modal-dev-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.modal-dev-title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0 0 16px;
+  color: #fff;
+  line-height: 1.2;
+}
+.modal-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.modal-spec-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.modal-spec-k {
+  font-size: 12px;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.modal-spec-v {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: var(--mono);
+  word-break: break-word;
+}
+.modal-spec-v small {
+  display: block;
+  font-size: 12px;
+  color: var(--text-2);
+  font-family: var(--font);
+  font-weight: 400;
+  margin-top: 2px;
+}
+.modal-vint-banner {
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.modal-vint-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.modal-vint-desc {
+  font-size: 13.5px;
+  color: var(--text-2);
+  line-height: 1.45;
+}
+.modal-dev-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 680px) {
+  .modal-dev-layout { grid-template-columns: 1fr; }
+  .modal-dev-showcase { max-width: 320px; margin: 0 auto 16px; width: 100%; }
+  .modal-specs-grid { grid-template-columns: 1fr; }
+}
+
+/* Empty State Amélioré */
+.dev-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 56px 24px;
+  background: radial-gradient(circle at 50% 30%, rgba(41, 151, 255, 0.08) 0%, transparent 65%), var(--surface);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-xl);
+  position: relative;
+  overflow: hidden;
+}
+.dev-empty-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: rgba(41, 151, 255, 0.12);
+  color: var(--blue);
+  margin-bottom: 20px;
+  box-shadow: 0 0 30px rgba(41, 151, 255, 0.2);
+}
+.dev-empty h3 {
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.dev-empty-sub {
+  color: var(--text-2);
+  font-size: 16px;
+  max-width: 50ch;
+  margin: 0 auto 24px;
+  line-height: 1.5;
+}
+.dev-empty-suggestions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.sugg-label {
+  font-size: 13.5px;
+  color: var(--text-3);
+  margin-right: 4px;
+}
+.sugg-chip {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sugg-chip:hover {
+  background: var(--surface-hover);
+  color: #fff;
+  border-color: var(--blue);
+  transform: translateY(-1px);
+}
+.dev-empty-actions {
+  display: flex;
+  justify-content: center;
+}
 
 /* 16. Statut du Système (`status_public.html`) ----------------------------- */
 .global-banner {

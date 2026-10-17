@@ -145,7 +145,22 @@
         </div>`;
       }
 
-      $('#grid').innerHTML = list.length ? gridHtml : `<div class="empty" style="grid-column:1/-1"><h3>${bi('Aucun appareil ne correspond.', 'No device matches.')}</h3><p>${bi('Retirez un filtre ou essayez un autre nom de modèle (ex: iPhone 15, M2, A17).', 'Remove a filter or try another model name (e.g. iPhone 15, M2, A17).')}</p><button class="btn btn-ghost btn-sm" type="button" data-reset>${bi('Réinitialiser les filtres', 'Reset filters')}</button></div>`;
+      $('#grid').innerHTML = list.length ? gridHtml : `<div class="dev-empty">
+        <div class="dev-empty-icon">${icon('search', 34)}</div>
+        <h3>${bi('Aucun appareil trouvé', 'No devices found')}</h3>
+        <p class="dev-empty-sub">${f.q ? bi(`Aucun résultat ne correspond à <strong>« ${esc(f.q)} »</strong> avec les filtres sélectionnés.`, `No results match <strong>“${esc(f.q)}”</strong> with current filters.`) : bi('Aucun appareil ne correspond aux critères sélectionnés.', 'No devices match the selected criteria.')}</p>
+        <div class="dev-empty-suggestions">
+          <span class="sugg-label">${bi('Suggestions :', 'Try searching:')}</span>
+          <button type="button" class="sugg-chip" data-sugg="iPhone 16">iPhone 16</button>
+          <button type="button" class="sugg-chip" data-sugg="A18">A18 Pro</button>
+          <button type="button" class="sugg-chip" data-sugg="M4">M4</button>
+          <button type="button" class="sugg-chip" data-sugg="AirPods Pro">AirPods Pro</button>
+          <button type="button" class="sugg-chip" data-sugg="Apple Watch Ultra">Apple Watch Ultra</button>
+        </div>
+        <div class="dev-empty-actions">
+          <button class="btn btn-primary btn-sm" type="button" data-reset>${icon('refresh', 14)}${bi('Réinitialiser les filtres', 'Reset filters')}</button>
+        </div>
+      </div>`;
 
       $('#load-more-devs')?.addEventListener('click', () => {
         visibleLimit += 72;
@@ -155,49 +170,174 @@
 
     /* ------------------------------------------------------------- Fiche */
     let openId = null;
-    function vintCell(key, years) {
-      if (!key) return '—';
-      const y = years != null ? bi(`${Math.floor(years)} ans.`, `${Math.floor(years)} years old.`) + ' ' : '';
-      return `${vBadge(key)}<small>${y}${bi(...VINT_WHY[key])}</small>`;
+    function vintBannerHtml(key, years) {
+      if (!key) return '<p class="modal-vint-desc">—</p>';
+      const y = years != null ? bi(`${Math.floor(years)} an${Math.floor(years) > 1 ? 's' : ''} d’ancienneté`, `${Math.floor(years)} year${Math.floor(years) > 1 ? 's' : ''} old`) : '';
+      return `<div class="modal-vint-head">
+        ${vBadge(key)}
+        <span style="font-weight:600;font-size:13.5px;color:var(--text)">${y}</span>
+      </div>
+      <p class="modal-vint-desc">${bi(...VINT_WHY[key])}</p>`;
     }
+
     function openModal(id) {
       const d = all.find(x => x.id === id); if (!d) return;
       openId = id;
       const v = AC.vintageOf(d.released);
       const reason = AC.reasonText(d.reason);
-      const aiCell = d.ai === null ? `<span class="badge">${bi('Sans objet', 'Not applicable')}</span>`
-        : `<span class="badge ${d.ai ? 'purple' : ''}">${d.ai ? icon('sparkle', 12) + bi('Compatible', 'Compatible') : bi('Non compatible', 'Not compatible')}</span>${reason ? `<small>${esc(reason)}</small>` : ''}`;
+      const aiBadgeHtml = d.ai === null ? `<span class="badge">${bi('Sans objet', 'Not applicable')}</span>`
+        : `<span class="badge ${d.ai ? 'purple' : ''}">${d.ai ? icon('sparkle', 12) + 'Apple Intelligence' : bi('Non compatible', 'Not compatible')}</span>`;
+
       $('#modal').innerHTML = `<div class="modal-body">
         <button class="modal-close" type="button" data-close data-aria-fr="Fermer" data-aria-en="Close" aria-label="${esc(t('Fermer', 'Close'))}">${icon('x', 16)}</button>
-        <span class="os-ico" data-os="${CAT_OS[d.cat] || 'iOS'}" style="margin-bottom:16px">${icon(AC.CAT_ICON[d.cat] || 'iphone', 22)}</span>
-        <h2 id="m-title">${esc(d.name)}</h2>
-        <dl class="spec">
-          <dt>${bi('Puce (SoC)', 'Chip (SoC)')}</dt><dd class="mono">${esc(d.soc)}</dd>
-          <dt>${bi('Architecture', 'Architecture')}</dt><dd class="mono">${esc(d.arch)}</dd>
-          <dt>${bi('Mémoire', 'Memory')}</dt><dd>${esc(AC.fmtRam(d.ram))}</dd>
-          <dt>${bi('Commercialisation', 'Launch')}</dt><dd>${esc(fmtDate(d.released, { month: 'long', year: 'numeric' }))}<small>${esc(relTime(d.released))}</small></dd>
-          <dt>${bi('Identifiant', 'Identifier')}</dt><dd class="mono">${esc(d.id)}</dd>
-          <dt>${bi('Statut matériel', 'Hardware status')}</dt><dd id="vint-cell">${vintCell(v?.key, v?.years)}</dd>
-          <dt>Apple Intelligence</dt><dd>${aiCell}</dd>
-        </dl>
-        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn btn-ghost btn-sm" href="https://appledb.dev/device/${encodeURIComponent(d.id)}.html" target="_blank" rel="noopener">AppleDB${icon('external', 13)}</a>
+        <div class="modal-dev-layout">
+          <div class="modal-dev-showcase">
+            <div class="modal-dev-img-wrap">
+              <div id="m-fallback-ico" class="modal-dev-fallback-ico">
+                ${icon(AC.CAT_ICON[d.cat] || 'iphone', 42)}
+              </div>
+              <img id="m-dev-img" class="modal-dev-img" alt="${esc(d.name)}" style="display:none" />
+            </div>
+            <div id="m-dev-colors" class="modal-dev-colors" style="display:none"></div>
+            <div id="m-dev-color-name" class="modal-dev-color-name"></div>
+          </div>
+          <div class="modal-dev-info">
+            <div class="modal-dev-badges">
+              <span class="os-ico" data-os="${CAT_OS[d.cat] || 'iOS'}">${icon(AC.CAT_ICON[d.cat] || 'iphone', 18)}</span>
+              ${aiBadgeHtml}
+            </div>
+            <h2 id="m-title" class="modal-dev-title">${esc(d.name)}</h2>
+            ${reason ? `<p class="muted" style="font-size:13px;margin:-8px 0 16px">${esc(reason)}</p>` : ''}
+            
+            <div class="modal-specs-grid">
+              <div class="modal-spec-card">
+                <span class="modal-spec-k">${icon('cpu', 13)} ${bi('Puce (SoC)', 'Chip (SoC)')}</span>
+                <span class="modal-spec-v">${esc(d.soc)}</span>
+              </div>
+              <div class="modal-spec-card">
+                <span class="modal-spec-k">${icon('terminal', 13)} ${bi('Architecture', 'Architecture')}</span>
+                <span class="modal-spec-v">${esc(d.arch)}</span>
+              </div>
+              <div class="modal-spec-card">
+                <span class="modal-spec-k">${icon('database', 13)} ${bi('Mémoire', 'Memory')}</span>
+                <span class="modal-spec-v">${esc(AC.fmtRam(d.ram))}</span>
+              </div>
+              <div class="modal-spec-card">
+                <span class="modal-spec-k">${icon('clock', 13)} ${bi('Commercialisation', 'Launch')}</span>
+                <span class="modal-spec-v">
+                  ${esc(fmtDate(d.released, { month: 'long', year: 'numeric' }))}
+                  <small>${esc(relTime(d.released))}</small>
+                </span>
+              </div>
+              <div class="modal-spec-card">
+                <span class="modal-spec-k">${icon('tag', 13)} ${bi('Identifiant', 'Identifier')}</span>
+                <span class="modal-spec-v">${esc(d.id)}</span>
+              </div>
+              <div class="modal-spec-card">
+                <span class="modal-spec-k">${icon('shield', 13)} ${bi('Modèle(s)', 'Model(s)')}</span>
+                <span class="modal-spec-v" id="m-model-num">—</span>
+              </div>
+            </div>
+
+            <div class="modal-vint-banner" id="m-vint-banner">
+              ${vintBannerHtml(v?.key, v?.years)}
+            </div>
+
+            <div class="modal-dev-actions">
+              <a class="btn btn-ghost btn-sm" href="https://appledb.dev/device/${encodeURIComponent(d.id)}.html" target="_blank" rel="noopener">AppleDB${icon('external', 13)}</a>
+              <span class="muted" style="font-size:12px;margin-left:auto">${bi('Statut matériel estimé d’après l’âge de l’appareil.', 'Hardware status estimated from device age.')}</span>
+            </div>
+          </div>
         </div>
-        <p class="muted" style="font-size:13px;margin-top:14px">${bi('Statut calculé d’après l’âge de l’appareil. Apple se base sur la date de fin de commercialisation.', 'Status computed from the device’s age. Apple uses the date sales ended.')}</p>
       </div>`;
       AC.applyLang();
       $('#modal').showModal();
+
+      const imgEl = $('#m-dev-img');
+      const fallbackEl = $('#m-fallback-ico');
+      const colorsEl = $('#m-dev-colors');
+      const colorNameEl = $('#m-dev-color-name');
+      const modelNumEl = $('#m-model-num');
+
+      fetch(`https://api.appledb.dev/device/${encodeURIComponent(d.id)}.json`)
+        .then(res => res.ok ? res.json() : null)
+        .then(devData => {
+          if (!devData || openId !== id) return;
+          const imageKey = devData.imageKey || devData.key || d.id;
+          const colors = Array.isArray(devData.colors) ? devData.colors : [];
+
+          if (devData.model && modelNumEl) {
+            modelNumEl.textContent = Array.isArray(devData.model) ? devData.model.join(', ') : devData.model;
+          }
+
+          if (colors.length) {
+            const loadImg = (cName) => {
+              imgEl.src = `https://raw.githubusercontent.com/littlebyteorg/apple-device-images/gh-pages/device@256/${encodeURIComponent(imageKey)}/${encodeURIComponent(cName)}.png`;
+            };
+            imgEl.onload = () => {
+              if (openId !== id) return;
+              imgEl.style.display = 'block';
+              if (fallbackEl) fallbackEl.style.display = 'none';
+            };
+            imgEl.onerror = () => {
+              if (openId !== id) return;
+              imgEl.style.display = 'none';
+              if (fallbackEl) fallbackEl.style.display = 'flex';
+            };
+            loadImg(colors[0].name);
+            colorNameEl.textContent = colors[0].name;
+            colorsEl.style.display = 'flex';
+            colorsEl.innerHTML = colors.map((c, i) => `
+              <button type="button" class="swatch-btn ${i === 0 ? 'active' : ''}" 
+                style="--swatch-c: #${c.hex || '888'}" 
+                data-color="${esc(c.name)}" 
+                title="${esc(c.name)}" 
+                aria-label="${esc(c.name)}"></button>
+            `).join('');
+
+            colorsEl.onclick = e => {
+              const btn = e.target.closest('.swatch-btn');
+              if (!btn) return;
+              colorsEl.querySelectorAll('.swatch-btn').forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              const cName = btn.dataset.color;
+              colorNameEl.textContent = cName;
+              loadImg(cName);
+            };
+          } else {
+            imgEl.onload = () => {
+              if (openId !== id) return;
+              imgEl.style.display = 'block';
+              if (fallbackEl) fallbackEl.style.display = 'none';
+            };
+            imgEl.onerror = () => {
+              if (openId !== id) return;
+              imgEl.style.display = 'none';
+              if (fallbackEl) fallbackEl.style.display = 'flex';
+            };
+            imgEl.src = `https://raw.githubusercontent.com/littlebyteorg/apple-device-images/gh-pages/device@256/${encodeURIComponent(imageKey)}/Default.png`;
+          }
+        })
+        .catch(() => {});
 
       /* Si l'API répond, son calcul prévaut sur l'estimation locale */
       AC.apiOr('/api/vintage/' + encodeURIComponent(d.name), null, { timeout: 4000 }).then(r => {
         if (!r.live || openId !== id) return;
         const raw = String(AC.pick(r.data, 'status', 'state', 'label') ?? '');
         const key = /obsol/i.test(raw) ? 'obsolete' : /vintage/i.test(raw) ? 'vintage' : /support|current|ok/i.test(raw) ? 'supported' : null;
-        const cell = $('#vint-cell'); if (key && cell) cell.innerHTML = vintCell(key, v?.years);
+        const banner = $('#m-vint-banner');
+        if (key && banner) banner.innerHTML = vintBannerHtml(key, v?.years);
       });
     }
 
     $('#grid').addEventListener('click', e => {
+      const sugg = e.target.closest('[data-sugg]');
+      if (sugg) {
+        f.q = sugg.dataset.sugg;
+        $('#q').value = f.q;
+        render();
+        return;
+      }
       if (e.target.closest('[data-reset]')) { Object.assign(f, { q: '', cat: 'all', ai: false, old: false }); $('#q').value = ''; $('#f-ai').checked = $('#f-old').checked = false; render(); return; }
       const c = e.target.closest('.dev'); if (c) openModal(c.dataset.id);
     });
