@@ -120,16 +120,21 @@
     function render() {
       $('#cats').innerHTML = CATS.map(([k, fr, en]) => {
         const n = all.filter(d => k === 'all' || d.cat === k).length;
-        return `<button type="button" class="chip" data-cat="${k}" aria-pressed="${f.cat === k}">${AC.CAT_ICON[k] ? icon(AC.CAT_ICON[k], 15) : ''}${bi(fr, en)} <span class="count">${n}</span></button>`;
+        return `<button type="button" class="chip" data-cat="${k}" aria-pressed="${f.cat === k}">${AC.CAT_ICON[k] ? icon(AC.CAT_ICON[k], 15) : ''}<span>${bi(fr, en)}</span><span class="count">${n}</span></button>`;
       }).join('');
       const list = filtered();
       const currentList = f.q ? list : list.slice(0, visibleLimit);
       const showingMore = !f.q && list.length > visibleLimit;
 
-      $('#count').innerHTML = bi(
-        `${list.length} appareil${list.length > 1 ? 's' : ''}${showingMore ? ` (${visibleLimit} affichés)` : ''}`,
-        `${list.length} device${list.length === 1 ? '' : 's'}${showingMore ? ` (${visibleLimit} shown)` : ''}`
-      );
+      if (!list.length) {
+        $('#count').style.display = 'none';
+      } else {
+        $('#count').style.display = 'block';
+        $('#count').innerHTML = bi(
+          `${list.length} appareil${list.length > 1 ? 's' : ''}${showingMore ? ` (${visibleLimit} affichés)` : ''}`,
+          `${list.length} device${list.length === 1 ? '' : 's'}${showingMore ? ` (${visibleLimit} shown)` : ''}`
+        );
+      }
 
       let gridHtml = currentList.map(d => {
         const v = AC.vintageOf(d);
@@ -242,6 +247,10 @@
                 <span class="modal-spec-v" id="m-ram">${esc(AC.fmtRam(d.ram))}</span>
               </div>
               <div class="modal-spec-card">
+                <span class="modal-spec-k">${icon('harddrive', 13)} ${bi('Stockage interne', 'Storage Capacity')}</span>
+                <div class="modal-spec-v" id="m-storage">${AC.fmtStorageTags(d.storage, AC.lang === 'en')}</div>
+              </div>
+              <div class="modal-spec-card">
                 <span class="modal-spec-k">${icon('clock', 13)} ${bi('Commercialisation', 'Launch')}</span>
                 <span class="modal-spec-v">
                   ${esc(fmtDate(d.released, { month: 'long', year: 'numeric' }))}
@@ -263,7 +272,7 @@
                 <span class="modal-spec-k">${icon('tag', 13)} ${bi('Identifiant matériel', 'Device Identifier')}</span>
                 <span class="modal-spec-v">${esc(d.id)}</span>
               </div>
-              <div class="modal-spec-card">
+              <div class="modal-spec-card modal-spec-full">
                 <span class="modal-spec-k">${icon('shield', 13)} ${bi('Modèle(s) Axxxx', 'Regulatory Model(s)')}</span>
                 <span class="modal-spec-v" id="m-model-num">${d.model && d.model.length ? esc(d.model.join(', ')) : '—'}</span>
               </div>
@@ -327,6 +336,12 @@
             }
           }
 
+          if (devData.storage) {
+            d.storage = AC.storageOf({ ...d, storage: devData.storage });
+            const sEl = $('#m-storage');
+            if (sEl) sEl.innerHTML = AC.fmtStorageTags(d.storage, AC.lang === 'en');
+          }
+
           if (devData.discontinued && !d.discontinued) {
             d.discontinued = devData.discontinued;
             const updatedV = AC.vintageOf(d);
@@ -343,8 +358,9 @@
                 pills.push(`<span>${icon('mac', 13)} <strong>${bi('Écran', 'Display')} :</strong> ${esc(item.Screen_Size)}${res}${hz}</span>`);
               }
               if (item.type === 'Memory' && item.Storage) {
-                const stor = Array.isArray(item.Storage) ? item.Storage.join(', ') : item.Storage;
-                pills.push(`<span>${icon('database', 13)} <strong>${bi('Stockage', 'Storage')} :</strong> ${esc(stor)}</span>`);
+                d.storage = AC.storageOf({ ...d, storage: item.Storage });
+                const sEl = $('#m-storage');
+                if (sEl) sEl.innerHTML = AC.fmtStorageTags(d.storage, AC.lang === 'en');
               }
               if (item.type === 'Memory' && item.RAM && (!d.ram || d.ram === '—')) {
                 d.ram = Array.isArray(item.RAM) ? item.RAM.join(' / ') : item.RAM;

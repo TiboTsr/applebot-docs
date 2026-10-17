@@ -110,6 +110,7 @@
     tag: '<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1"/>',
     refresh: '<path d="M20 11a8 8 0 0 0-14-4L4 9M4 4v5h5M4 13a8 8 0 0 0 14 4l2-2M20 20v-5h-5"/>',
     database: '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+    harddrive: '<line x1="22" y1="12" x2="2" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" y1="16" x2="6.01" y2="16"/><line x1="10" y1="16" x2="10.01" y2="16"/>',
     iphone: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
     ipad: '<rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M11 18h2"/>',
     mac: '<rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M3 19h18"/>',
@@ -289,6 +290,13 @@
     const model = pick(d, 'model');
     const modelList = Array.isArray(model) ? model : (model ? [String(model)] : []);
 
+    let storageRaw = pick(d, 'storage', 'capacities', 'capacity');
+    if (!storageRaw && d.info && Array.isArray(d.info)) {
+      const mem = d.info.find(i => i.type === 'Memory' && i.Storage);
+      if (mem) storageRaw = mem.Storage;
+    }
+    const storageList = storageOf({ name, cat, type, soc, id: pick(d, 'identifier', 'id'), storage: storageRaw });
+
     const isExcluded = EXCLUDED_DEVICE_TYPES.test(type) || ACCESSORY_NAME_RE.test(name);
     return {
       id: String(pick(d, 'identifier', 'id', 'device_id', 'key') ?? name),
@@ -299,6 +307,7 @@
       board: boardList,
       model: modelList,
       ram: ramRaw === undefined ? null : (typeof ramRaw === 'number' ? ramRaw : String(ramRaw)),
+      storage: storageList,
       released: pick(d, 'released', 'release_date', 'date', 'introduced'),
       discontinued: pick(d, 'discontinued', 'end_date', 'discontinued_date'),
       os_support: pick(d, 'os_support', 'osSupport', 'os'),
@@ -308,6 +317,90 @@
       isExcluded
     };
   }
+
+  function storageOf(d) {
+    if (d.storage) {
+      if (Array.isArray(d.storage)) return d.storage.map(String);
+      if (typeof d.storage === 'string') return d.storage.split(/[,/·]/).map(s => s.trim()).filter(Boolean);
+      return [String(d.storage)];
+    }
+    const name = String(d.name || '');
+    const soc = String(d.soc || '').toUpperCase();
+    const cat = d.cat || '';
+
+    // Accessoires audio, boîtiers, télécommandes
+    if (cat === 'AirPods' || /airpod|beats|headset|remote|case|accessory/i.test(name)) {
+      return null;
+    }
+
+    // iPhone
+    if (cat === 'iPhone' || /iphone/i.test(name)) {
+      if (/17\s*Pro|18\s*Pro/i.test(name)) return ['256 Go', '512 Go', '1 To', '2 To'];
+      if (/17|Duo/i.test(name)) return ['128 Go', '256 Go', '512 Go'];
+      if (/16\s*Pro\s*Max|15\s*Pro\s*Max/i.test(name)) return ['256 Go', '512 Go', '1 To'];
+      if (/16\s*Pro|15\s*Pro|14\s*Pro|13\s*Pro/i.test(name)) return ['128 Go', '256 Go', '512 Go', '1 To'];
+      if (/16|15|14|13/i.test(name)) return ['128 Go', '256 Go', '512 Go'];
+      if (/12\s*Pro/i.test(name)) return ['128 Go', '256 Go', '512 Go'];
+      if (/12/i.test(name)) return ['64 Go', '128 Go', '256 Go'];
+      if (/11\s*Pro/i.test(name)) return ['64 Go', '256 Go', '512 Go'];
+      if (/11|XR|XS/i.test(name)) return ['64 Go', '128 Go', '256 Go'];
+      if (/\bX\b/i.test(name)) return ['64 Go', '256 Go'];
+      if (/SE.*(3|2022|2|2020)/i.test(name) || /iPhone 8/i.test(name)) return ['64 Go', '128 Go', '256 Go'];
+      if (/iPhone 7/i.test(name)) return ['32 Go', '128 Go', '256 Go'];
+      if (/iPhone 6s|SE/i.test(name)) return ['16 Go', '32 Go', '64 Go', '128 Go'];
+      if (/iPhone 6/i.test(name)) return ['16 Go', '64 Go', '128 Go'];
+      if (/iPhone 5/i.test(name)) return ['16 Go', '32 Go', '64 Go'];
+      if (/iPhone 4/i.test(name)) return ['8 Go', '16 Go', '32 Go'];
+      if (/iPhone 3/i.test(name) || /iPhone\b/i.test(name)) return ['8 Go', '16 Go'];
+      return ['128 Go', '256 Go', '512 Go'];
+    }
+
+    // iPad
+    if (cat === 'iPad' || /ipad/i.test(name)) {
+      if (/Pro.*(M4|M2|M1)/i.test(name) || /Pro.*(11|13|12\.9)/i.test(name)) return ['128 Go', '256 Go', '512 Go', '1 To', '2 To'];
+      if (/Air.*(M2|11|13)/i.test(name)) return ['128 Go', '256 Go', '512 Go', '1 To'];
+      if (/Air/i.test(name) || /mini.*(6|A17)/i.test(name)) return ['64 Go', '256 Go'];
+      if (/iPad\s*\((10|9)/i.test(name)) return ['64 Go', '256 Go'];
+      if (/iPad/i.test(name)) return ['32 Go', '128 Go'];
+      return ['64 Go', '128 Go', '256 Go'];
+    }
+
+    // Mac
+    if (cat === 'Mac' || /mac|imac/i.test(name)) {
+      if (/Studio|Pro/i.test(name) || /Max|Ultra/i.test(soc)) return ['512 Go', '1 To', '2 To', '4 To', '8 To SSD'];
+      if (/Book\s*Pro/i.test(name)) return ['512 Go', '1 To', '2 To', '4 To SSD'];
+      if (/Book\s*Air|mini|iMac/i.test(name)) return ['256 Go', '512 Go', '1 To', '2 To SSD'];
+      return ['256 Go à 2 To SSD'];
+    }
+
+    // Apple Watch
+    if (cat === 'Watch' || /watch/i.test(name)) {
+      if (/Ultra|Series\s*(9|10|11|12)/i.test(name)) return ['64 Go'];
+      if (/Series\s*(5|6|7|8)|SE/i.test(name)) return ['32 Go'];
+      if (/Series\s*4/i.test(name)) return ['16 Go'];
+      return ['8 Go à 16 Go'];
+    }
+
+    // Vision Pro
+    if (/vision/i.test(name)) return ['256 Go', '512 Go', '1 To'];
+
+    // Apple TV
+    if (/tv/i.test(name)) return ['64 Go', '128 Go'];
+
+    // HomePod
+    if (/homepod/i.test(name)) return ['16 Go'];
+
+    return null;
+  }
+
+  const fmtStorageTags = (list, isEn = false) => {
+    if (!list || !list.length) {
+      return `<span class="storage-tag-none">—</span>`;
+    }
+    const tr = s => isEn ? String(s).replace(/\bGo\b/g, 'GB').replace(/\bTo\b/g, 'TB') : String(s);
+    return `<div class="storage-tags">${list.map(s => `<span class="storage-tag">${esc(tr(s))}</span>`).join('')}</div>`;
+  };
+
   const CAT_ICON = { iPhone: 'iphone', iPad: 'ipad', Mac: 'mac', Watch: 'watch', AirPods: 'airpods', Autre: 'tv' };
   const fmtRam = r => (!r || r === '—' ? '—' : typeof r === 'number' ? `${r} ${t('Go', 'GB')}` : (lang === 'en' ? String(r).replace(/Go/g, 'GB') : String(r)));
   const reasonText = r => (!r ? '' : typeof r === 'string' ? r : (lang === 'fr' ? r.fr : r.en));
@@ -690,6 +783,7 @@
     get lang() { return lang; },
     fmtDate, fmtNum, fmtUptime, relTime, icon, logoMark,
     OS_LIST, OS_ICON, osKey, TYPES, osIcon, typeBadge, CAT_ICON, fmtRam, reasonText, vintageOf,
+    storageOf, fmtStorageTags,
     SERVICES, sampleReleases, sampleDevices, sampleAnalytics,
     api, apiOr, health, healthState, healthPill, setPill, loadServices, loadReleases, loadDevices, loadAnalytics,
     skeleton, notice, countUp, lineChart, dcMessage, mountChrome
