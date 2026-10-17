@@ -184,10 +184,38 @@
       : /issue|degrad|partial|slow|warn|orange|minor|maintenance/.test(raw) ? 'warn' : 'ok';
     return { name: String(pick(s, 'name', 'service', 'title') ?? '?'), status, detail: pick(s, 'message', 'detail', 'description') };
   }
-  function vintageOf(date) {
-    const d = new Date(date); if (isNaN(d)) return null;
-    const years = (Date.now() - d) / 31557600000;
-    return { years, key: years < 5 ? 'supported' : years <= 7 ? 'vintage' : 'obsolete' };
+  function vintageOf(target, fallbackReleased) {
+    let disc = null;
+    let rel = null;
+    if (target && typeof target === 'object' && !Array.isArray(target) && !(target instanceof Date)) {
+      if (target.vintage && target.vintage.status) {
+        const s = String(target.vintage.status).toLowerCase();
+        const k = /obsol/i.test(s) ? 'obsolete' : /vintage/i.test(s) ? 'vintage' : 'supported';
+        const y = Number(target.vintage.years ?? 0);
+        return { years: y, key: k, active: !target.discontinued || (Array.isArray(target.discontinued) && !target.discontinued.length) };
+      }
+      disc = target.discontinued;
+      rel = target.released;
+    } else {
+      disc = target;
+      rel = fallbackReleased;
+    }
+
+    // Si disc n'est pas renseigné ou liste vide : l'appareil est encore commercialisé -> Actuel & Supporté
+    if (!disc || (Array.isArray(disc) && !disc.length)) {
+      return { years: 0, key: 'supported', active: true };
+    }
+    const lastDate = Array.isArray(disc) ? disc[disc.length - 1] : disc;
+    const d = new Date(lastDate);
+    if (isNaN(d)) {
+      return { years: 0, key: 'supported', active: true };
+    }
+    const years = Math.max(0, (Date.now() - d) / 31557600000);
+    return {
+      years,
+      key: years < 5 ? 'supported' : years <= 7 ? 'vintage' : 'obsolete',
+      active: false
+    };
   }
   const EXCLUDED_DEVICE_TYPES = /^(software|sdk|simulator|virtual machine|credit cards|cases|batteries|power|adapters|beddit|security|accessories|other)$/i;
   const ACCESSORY_NAME_RE = /\b(cloth|chiffon|dragonne|wrist strap|cushion kit|pocket -|case for|sleeve|cover|leather case|silicone case|clear case|charging case|wireless charging case|magsafe case|ear tip)\b|\((left|right)\)/i;
@@ -222,6 +250,9 @@
       arch: String(pick(d, 'arch', 'architecture') ?? (/intel|core i|xeon/i.test(soc) ? 'x86_64' : (soc && soc !== '—' ? 'Apple Silicon' : '—'))),
       ram: ramRaw === undefined ? null : (typeof ramRaw === 'number' ? ramRaw : String(ramRaw)),
       released: pick(d, 'released', 'release_date', 'date', 'introduced'),
+      discontinued: pick(d, 'discontinued', 'end_date', 'discontinued_date'),
+      os_support: pick(d, 'os_support', 'osSupport', 'os'),
+      vintage: pick(d, 'vintage'),
       ai: typeof supported === 'boolean' ? supported : null,
       reason: reason || null,
       isExcluded

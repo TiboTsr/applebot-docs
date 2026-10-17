@@ -82,9 +82,18 @@
       obsolete: ['red', 'Obsolète', 'Obsolete']
     };
     const VINT_WHY = {
-      supported: ['Moins de 5 ans depuis la commercialisation : appareil pleinement supporté.', 'Under 5 years since launch: fully supported.'],
-      vintage: ['Entre 5 et 7 ans : réparable selon la disponibilité des pièces.', 'Between 5 and 7 years: repairable depending on parts availability.'],
-      obsolete: ['Plus de 7 ans : Apple ne propose plus de réparation pour ce modèle.', 'Over 7 years: Apple no longer offers repairs for this model.']
+      supported: [
+        'Commercialisé ou arrêté depuis moins de 5 ans : réparations et pièces détachées officielles assurées par Apple.',
+        'Sold or discontinued under 5 years ago: official spare parts and repairs guaranteed by Apple.'
+      ],
+      vintage: [
+        'Commercialisation arrêtée depuis 5 à 7 ans : réparations possibles sous réserve de pièces en stock.',
+        'Discontinued 5 to 7 years ago: repairs subject to parts availability.'
+      ],
+      obsolete: [
+        'Commercialisation arrêtée depuis plus de 7 ans : réparations matérielles interrompues par Apple.',
+        'Discontinued over 7 years ago: hardware service discontinued by Apple.'
+      ]
     };
     const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '');
 
@@ -100,7 +109,7 @@
     function filtered() {
       const q = norm(f.q);
       return all.filter(d => {
-        const v = AC.vintageOf(d.released)?.key;
+        const v = AC.vintageOf(d)?.key;
         return (f.cat === 'all' || d.cat === f.cat)
           && (!f.ai || d.ai === true)
           && (!f.old || v === 'vintage' || v === 'obsolete')
@@ -123,7 +132,7 @@
       );
 
       let gridHtml = currentList.map(d => {
-        const v = AC.vintageOf(d.released);
+        const v = AC.vintageOf(d);
         return `<button class="dev" type="button" data-id="${esc(d.id)}">
           <div class="dev-top">
             <span class="os-ico" data-os="${CAT_OS[d.cat] || 'iOS'}">${icon(AC.CAT_ICON[d.cat] || 'iphone', 22)}</span>
@@ -170,12 +179,22 @@
 
     /* ------------------------------------------------------------- Fiche */
     let openId = null;
-    function vintBannerHtml(key, years) {
-      if (!key) return '<p class="modal-vint-desc">—</p>';
-      const y = years != null ? bi(`${Math.floor(years)} an${Math.floor(years) > 1 ? 's' : ''} d’ancienneté`, `${Math.floor(years)} year${Math.floor(years) > 1 ? 's' : ''} old`) : '';
+    function vintBannerHtml(v) {
+      if (!v || !v.key) return '<p class="modal-vint-desc">—</p>';
+      const key = v.key;
+      let badgeLabel = '';
+      if (key === 'supported') {
+        badgeLabel = v.active
+          ? bi('Produit actuel (en vente)', 'Current product')
+          : (v.years > 0
+              ? bi(`Fin de vente il y a ${Math.floor(v.years)} an${Math.floor(v.years) > 1 ? 's' : ''}`, `Discontinued ${Math.floor(v.years)} yr${Math.floor(v.years) > 1 ? 's' : ''} ago`)
+              : bi('Matériel Supporté', 'Supported Hardware'));
+      } else {
+        badgeLabel = bi(`Fin de vente il y a ${Math.floor(v.years)} ans`, `Discontinued ${Math.floor(v.years)} yrs ago`);
+      }
       return `<div class="modal-vint-head">
         ${vBadge(key)}
-        <span style="font-weight:600;font-size:13.5px;color:var(--text)">${y}</span>
+        <span style="font-weight:600;font-size:13.5px;color:var(--text)">${badgeLabel}</span>
       </div>
       <p class="modal-vint-desc">${bi(...VINT_WHY[key])}</p>`;
     }
@@ -183,7 +202,7 @@
     function openModal(id) {
       const d = all.find(x => x.id === id); if (!d) return;
       openId = id;
-      const v = AC.vintageOf(d.released);
+      const v = AC.vintageOf(d);
       const reason = AC.reasonText(d.reason);
       const aiBadgeHtml = d.ai === null ? `<span class="badge">${bi('Sans objet', 'Not applicable')}</span>`
         : `<span class="badge ${d.ai ? 'purple' : ''}">${d.ai ? icon('sparkle', 12) + 'Apple Intelligence' : bi('Non compatible', 'Not compatible')}</span>`;
@@ -230,22 +249,28 @@
                 </span>
               </div>
               <div class="modal-spec-card">
-                <span class="modal-spec-k">${icon('tag', 13)} ${bi('Identifiant', 'Identifier')}</span>
-                <span class="modal-spec-v">${esc(d.id)}</span>
+                <span class="modal-spec-k">${icon(AC.CAT_ICON[d.cat] || 'iphone', 13)} ${bi('Système OS', 'OS Support')}</span>
+                <span class="modal-spec-v" id="m-os-support">
+                  ${d.os_support?.latest_os ? esc(d.os_support.latest_os) : bi('Compatible OS actuel', 'Compatible with latest OS')}
+                  <small id="m-os-first">${d.os_support?.first_os ? bi(`Version initiale : ${esc(d.os_support.first_os)}`, `Initial: ${esc(d.os_support.first_os)}`) : bi('Mises à jour supportées', 'Supported updates')}</small>
+                </span>
               </div>
               <div class="modal-spec-card">
-                <span class="modal-spec-k">${icon('shield', 13)} ${bi('Modèle(s)', 'Model(s)')}</span>
-                <span class="modal-spec-v" id="m-model-num">—</span>
+                <span class="modal-spec-k">${icon('tag', 13)} ${bi('Identifiant & Modèle', 'Identifier & Model')}</span>
+                <span class="modal-spec-v">
+                  ${esc(d.id)}
+                  <small id="m-model-num">${esc(d.model ? (Array.isArray(d.model) ? d.model.join(', ') : d.model) : '')}</small>
+                </span>
               </div>
             </div>
 
             <div class="modal-vint-banner" id="m-vint-banner">
-              ${vintBannerHtml(v?.key, v?.years)}
+              ${vintBannerHtml(v)}
             </div>
 
             <div class="modal-dev-actions">
               <a class="btn btn-ghost btn-sm" href="https://appledb.dev/device/${encodeURIComponent(d.id)}.html" target="_blank" rel="noopener">AppleDB${icon('external', 13)}</a>
-              <span class="muted" style="font-size:12px;margin-left:auto">${bi('Statut matériel estimé d’après l’âge de l’appareil.', 'Hardware status estimated from device age.')}</span>
+              <span class="muted" style="font-size:12px;margin-left:auto">${bi('Statut matériel (réparations Apple) calculé depuis la fin de vente, distinct des mises à jour iOS.', 'Hardware status (Apple service) is based on end of sales, separate from software updates.')}</span>
             </div>
           </div>
         </div>
@@ -268,6 +293,13 @@
 
           if (devData.model && modelNumEl) {
             modelNumEl.textContent = Array.isArray(devData.model) ? devData.model.join(', ') : devData.model;
+          }
+
+          if (devData.discontinued && !d.discontinued) {
+            d.discontinued = devData.discontinued;
+            const updatedV = AC.vintageOf(d);
+            const banner = $('#m-vint-banner');
+            if (banner) banner.innerHTML = vintBannerHtml(updatedV);
           }
 
           if (colors.length) {
@@ -320,14 +352,30 @@
         })
         .catch(() => {});
 
-      /* Si l'API répond, son calcul prévaut sur l'estimation locale */
+      /* Si l'API bot répond, son diagnostic prévaut */
       AC.apiOr('/api/vintage/' + encodeURIComponent(d.name), null, { timeout: 4000 }).then(r => {
-        if (!r.live || openId !== id) return;
-        const raw = String(AC.pick(r.data, 'status', 'state', 'label') ?? '');
+        if (!r.live || openId !== id || !r.data) return;
+        const vObj = r.data.vintage || r.data;
+        const raw = String(AC.pick(vObj, 'status', 'state', 'label') ?? '');
         const key = /obsol/i.test(raw) ? 'obsolete' : /vintage/i.test(raw) ? 'vintage' : /support|current|ok/i.test(raw) ? 'supported' : null;
         const banner = $('#m-vint-banner');
-        if (key && banner) banner.innerHTML = vintBannerHtml(key, v?.years);
+        if (key && banner) {
+          const years = Number(vObj.years ?? v.years ?? 0);
+          banner.innerHTML = vintBannerHtml({ key, years, active: years === 0 });
+        }
       });
+
+      /* Si les détails d'OS supporté manquent localement, on interroge l'API bot */
+      if (!d.os_support) {
+        AC.apiOr('/api/devices/' + encodeURIComponent(d.id), null, { timeout: 3500 }).then(r => {
+          if (!r.live || openId !== id || !r.data?.os_support) return;
+          d.os_support = r.data.os_support;
+          const osSupEl = $('#m-os-support');
+          if (osSupEl && d.os_support.latest_os) {
+            osSupEl.innerHTML = `${esc(d.os_support.latest_os)}<small id="m-os-first">${d.os_support.first_os ? bi(`Version initiale : ${esc(d.os_support.first_os)}`, `Initial: ${esc(d.os_support.first_os)}`) : ''}</small>`;
+          }
+        });
+      }
     }
 
     $('#grid').addEventListener('click', e => {
