@@ -121,11 +121,8 @@
   const icon = (name, size = 20, cls = '') =>
     `<svg class="ico ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
 
-  let logoN = 0;
-  const logoMark = (s = 28) => {
-    const id = 'lg' + (++logoN);
-    return `<svg class="logo-mark" width="${s}" height="${s}" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2997ff"/><stop offset="1" stop-color="#0058b8"/></linearGradient></defs><rect width="32" height="32" rx="8" fill="url(#${id})"/><circle cx="16" cy="16" r="7.2" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="36 9" transform="rotate(-60 16 16)"/><circle cx="16" cy="16" r="2.4" fill="#fff"/></svg>`;
-  };
+  const logoMark = (s = 28) =>
+    `<img class="logo-mark" src="logo.png" alt="AppleCore" width="${s}" height="${s}" style="width:${s}px;height:${s}px;border-radius:22%;object-fit:cover;display:block;flex-shrink:0;" loading="eager" decoding="async">`;
 
   /* ------------------------------------------------- Métadonnées OS / types */
   const OS_LIST = ['iOS', 'iPadOS', 'macOS', 'watchOS', 'tvOS', 'visionOS', 'AirPods'];
